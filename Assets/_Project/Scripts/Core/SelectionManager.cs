@@ -1,9 +1,10 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
+// Raycasts from the camera each frame to find what the player is looking at, and shows its name/HP as UI text
 public class SelectionManager : MonoBehaviour
 {
     public static SelectionManager Instance { get; set; }
@@ -15,18 +16,19 @@ public class SelectionManager : MonoBehaviour
     public GameObject interaction_Info_UI;
     public TMP_Text interaction_text;
 
-    public float interactRange = 20f; // raycast giờ chỉ lo ngắm trúng + vật cản; tầm hoạt động thật do Sphere Collider (InteractableObject) quyết định
-    public LayerMask ignoreLayer; // tick Terrain và Water layer vào đây
+    public float interactRange = 20f; // raycast only handles aim + occlusion; actual range is gated by each item's Sphere Collider
+    public LayerMask ignoreLayer;     // tick Terrain/Water layers here to exclude them from the raycast
 
+    // Caches the TMP_Text component on (or inside) interaction_Info_UI
     private void Start()
     {
         onTarget = false;
-        // Dùng GetComponent trực tiếp vì interaction_Info_UI chính là TMP_Text object
         interaction_text = interaction_Info_UI.GetComponent<TMP_Text>();
         if (interaction_text == null)
             interaction_text = interaction_Info_UI.GetComponentInChildren<TMP_Text>(true);
     }
 
+    // Singleton setup
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -35,6 +37,7 @@ public class SelectionManager : MonoBehaviour
             Instance = this;
     }
 
+    // Raycasts forward each frame and shows the target's name (item) or HP (rabbit) in the UI text
     void Update()
     {
         if (overrideText) return;

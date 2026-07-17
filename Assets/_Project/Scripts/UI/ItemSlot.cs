@@ -1,18 +1,19 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.EventSystems;
 using TMPro;
 
+// A single inventory/hotbar slot: exposes the item it holds and handles items dropped onto it
 public class ItemSlot : MonoBehaviour, IDropHandler
 {
-    public TMP_Text stackText; // text góc dưới phải, kéo vào Inspector
+    public TMP_Text stackText; // bottom-right stack count text, drag into the Inspector
 
+    // Returns the child GameObject that has an ItemData component (skips the StackText child), or null if empty
     public GameObject Item
     {
         get
         {
             foreach (Transform child in transform)
             {
-                // Bỏ qua StackText, chỉ lấy object có ItemData
                 if (child.GetComponent<ItemData>() != null)
                     return child.gameObject;
             }
@@ -20,6 +21,7 @@ public class ItemSlot : MonoBehaviour, IDropHandler
         }
     }
 
+    // Places the dragged item here if empty, or merges it into the existing stack if it's the same item
     public void OnDrop(PointerEventData eventData)
     {
         if (DragDrop.itemBeingDragged == null) return;
@@ -56,6 +58,7 @@ public class ItemSlot : MonoBehaviour, IDropHandler
         }
     }
 
+    // Shows/updates the stack count text, or hides it for empty slots and non-stackable items
     public void RefreshStackDisplay()
     {
         if (stackText == null) return;

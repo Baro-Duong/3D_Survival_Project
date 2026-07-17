@@ -1,11 +1,11 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Manages the hotbar + inventory slots: scanning them, adding items (with stacking), and open/close state
 public class InventorySystem : MonoBehaviour
 {
-
     public static InventorySystem Instance { get; set; }
 
     public GameObject inventoryScreenUI;
@@ -23,8 +23,7 @@ public class InventorySystem : MonoBehaviour
 
     public bool isFull;
 
-
-
+    // Singleton setup
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -37,7 +36,7 @@ public class InventorySystem : MonoBehaviour
         }
     }
 
-
+    // Resets open/full state and builds the slot list
     void Start()
     {
         isOpen = false;
@@ -45,11 +44,9 @@ public class InventorySystem : MonoBehaviour
         PopulateSlotList();
     }
 
-
-
+    // Collects every "Slot"-tagged child under the hotbar (first) then the inventory screen, in that order
     private void PopulateSlotList()
     {
-        // Hotbar trước (ưu tiên)
         if (hotBarScreenUI != null)
         {
             foreach (Transform child in hotBarScreenUI.GetComponentsInChildren<Transform>())
@@ -61,7 +58,7 @@ public class InventorySystem : MonoBehaviour
         }
         else
         {
-            Debug.LogError("hotBarScreenUI là NULL!");
+            Debug.LogError("hotBarScreenUI is NULL!");
         }
 
         int beforeInventory = slotList.Count;
@@ -73,8 +70,7 @@ public class InventorySystem : MonoBehaviour
         Debug.Log($"Inventory slots: {slotList.Count - beforeInventory}, Total: {slotList.Count}");
     }
 
-
-
+    // Toggles the inventory/crafting screen open and closed with the E key
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.E) && !isOpen)
@@ -94,11 +90,9 @@ public class InventorySystem : MonoBehaviour
         }
     }
 
-
-
+    // Stacks the item onto a matching existing stack if possible, otherwise spawns it into the next empty slot
     public void AddToInvetory(string itemName)
     {
-        // Thử stack vào slot đã có item cùng loại trước
         foreach (GameObject slot in slotList)
         {
             ItemSlot itemSlot = slot.GetComponent<ItemSlot>();
@@ -119,13 +113,13 @@ public class InventorySystem : MonoBehaviour
             }
         }
 
-        // Không stack được → tìm slot trống
+        // No matching stack: find an empty slot instead
         whatSlotToEquip = FindNextEmptySlot();
 
         GameObject prefab = Resources.Load<GameObject>(itemName);
         if (prefab == null)
         {
-            Debug.LogError("Không tìm thấy UI prefab cho item: " + itemName);
+            Debug.LogError("UI prefab not found for item: " + itemName);
             return;
         }
 
@@ -138,6 +132,7 @@ public class InventorySystem : MonoBehaviour
         if (newSlot != null) newSlot.RefreshStackDisplay();
     }
 
+    // Returns the first empty slot GameObject (or a throwaway empty GameObject if none are free)
     private GameObject FindNextEmptySlot()
     {
         foreach (GameObject slot in slotList)
@@ -149,6 +144,7 @@ public class InventorySystem : MonoBehaviour
         return new GameObject();
     }
 
+    // Returns true (and sets isFull) if every slot currently holds an item
     public bool CheckIfFull()
     {
         foreach (GameObject slot in slotList)
@@ -163,6 +159,4 @@ public class InventorySystem : MonoBehaviour
         isFull = true;
         return true;
     }
-
-
 }

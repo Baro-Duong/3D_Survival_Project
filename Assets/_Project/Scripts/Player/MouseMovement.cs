@@ -1,5 +1,6 @@
 using UnityEngine;
 
+// Rotates the camera based on mouse input (first-person look)
 public class MouseMovement : MonoBehaviour
 {
     public GameConfig config;
@@ -7,11 +8,13 @@ public class MouseMovement : MonoBehaviour
     float xRotation = 0f;
     float yRotation = 0f;
 
+    // Locks the cursor to the game window
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
     }
 
+    // Applies mouse delta to pitch/yaw rotation, unless the inventory screen is open
     void Update()
     {
         if (InventorySystem.Instance.isOpen == false)

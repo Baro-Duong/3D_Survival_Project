@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 
+// Handles hotbar slot selection (keys/scroll), the highlight, and dropping/consuming the selected item
 public class HotbarSelection : MonoBehaviour
 {
     public static HotbarSelection Instance { get; set; }
@@ -18,6 +19,7 @@ public class HotbarSelection : MonoBehaviour
 
     public Transform playerCamera;
 
+    // Singleton setup
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -26,11 +28,13 @@ public class HotbarSelection : MonoBehaviour
             Instance = this;
     }
 
+    // Shows the initial highlight
     private void Start()
     {
         UpdateHighlight();
     }
 
+    // Reads selection input each frame plus the drop (Q) and consume (F) keys
     private void Update()
     {
         HandleNumberKeys();
@@ -40,6 +44,7 @@ public class HotbarSelection : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F)) ConsumeSelectedItem();
     }
 
+    // Selects a slot via the 1-8 number keys
     private void HandleNumberKeys()
     {
         for (int i = 0; i < 8; i++)
@@ -53,6 +58,7 @@ public class HotbarSelection : MonoBehaviour
         }
     }
 
+    // Cycles the selected slot via the mouse scroll wheel
     private void HandleScrollWheel()
     {
         float scroll = Input.GetAxis("Mouse ScrollWheel");
@@ -60,6 +66,7 @@ public class HotbarSelection : MonoBehaviour
         else if (scroll < 0f) { selectedIndex = (selectedIndex + 1) % 8; UpdateHighlight(); }
     }
 
+    // Recolors every slot so only the selected one is highlighted
     private void UpdateHighlight()
     {
         for (int i = 0; i < hotbarSlots.Length; i++)
@@ -71,6 +78,7 @@ public class HotbarSelection : MonoBehaviour
         }
     }
 
+    // Removes one item from the selected slot (or the whole stack if only 1 left) and spawns its world prefab in front of the player
     private void DropSelectedItem()
     {
         if (hotbarSlots[selectedIndex] == null) return;
@@ -109,6 +117,7 @@ public class HotbarSelection : MonoBehaviour
         }
     }
 
+    // Consumes the selected item (restoring hunger/thirst) and destroys it; WaterBottle leaves behind an empty Bottle
     private void ConsumeSelectedItem()
     {
         if (hotbarSlots[selectedIndex] == null) return;
@@ -121,20 +130,17 @@ public class HotbarSelection : MonoBehaviour
 
         string itemName = data.itemName;
 
-        // Hồi stats
         if (PlayerStats.Instance != null)
         {
             PlayerStats.Instance.EatFood(data.hungerRestore);
             PlayerStats.Instance.DrinkWater(data.thirstRestore);
         }
 
-        // Xóa item cũ
         item.transform.SetParent(null);
         item.SetActive(false);
         Destroy(item);
         InventorySystem.Instance.itemList.Remove(itemName);
 
-        // Nếu là WaterBottle → spawn Bottle rỗng vào đúng slot
         if (itemName == "WaterBottle")
         {
             GameObject bottlePrefab = Resources.Load<GameObject>("Bottle");
@@ -150,6 +156,7 @@ public class HotbarSelection : MonoBehaviour
         slot.RefreshStackDisplay();
     }
 
+    // Returns the item GameObject currently equipped in the selected slot, or null
     public GameObject GetSelectedItem()
     {
         if (hotbarSlots[selectedIndex] == null) return null;

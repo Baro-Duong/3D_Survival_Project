@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+// Matches the 2 crafting input slots against the recipe list and crafts the output item
 public class CraftingSystem : MonoBehaviour
 {
     public static CraftingSystem Instance { get; set; }
@@ -18,6 +19,7 @@ public class CraftingSystem : MonoBehaviour
 
     private CraftingRecipe matchedRecipe;
 
+    // Singleton setup
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -26,6 +28,7 @@ public class CraftingSystem : MonoBehaviour
             Instance = this;
     }
 
+    // Hides the crafting screen and wires up the craft button
     private void Start()
     {
         craftingScreenUI.SetActive(false);
@@ -36,7 +39,7 @@ public class CraftingSystem : MonoBehaviour
     public void Show() => craftingScreenUI.SetActive(true);
     public void Hide() => craftingScreenUI.SetActive(false);
 
-    // Gọi mỗi khi item được drop vào slot
+    // Called whenever an item is dropped into a slot; enables the craft button if the 2 inputs match a recipe
     public void CheckRecipe()
     {
         string item1 = input1Slot.ItemName;
@@ -46,7 +49,7 @@ public class CraftingSystem : MonoBehaviour
 
         foreach (CraftingRecipe recipe in allRecipes)
         {
-            // Input không cần đúng thứ tự (item1+item2 hoặc item2+item1 đều được)
+            // Input order doesn't matter (item1+item2 or item2+item1 both match)
             bool match = (recipe.input1Name == item1 && recipe.input2Name == item2)
                       || (recipe.input1Name == item2 && recipe.input2Name == item1);
 
@@ -60,15 +63,15 @@ public class CraftingSystem : MonoBehaviour
         craftButton.interactable = (matchedRecipe != null);
     }
 
+    // Consumes the 2 input items and spawns the recipe's output item
     private void OnCraftButtonPressed()
     {
         if (matchedRecipe == null) return;
 
-        // Lấy tên item trước khi xóa
         string item1Name = input1Slot.ItemName;
         string item2Name = input2Slot.ItemName;
 
-        // Tách item ra khỏi slot trước khi destroy
+        // Remove the 2 input items
         if (input1Slot.Item != null)
         {
             input1Slot.Item.transform.SetParent(null);
@@ -80,18 +83,18 @@ public class CraftingSystem : MonoBehaviour
             Destroy(input2Slot.Item);
         }
 
-        // Xóa item cũ ở output nếu có
+        // Remove any leftover item in the output slot
         if (outputSlot.Item != null)
         {
             outputSlot.Item.transform.SetParent(null);
             Destroy(outputSlot.Item);
         }
 
-        // Spawn output item vào outputSlot
+        // Spawn the crafted item into the output slot
         GameObject prefab = Resources.Load<GameObject>(matchedRecipe.outputName);
         if (prefab == null)
         {
-            Debug.LogError("Không tìm thấy prefab: " + matchedRecipe.outputName);
+            Debug.LogError("Prefab not found: " + matchedRecipe.outputName);
             return;
         }
 
@@ -102,7 +105,7 @@ public class CraftingSystem : MonoBehaviour
         craftButton.interactable = false;
         matchedRecipe = null;
 
-        // Check lại recipe sau khi craft
+        // Re-check in case the slots still match another recipe
         CheckRecipe();
     }
 }

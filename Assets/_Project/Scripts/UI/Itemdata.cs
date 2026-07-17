@@ -1,5 +1,6 @@
 using UnityEngine;
 
+// Attached to every item UI prefab; holds identity, stacking, and consumable info
 public class ItemData : MonoBehaviour
 {
     [Header("Item Info")]

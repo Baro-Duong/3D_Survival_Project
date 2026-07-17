@@ -1,5 +1,6 @@
-﻿using UnityEngine;
+using UnityEngine;
 
+// Handles walking, sprinting, jumping and gravity via CharacterController
 public class PlayerMovement : MonoBehaviour
 {
     public CharacterController controller;
@@ -13,6 +14,7 @@ public class PlayerMovement : MonoBehaviour
 
     public bool isSprinting { get; private set; }
 
+    // Reads input each frame and moves the CharacterController (walk/sprint, jump, gravity)
     void Update()
     {
         isGrounded = Physics.CheckSphere(groundCheck.position, config.groundDistance, groundMask);

@@ -1,11 +1,13 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.EventSystems;
 
+// One slot (Input1 / Input2 / Output) inside the crafting UI; forwards drag events to its child item
 public class CraftingSlot : MonoBehaviour, IDropHandler, IPointerDownHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     public enum SlotType { Input1, Input2, Output }
     public SlotType slotType;
 
+    // Returns the item GameObject currently in this slot, or null if empty
     public GameObject Item
     {
         get
@@ -16,6 +18,7 @@ public class CraftingSlot : MonoBehaviour, IDropHandler, IPointerDownHandler, IB
         }
     }
 
+    // Returns the current item's clean name (no "(Clone)" suffix), or "" if empty
     public string ItemName
     {
         get
@@ -28,9 +31,10 @@ public class CraftingSlot : MonoBehaviour, IDropHandler, IPointerDownHandler, IB
 
     private DragDrop GetChildDragDrop() => Item != null ? Item.GetComponent<DragDrop>() : null;
 
-    // Forward tất cả drag event xuống item con
+    // Not used directly; the child item's own DragDrop handles pointer-down
     public void OnPointerDown(PointerEventData eventData) { }
 
+    // Forwards begin-drag to the child item's DragDrop
     public void OnBeginDrag(PointerEventData eventData)
     {
         var dd = GetChildDragDrop();
@@ -38,20 +42,24 @@ public class CraftingSlot : MonoBehaviour, IDropHandler, IPointerDownHandler, IB
         else ExecuteEvents.ExecuteHierarchy(gameObject, eventData, ExecuteEvents.beginDragHandler);
     }
 
+    // Forwards drag to the child item's DragDrop
     public void OnDrag(PointerEventData eventData)
     {
         var dd = GetChildDragDrop();
         if (dd != null) dd.OnDrag(eventData);
     }
 
+    // Forwards end-drag to the child item's DragDrop
     public void OnEndDrag(PointerEventData eventData)
     {
         var dd = GetChildDragDrop();
         if (dd != null) dd.OnEndDrag(eventData);
     }
 
+    // Not used directly; DragDrop.OnEndDrag handles the actual drop logic
     public void OnDrop(PointerEventData eventData) { }
 
+    // Destroys whatever item is currently in this slot
     public void ClearSlot()
     {
         if (Item != null)

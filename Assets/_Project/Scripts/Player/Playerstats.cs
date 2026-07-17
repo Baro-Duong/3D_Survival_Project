@@ -1,7 +1,8 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+// Tracks HP/Thirst/Hunger, drains them over time, and updates the stat bars
 public class PlayerStats : MonoBehaviour
 {
     public static PlayerStats Instance { get; set; }
@@ -26,6 +27,7 @@ public class PlayerStats : MonoBehaviour
 
     private PlayerMovement playerMovement;
 
+    // Singleton setup
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -34,6 +36,7 @@ public class PlayerStats : MonoBehaviour
             Instance = this;
     }
 
+    // Sets starting stats to their max values and finds the PlayerMovement reference (for sprint state)
     private void Start()
     {
         currentHP = config.maxHP;
@@ -47,6 +50,7 @@ public class PlayerStats : MonoBehaviour
         UpdateUI();
     }
 
+    // Drains thirst/hunger over time (faster thirst drain while sprinting) and damages HP if either hits 0
     private void Update()
     {
         bool isSprinting = playerMovement != null && playerMovement.isSprinting;
@@ -66,6 +70,7 @@ public class PlayerStats : MonoBehaviour
         UpdateUI();
     }
 
+    // Refreshes the HP/Thirst/Hunger bars and their text labels
     private void UpdateUI()
     {
         if (hpBar != null) hpBar.value = currentHP / config.maxHP;

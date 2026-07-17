@@ -1,7 +1,8 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+// One recipe entry inside the Tool Library page; shows the recipe and lets the player choose it
 public class RecipeSlotUI : MonoBehaviour
 {
     [Header("UI Elements")]
@@ -13,12 +14,14 @@ public class RecipeSlotUI : MonoBehaviour
 
     private CraftingRecipe currentRecipe;
 
+    // Wires up the Choose button
     private void Start()
     {
         if (chooseButton != null)
             chooseButton.onClick.AddListener(OnChoose);
     }
 
+    // Shows this slot with the given recipe's icons/name and refreshes the Choose button state
     public void Display(CraftingRecipe recipe)
     {
         currentRecipe = recipe;
@@ -30,17 +33,17 @@ public class RecipeSlotUI : MonoBehaviour
         if (recipe.input2Icon != null) input2Icon.sprite = recipe.input2Icon;
         if (recipe.outputIcon != null) outputIcon.sprite = recipe.outputIcon;
 
-        // Đổi tên nút thành "Choose"
-
         RefreshButtonState();
     }
 
+    // Empties and hides this slot (used when there's no recipe for this page position)
     public void Clear()
     {
         currentRecipe = null;
         gameObject.SetActive(false);
     }
 
+    // Enables the Choose button only if the player has both ingredients
     private void RefreshButtonState()
     {
         if (chooseButton == null || currentRecipe == null) return;
@@ -51,12 +54,12 @@ public class RecipeSlotUI : MonoBehaviour
         chooseButton.interactable = hasInput1 && hasInput2;
     }
 
+    // Checks whether the player currently holds the given item, in the item list or in a slot
     private bool HasItemInInventory(string itemName)
     {
-        // Check itemList trước
         if (InventorySystem.Instance.itemList.Contains(itemName)) return true;
 
-        // Check slot UI (trường hợp item được đặt thủ công trong Editor)
+        // Also scan slot children directly (covers items placed manually in the Editor)
         foreach (GameObject slot in InventorySystem.Instance.slotList)
         {
             if (slot.transform.childCount > 0)
@@ -69,6 +72,7 @@ public class RecipeSlotUI : MonoBehaviour
         return false;
     }
 
+    // Moves the recipe's 2 ingredients from inventory into the crafting slots and closes the Tool Library
     private void OnChoose()
     {
         if (currentRecipe == null) return;
@@ -81,11 +85,11 @@ public class RecipeSlotUI : MonoBehaviour
             string missing = "";
             if (!hasInput1) missing += currentRecipe.input1Name + " ";
             if (!hasInput2) missing += currentRecipe.input2Name;
-            Debug.Log("Không đủ nguyên liệu! Cần: " + missing.Trim());
+            Debug.Log("Not enough ingredients! Missing: " + missing.Trim());
             return;
         }
 
-        // Di chuyển item từ inventory vào crafting slot (không spawn mới)
+        // Move the real items (don't spawn new ones) into the crafting slots
         MoveItemToCraftingSlot(currentRecipe.input1Name, CraftingSystem.Instance.input1Slot);
         MoveItemToCraftingSlot(currentRecipe.input2Name, CraftingSystem.Instance.input2Slot);
 
@@ -93,6 +97,7 @@ public class RecipeSlotUI : MonoBehaviour
         ToolLibraryUI.Instance.Close();
     }
 
+    // Finds the named item in inventory and relocates it into the given crafting slot (splitting a stack if needed)
     private void MoveItemToCraftingSlot(string itemName, CraftingSlot craftingSlot)
     {
         InventorySystem inv = InventorySystem.Instance;
@@ -110,7 +115,7 @@ public class RecipeSlotUI : MonoBehaviour
 
             if (childName == itemName)
             {
-                // Xóa slot cũ trong crafting nếu có
+                // Clear out whatever was already in the crafting slot
                 if (craftingSlot.Item != null)
                 {
                     craftingSlot.Item.transform.SetParent(null);
@@ -119,7 +124,7 @@ public class RecipeSlotUI : MonoBehaviour
 
                 if (data != null && data.currentStack > 1)
                 {
-                    // Có nhiều hơn 1 → giảm stack, spawn mới vào crafting slot
+                    // More than 1 in the stack: decrement it and spawn a single new item into the crafting slot
                     data.currentStack--;
                     itemSlot.RefreshStackDisplay();
                     inv.itemList.Remove(itemName);
@@ -131,7 +136,7 @@ public class RecipeSlotUI : MonoBehaviour
                 }
                 else
                 {
-                    // Stack = 1 → di chuyển thẳng item vào crafting slot
+                    // Exactly 1: move the actual item into the crafting slot
                     item.transform.SetParent(craftingSlot.transform);
                     item.transform.localPosition = Vector2.zero;
                     itemSlot.RefreshStackDisplay();

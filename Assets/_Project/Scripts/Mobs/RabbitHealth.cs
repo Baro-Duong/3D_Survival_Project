@@ -1,5 +1,6 @@
-﻿using UnityEngine;
+using UnityEngine;
 
+// Tracks a rabbit's HP; aggros on hit and drops meat on death
 public class RabbitHealth : MonoBehaviour
 {
     public GameConfig config;
@@ -8,11 +9,13 @@ public class RabbitHealth : MonoBehaviour
     public string meatItemName = "RawMeat";
     public bool isAggressive = false;
 
+    // Sets starting HP from config
     private void Start()
     {
         currentHP = config.rabbitMaxHP;
     }
 
+    // Applies damage, marks the rabbit as aggressive, and kills it if HP drops to 0
     public void TakeDamage(float amount)
     {
         currentHP -= amount;
@@ -20,6 +23,7 @@ public class RabbitHealth : MonoBehaviour
         if (currentHP <= 0) Die();
     }
 
+    // Drops a meat world item and destroys the rabbit
     private void Die()
     {
         GameObject meatPrefab = Resources.Load<GameObject>("WorldItems/" + meatItemName);

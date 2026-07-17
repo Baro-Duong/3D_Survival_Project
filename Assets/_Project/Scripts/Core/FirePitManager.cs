@@ -1,6 +1,6 @@
-﻿using UnityEngine;
+using UnityEngine;
 
-// Gắn vào FirePit GameObject trong scene
+// Attached to the FirePit GameObject in the scene; drives the Normal -> Boiling -> BoiledWater state machine
 public class FirePitManager : MonoBehaviour
 {
     public enum FirePitState { Normal, Boiling, BoiledWater }
@@ -10,8 +10,8 @@ public class FirePitManager : MonoBehaviour
     [Header("Prefabs World")]
     public GameObject boilingFirePitPrefab;   // BoillingWaterFirePit
     public GameObject boiledFirePitPrefab;    // BoilledWaterFirePit
-    public GameObject firePitPrefab;          // FirePit gốc
-    public GameObject potWorldPrefab;         // Pot world item drop ra
+    public GameObject firePitPrefab;          // original empty FirePit
+    public GameObject potWorldPrefab;         // Pot world item dropped when water runs out
 
     private float boilTimer = 0f;
     private float boilDuration = 30f;
@@ -19,6 +19,7 @@ public class FirePitManager : MonoBehaviour
     private int maxScoops = 3;
     private float potEjectForce = 5f;
 
+    // Advances the boil timer while Boiling and transitions to BoiledWater once it elapses
     private void Update()
     {
         if (state == FirePitState.Boiling)
@@ -32,38 +33,38 @@ public class FirePitManager : MonoBehaviour
         }
     }
 
+    // Starts boiling: switches state and swaps the visual to the boiling prefab
     public void StartBoiling()
     {
         state = FirePitState.Boiling;
         boilTimer = 0f;
         scoopCount = 0;
 
-        // Thay thế GameObject này bằng BoillingWaterFirePit
         SpawnReplacement(boilingFirePitPrefab);
     }
 
+    // Called each time the player scoops water; after the 3rd scoop, reverts to Normal and drops a Pot
     public void ScoopWater()
     {
         scoopCount++;
         if (scoopCount >= maxScoops)
         {
-            // Hết nước → trở về FirePit bình thường, drop Pot
             state = FirePitState.Normal;
             Vector3 pos = transform.position;
             SpawnReplacement(firePitPrefab);
 
-            // Drop Pot ra world
             if (potWorldPrefab != null)
             {
                 GameObject pot = Instantiate(potWorldPrefab, pos + Vector3.up * 2f, Quaternion.identity);
                 Rigidbody rb = pot.GetComponent<Rigidbody>();
                 if (rb == null) rb = pot.AddComponent<Rigidbody>();
-                // Gán thẳng vận tốc thay vì AddForce — không phụ thuộc mass, luôn bay lên đúng tốc độ mong muốn
+                // Set velocity directly (mass-independent) so the Pot always launches upward at the same speed
                 rb.linearVelocity = Vector3.up * potEjectForce;
             }
         }
     }
 
+    // Switches state and, if entering BoiledWater, swaps the visual to the boiled prefab
     private void TransitionTo(FirePitState newState)
     {
         state = newState;
@@ -71,11 +72,12 @@ public class FirePitManager : MonoBehaviour
             SpawnReplacement(boiledFirePitPrefab);
     }
 
+    // Destroys this GameObject and instantiates the given prefab in its place, carrying state forward
     private void SpawnReplacement(GameObject prefab)
     {
-        if (prefab == null) { Debug.LogError("Prefab null trong FirePitManager!"); return; }
+        if (prefab == null) { Debug.LogError("Prefab is null in FirePitManager!"); return; }
         GameObject replacement = Instantiate(prefab, transform.position, transform.rotation);
-        // Chuyển state sang replacement nếu cần
+
         FirePitManager newFP = replacement.GetComponent<FirePitManager>();
         if (newFP != null)
         {
@@ -88,7 +90,7 @@ public class FirePitManager : MonoBehaviour
         }
         else
         {
-            Debug.LogError(prefab.name + " thiếu component FirePitManager — state/scoop bị mất, object sẽ không interact được nữa!");
+            Debug.LogError(prefab.name + " is missing a FirePitManager component — state/scoop count is lost, the object will no longer be interactable!");
         }
         Destroy(gameObject);
     }

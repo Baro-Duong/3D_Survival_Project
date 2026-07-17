@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+// Central data asset holding every tunable gameplay number; scripts read config.field instead of hardcoding
 [CreateAssetMenu(fileName = "GameConfig", menuName = "GameConfig")]
 public class GameConfig : ScriptableObject
 {

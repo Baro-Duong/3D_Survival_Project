@@ -1,5 +1,6 @@
-﻿using UnityEngine;
+using UnityEngine;
 
+// Raycasts from the camera on left-click and damages a rabbit if hit
 public class PlayerAttack : MonoBehaviour
 {
     public static PlayerAttack Instance { get; set; }
@@ -9,6 +10,7 @@ public class PlayerAttack : MonoBehaviour
     private float lastAttackTime = 0f;
     private Camera cam;
 
+    // Singleton setup
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -17,17 +19,20 @@ public class PlayerAttack : MonoBehaviour
             Instance = this;
     }
 
+    // Caches the main camera
     private void Start()
     {
         cam = Camera.main;
     }
 
+    // Listens for the attack input
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Mouse0))
             TryAttack();
     }
 
+    // Raycasts from screen center and applies damage to a RabbitHealth if hit, respecting the attack cooldown
     private void TryAttack()
     {
         if (Time.time - lastAttackTime < config.attackCooldown) return;
@@ -47,5 +52,6 @@ public class PlayerAttack : MonoBehaviour
         }
     }
 
+    // Returns the current attack damage from config
     public float GetDamage() => config.attackDamage;
 }

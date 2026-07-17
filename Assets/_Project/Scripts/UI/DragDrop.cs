@@ -1,7 +1,8 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
+// Attached to every item UI prefab; implements dragging an item between inventory/crafting slots
 public class DragDrop : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler, IPointerDownHandler
 {
     private Canvas canvas;
@@ -12,6 +13,7 @@ public class DragDrop : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDrag
     Vector3 startPosition;
     Transform startParent;
 
+    // Caches components and grabs the shared Canvas reference
     private void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
@@ -21,8 +23,10 @@ public class DragDrop : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDrag
         canvas = ReferenceManager.Instance.GetCanvasReference();
     }
 
+    // Not used; drag start is handled in OnBeginDrag
     public void OnPointerDown(PointerEventData eventData) { }
 
+    // Fades the item, lets raycasts pass through it, and reparents it to the Canvas so it renders on top while dragging
     public void OnBeginDrag(PointerEventData eventData)
     {
         canvasGroup.alpha = .6f;
@@ -32,22 +36,23 @@ public class DragDrop : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDrag
         transform.SetParent(canvas.transform);
         itemBeingDragged = gameObject;
 
-        // Refresh slot cũ ngay khi bắt đầu kéo (ẩn stack text)
+        // Refresh the old slot right away (hides its stack text since it's now empty)
         ItemSlot oldSlot = startParent.GetComponent<ItemSlot>();
         if (oldSlot != null) oldSlot.RefreshStackDisplay();
     }
 
+    // Moves the item to follow the pointer
     public void OnDrag(PointerEventData eventData)
     {
         rectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
     }
 
+    // Drops the item into the crafting slot under the pointer, or returns it to its original slot
     public void OnEndDrag(PointerEventData eventData)
     {
         canvasGroup.alpha = 1f;
         canvasGroup.blocksRaycasts = true;
 
-        // Tìm CraftingSlot nằm dưới vị trí thả
         CraftingSlot targetSlot = FindSlotUnderPointer(eventData);
 
         if (targetSlot != null && targetSlot.slotType != CraftingSlot.SlotType.Output && targetSlot.Item == null)
@@ -57,27 +62,27 @@ public class DragDrop : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDrag
         }
         else if (targetSlot != null && targetSlot.slotType == CraftingSlot.SlotType.Output)
         {
-            // Thả vào output → trả về chỗ cũ
+            // Can't drop into the output slot: send it back
             transform.SetParent(startParent);
             transform.position = startPosition;
         }
         else if (transform.parent == canvas.transform)
         {
-            // Không trúng slot nào → trả về chỗ cũ
+            // Didn't land on any slot: send it back
             transform.SetParent(startParent);
             transform.position = startPosition;
         }
 
-        // Check recipe sau mỗi lần drag
         CraftingSystem.Instance.CheckRecipe();
 
-        // Refresh slot mới sau khi drop
+        // Refresh the slot it landed in
         ItemSlot newSlot = transform.parent.GetComponent<ItemSlot>();
         if (newSlot != null) newSlot.RefreshStackDisplay();
 
         itemBeingDragged = null;
     }
 
+    // Finds the CraftingSlot (if any) under the current pointer position
     private CraftingSlot FindSlotUnderPointer(PointerEventData eventData)
     {
         var results = new System.Collections.Generic.List<RaycastResult>();
@@ -88,7 +93,6 @@ public class DragDrop : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDrag
             CraftingSlot slot = result.gameObject.GetComponent<CraftingSlot>();
             if (slot != null) return slot;
 
-            // Check parent cũng có CraftingSlot không
             slot = result.gameObject.GetComponentInParent<CraftingSlot>();
             if (slot != null) return slot;
         }

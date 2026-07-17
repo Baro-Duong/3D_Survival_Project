@@ -1,5 +1,6 @@
 using UnityEngine;
 
+// Simple rabbit AI: walks in a random cardinal direction, waits, then picks a new direction
 public class AI_Movement : MonoBehaviour
 {
     public GameConfig config;
@@ -15,6 +16,7 @@ public class AI_Movement : MonoBehaviour
     int walkDirection;
     public bool isWalking;
 
+    // Rolls random walk/wait durations and starts moving
     void Start()
     {
         animator = GetComponent<Animator>();
@@ -28,6 +30,7 @@ public class AI_Movement : MonoBehaviour
         ChooseDirection();
     }
 
+    // While walking, faces the chosen direction and moves forward; while waiting, counts down to the next walk
     void Update()
     {
         if (isWalking)
@@ -61,6 +64,7 @@ public class AI_Movement : MonoBehaviour
         }
     }
 
+    // Picks a new random cardinal direction (0-3) and starts walking
     public void ChooseDirection()
     {
         walkDirection = Random.Range(0, 4);
@@ -68,11 +72,11 @@ public class AI_Movement : MonoBehaviour
         walkCounter = walkTime;
     }
 
+    // On touching water, turns 180 degrees and walks away from it
     private void OnTriggerEnter(Collider other)
     {
         if (!other.CompareTag("Water")) return;
 
-        // Quay đầu (180 độ) và đi ra xa khỏi nước
         switch (walkDirection)
         {
             case 0: walkDirection = 3; break;

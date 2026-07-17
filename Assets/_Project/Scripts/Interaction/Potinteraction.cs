@@ -1,18 +1,19 @@
-﻿using UnityEngine;
+using UnityEngine;
 
-// Gắn vào Player
+// Attached to the Player; drives the Pot/Water/FirePit cooking chain (fill, boil, scoop, cook)
 public class PotInteraction : MonoBehaviour
 {
     [Header("References")]
     public GameConfig config;
     public Transform playerCamera;
-    public float interactRange = 20f; // đồng bộ với SelectionManager.interactRange
+    public float interactRange = 20f; // kept in sync with SelectionManager.interactRange
 
     // Cooking
     private float cookHoldTime = 0f;
     private float cookRequiredTime = 10f;
     private bool isCooking = false;
 
+    // Raycasts forward each frame and updates both the interaction text and the input handling
     private void Update()
     {
         if (InventorySystem.Instance.isOpen) return;
@@ -25,6 +26,7 @@ public class PotInteraction : MonoBehaviour
         HandleInput(heldItem, hasHit, hit);
     }
 
+    // Shows the matching prompt text ("Take Dirty Water", "Boil Water", ...) for the held item + target combo
     private void HandleInteractionText(string heldItem, bool hasHit, RaycastHit hit)
     {
         if (!hasHit) { HideText(); return; }
@@ -47,20 +49,21 @@ public class PotInteraction : MonoBehaviour
             HideText();
     }
 
+    // Runs the actual click/hold actions for each step of the cooking chain
     private void HandleInput(string heldItem, bool hasHit, RaycastHit hit)
     {
         if (!hasHit) return;
 
         string hitTag = hit.collider.tag;
 
-        // Pot + Water → DirtyWaterPot
+        // Pot + Water -> DirtyWaterPot
         if (heldItem == "Pot" && hitTag == "Water" && Input.GetKeyDown(KeyCode.Mouse0))
         {
             ReplaceHeldItem("Pot", "DirtyWaterPot");
             return;
         }
 
-        // DirtyWaterPot + FirePit → bắt đầu boil
+        // DirtyWaterPot + FirePit -> starts boiling
         if (heldItem == "DirtyWaterPot" && hitTag == "FirePit" && Input.GetKeyDown(KeyCode.Mouse0))
         {
             FirePitManager fp = hit.collider.GetComponent<FirePitManager>();
@@ -72,7 +75,7 @@ public class PotInteraction : MonoBehaviour
             return;
         }
 
-        // Bottle + BoiledWaterFirePit → WaterBottle
+        // Bottle + BoiledWaterFirePit -> WaterBottle
         if (heldItem == "Bottle" && Input.GetKeyDown(KeyCode.Mouse0))
         {
             FirePitManager fp = hit.collider.GetComponent<FirePitManager>();
@@ -84,7 +87,7 @@ public class PotInteraction : MonoBehaviour
             return;
         }
 
-        // RawMeat + FirePit → CookedMeat (giữ F 10s)
+        // RawMeat + FirePit -> CookedMeat (hold F for 10s)
         if (heldItem == "RawMeat" && hitTag == "FirePit")
         {
             if (Input.GetKey(KeyCode.F))
@@ -106,11 +109,12 @@ public class PotInteraction : MonoBehaviour
             return;
         }
 
-        // Reset cooking nếu không nhìn vào FirePit
+        // Not looking at a FirePit: reset the cooking hold progress
         isCooking = false;
         cookHoldTime = 0f;
     }
 
+    // Returns the name of the item currently equipped on the hotbar, or "" if none
     private string GetHeldItemName()
     {
         if (HotbarSelection.Instance == null) return "";
@@ -120,6 +124,7 @@ public class PotInteraction : MonoBehaviour
         return data != null ? data.itemName : item.name.Replace("(Clone)", "").Trim();
     }
 
+    // Destroys the held item and spawns a different one into the same hotbar slot
     private void ReplaceHeldItem(string oldName, string newName)
     {
         int index = HotbarSelection.Instance.selectedIndex;
@@ -129,14 +134,12 @@ public class PotInteraction : MonoBehaviour
         ItemSlot slot = slots[index].GetComponent<ItemSlot>();
         if (slot == null || slot.Item == null) return;
 
-        // Xóa item cũ
         slot.Item.transform.SetParent(null);
         Destroy(slot.Item);
         InventorySystem.Instance.itemList.Remove(oldName);
 
-        // Spawn item mới vào slot
         GameObject prefab = Resources.Load<GameObject>(newName);
-        if (prefab == null) { Debug.LogError("Không tìm thấy prefab: " + newName); return; }
+        if (prefab == null) { Debug.LogError("Prefab not found: " + newName); return; }
 
         GameObject newItem = Instantiate(prefab, slots[index].transform.position, Quaternion.identity);
         newItem.transform.SetParent(slots[index].transform);
@@ -146,6 +149,7 @@ public class PotInteraction : MonoBehaviour
         slot.RefreshStackDisplay();
     }
 
+    // Destroys the held item without replacing it (consumed by the action, e.g. DirtyWaterPot into the fire)
     private void RemoveHeldItem(string itemName)
     {
         int index = HotbarSelection.Instance.selectedIndex;
@@ -161,6 +165,7 @@ public class PotInteraction : MonoBehaviour
         slot.RefreshStackDisplay();
     }
 
+    // Displays the given prompt text via SelectionManager and marks it as overridden
     private void ShowText(string text)
     {
         if (SelectionManager.Instance != null)
@@ -171,15 +176,15 @@ public class PotInteraction : MonoBehaviour
         }
     }
 
+    // Clears the override flag so SelectionManager can decide the text/active-state itself next frame
     private void HideText()
     {
         if (SelectionManager.Instance != null)
         {
-            // Không tự SetActive(false) ở đây — SelectionManager mới là chủ sở hữu
-            // của interaction_Info_UI, để nó tự quyết định active/inactive dựa trên
-            // raycast của chính nó ở frame kế tiếp. Nếu gọi SetActive(false) tại đây,
-            // nó có thể ghi đè lên SetActive(true) mà SelectionManager vừa gọi trong
-            // cùng frame (thứ tự Update() giữa 2 script không được đảm bảo).
+            // Deliberately not calling SetActive(false) here — SelectionManager owns interaction_Info_UI
+            // and decides active/inactive itself next frame based on its own raycast. Calling
+            // SetActive(false) here could stomp a SetActive(true) SelectionManager just made in the same
+            // frame, since the Update() order between the two scripts isn't guaranteed.
             SelectionManager.Instance.overrideText = false;
         }
     }
