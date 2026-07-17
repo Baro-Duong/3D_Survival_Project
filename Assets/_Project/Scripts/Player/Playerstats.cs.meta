@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 799dc093f87258d44a7da93495cdf67b
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - config: {fileID: 11400000, guid: c7ffe64356e905043b0ad4ae48b6b2cb, type: 2}
+  - hpBar: {instanceID: 0}
+  - hpText: {instanceID: 0}
+  - thirstBar: {instanceID: 0}
+  - thirstText: {instanceID: 0}
+  - hungerBar: {instanceID: 0}
+  - hungerText: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: 8e24a2f69be44ea45b0eeff016936a5a
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - boilingFirePitPrefab: {fileID: 723582896154662416, guid: 0cf52234b6891304fae5c3447b1245dd,
+      type: 3}
+  - boiledFirePitPrefab: {fileID: 9012981959873208811, guid: dafa1a98c19a7c64391384c27229e66c,
+      type: 3}
+  - firePitPrefab: {fileID: 8737717208819897051, guid: e8c55a3dfe3292c4ab958d0a84afa18d,
+      type: 3}
+  - potWorldPrefab: {fileID: 7912922398970136839, guid: e4f8bb1b9c35b1f4585e58bbe856e509,
+      type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

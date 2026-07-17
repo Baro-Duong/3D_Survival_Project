@@ -1,0 +1,57 @@
+# Unity generated
+/[Ll]ibrary/
+/[Tt]emp/
+/[Oo]bj/
+/[Bb]uild/
+/[Bb]uilds/
+/[Ll]ogs/
+/[Uu]ser[Ss]ettings/
+/[Mm]emoryCaptures/
+/[Rr]ecordings/
+
+# Visual Studio / Rider / IDE
+.vs/
+.vscode/
+.idea/
+ExportedObj/
+*.csproj
+*.unityproj
+*.sln
+*.suo
+*.tmp
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+*.pidb.meta
+*.pdb.meta
+*.mdb.meta
+
+# Unity crash/build artifacts
+sysinfo.txt
+crashlytics-build.properties
+*.apk
+*.aab
+*.app
+*.unitypackage
+
+# Addressables / StreamingAssets generated
+/[Aa]ssets/[Aa]ddressableAssetsData/*/*.bin*
+/[Aa]ssets/[Ss]treamingAssets/aa.meta
+/[Aa]ssets/[Ss]treamingAssets/aa/*
+
+# Plastic SCM (this project also uses Plastic locally — its own metadata shouldn't go into Git)
+.plastic/
+
+# Claude Code local (machine-specific permissions, not shared project config)
+.claude/settings.local.json
+
+# OS
+.DS_Store
+Thumbs.db
+Desktop.ini
