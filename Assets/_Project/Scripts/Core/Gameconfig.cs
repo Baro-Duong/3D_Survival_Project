@@ -52,6 +52,10 @@ public class GameConfig : ScriptableObject
     public float rabbitWaitTimeMin = 5f;
     public float rabbitWaitTimeMax = 7f;
 
+    [Header("Rabbit Spawning")]
+    public int maxRabbitsOnMap = 10;
+    public float rabbitSpawnCheckInterval = 60f;
+
     // ==================== ITEMS ====================
     [Header("Apple")]
     public float appleHungerRestore = 10f;
