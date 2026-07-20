@@ -52,7 +52,7 @@ public class PotInteraction : MonoBehaviour
     // Runs the actual click/hold actions for each step of the cooking chain
     private void HandleInput(string heldItem, bool hasHit, RaycastHit hit)
     {
-        if (!hasHit) return;
+        if (!hasHit) { isCooking = false; cookHoldTime = 0f; return; }
 
         string hitTag = hit.collider.tag;
 
