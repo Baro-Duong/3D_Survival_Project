@@ -1,11 +1,18 @@
 using UnityEngine;
 
-// Singleton holding the Canvas reference that DragDrop needs to reparent items during drag
+// Singleton holding shared references (Canvas for DragDrop, FirePit prefabs) so other scripts don't
+// each need their own copy — set these fields once here instead of on every FirePitManager instance
 public class ReferenceManager : MonoBehaviour
 {
     public static ReferenceManager Instance { get; set; }
 
     public Canvas canvas;
+
+    [Header("FirePit Prefabs")]
+    public GameObject firePitPrefab;          // original empty FirePit
+    public GameObject boilingFirePitPrefab;   // BoillingWaterFirePit
+    public GameObject boiledFirePitPrefab;    // BoilledWaterFirePit
+    public GameObject potWorldPrefab;         // Pot world item dropped when water runs out
 
     // Singleton setup
     private void Awake()

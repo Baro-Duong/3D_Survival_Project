@@ -6,13 +6,7 @@ public class FirePitManager : MonoBehaviour
     public enum FirePitState { Normal, Boiling, BoiledWater }
 
     public FirePitState state = FirePitState.Normal;
-
-    [Header("Prefabs World")]
-    public GameObject boilingFirePitPrefab;   // BoillingWaterFirePit
-    public GameObject boiledFirePitPrefab;    // BoilledWaterFirePit
-    public GameObject firePitPrefab;          // original empty FirePit
-    public GameObject potWorldPrefab;         // Pot world item dropped when water runs out
-
+    
     private float boilTimer = 0f;
     private float boilDuration = 30f;
     private int scoopCount = 0;
@@ -40,7 +34,7 @@ public class FirePitManager : MonoBehaviour
         boilTimer = 0f;
         scoopCount = 0;
 
-        SpawnReplacement(boilingFirePitPrefab);
+        SpawnReplacement(ReferenceManager.Instance.boilingFirePitPrefab);
     }
 
     // Called each time the player scoops water; after the 3rd scoop, reverts to Normal and drops a Pot
@@ -51,8 +45,9 @@ public class FirePitManager : MonoBehaviour
         {
             state = FirePitState.Normal;
             Vector3 pos = transform.position;
-            SpawnReplacement(firePitPrefab);
+            SpawnReplacement(ReferenceManager.Instance.firePitPrefab);
 
+            GameObject potWorldPrefab = ReferenceManager.Instance.potWorldPrefab;
             if (potWorldPrefab != null)
             {
                 GameObject pot = Instantiate(potWorldPrefab, pos + Vector3.up * 2f, Quaternion.identity);
@@ -69,10 +64,12 @@ public class FirePitManager : MonoBehaviour
     {
         state = newState;
         if (newState == FirePitState.BoiledWater)
-            SpawnReplacement(boiledFirePitPrefab);
+            SpawnReplacement(ReferenceManager.Instance.boiledFirePitPrefab);
     }
 
-    // Destroys this GameObject and instantiates the given prefab in its place, carrying state forward
+    // Destroys this GameObject and instantiates the given prefab in its place, carrying only state/scoopCount
+    // forward — the 4 prefab references themselves live once on ReferenceManager, not per-instance, so there's
+    // nothing left to copy (and nothing left that can end up self-referencing a scene instance)
     private void SpawnReplacement(GameObject prefab)
     {
         if (prefab == null) { Debug.LogError("Prefab is null in FirePitManager!"); return; }
@@ -83,10 +80,6 @@ public class FirePitManager : MonoBehaviour
         {
             newFP.state = state;
             newFP.scoopCount = scoopCount;
-            newFP.boilingFirePitPrefab = boilingFirePitPrefab;
-            newFP.boiledFirePitPrefab = boiledFirePitPrefab;
-            newFP.firePitPrefab = firePitPrefab;
-            newFP.potWorldPrefab = potWorldPrefab;
         }
         else
         {
