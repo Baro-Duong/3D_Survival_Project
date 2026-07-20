@@ -3,11 +3,15 @@ using UnityEngine.EventSystems;
 using TMPro;
 
 // A single inventory/hotbar slot: exposes the item it holds and handles items dropped onto it
-public class ItemSlot : MonoBehaviour, IDropHandler
+public class ItemSlot : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPointerExitHandler
 {
     public TMP_Text stackText; // bottom-right stack count text, drag into the Inspector
 
     // Returns the child GameObject that has an ItemData component (skips the StackText child), or null if empty
+    public static GameObject hoveredItem;
+
+    public void OnPointerEnter(PointerEventData eventData) => hoveredItem = Item;
+    public void OnPointerExit(PointerEventData eventData) => hoveredItem = null;
     public GameObject Item
     {
         get
