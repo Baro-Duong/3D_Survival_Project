@@ -96,7 +96,7 @@ public class PotInteraction : MonoBehaviour
                 cookHoldTime += Time.deltaTime;
                 if (cookHoldTime >= cookRequiredTime)
                 {
-                    ReplaceHeldItem("RawMeat", "CookedMeat");
+                    ConsumeOneAndAdd("CookedMeat");
                     isCooking = false;
                     cookHoldTime = 0f;
                 }
@@ -147,6 +147,36 @@ public class PotInteraction : MonoBehaviour
         InventorySystem.Instance.itemList.Add(newName);
 
         slot.RefreshStackDisplay();
+    }
+
+    // Consumes 1 unit from the held item's stack (destroying it only if that was the last one), then adds
+    // 1 of a different item to inventory — used for cooking, where the source item can be a stack (RawMeat)
+    // but ReplaceHeldItem would wrongly destroy the whole stack for a single cook
+    private void ConsumeOneAndAdd(string newName)
+    {
+        int index = HotbarSelection.Instance.selectedIndex;
+        GameObject[] slots = HotbarSelection.Instance.hotbarSlots;
+        if (slots[index] == null) return;
+
+        ItemSlot slot = slots[index].GetComponent<ItemSlot>();
+        if (slot == null || slot.Item == null) return;
+
+        ItemData data = slot.Item.GetComponent<ItemData>();
+        string oldName = data != null ? data.itemName : slot.Item.name.Replace("(Clone)", "").Trim();
+
+        if (data != null && data.currentStack > 1)
+        {
+            data.currentStack--;
+            slot.RefreshStackDisplay();
+        }
+        else
+        {
+            slot.Item.transform.SetParent(null);
+            Destroy(slot.Item);
+        }
+        InventorySystem.Instance.itemList.Remove(oldName);
+
+        InventorySystem.Instance.AddToInvetory(newName);
     }
 
     // Destroys the held item without replacing it (consumed by the action, e.g. DirtyWaterPot into the fire)
