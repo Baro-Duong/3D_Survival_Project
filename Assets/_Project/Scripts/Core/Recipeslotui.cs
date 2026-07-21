@@ -12,6 +12,10 @@ public class RecipeSlotUI : MonoBehaviour
     public TMP_Text recipeNameText;
     public Button chooseButton;
 
+    [Header("Ingredient Counts (optional)")]
+    public TMP_Text input1CountText;
+    public TMP_Text input2CountText;
+
     private CraftingRecipe currentRecipe;
 
     // Wires up the Choose button
@@ -33,6 +37,9 @@ public class RecipeSlotUI : MonoBehaviour
         if (recipe.input2Icon != null) input2Icon.sprite = recipe.input2Icon;
         if (recipe.outputIcon != null) outputIcon.sprite = recipe.outputIcon;
 
+        if (input1CountText != null) input1CountText.text = "x" + recipe.input1Count;
+        if (input2CountText != null) input2CountText.text = "x" + recipe.input2Count;
+
         RefreshButtonState();
     }
 
@@ -43,42 +50,45 @@ public class RecipeSlotUI : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    // Enables the Choose button only if the player has both ingredients
+    // Enables the Choose button only if the player has enough of both ingredients
     private void RefreshButtonState()
     {
         if (chooseButton == null || currentRecipe == null) return;
 
-        bool hasInput1 = HasItemInInventory(currentRecipe.input1Name);
-        bool hasInput2 = HasItemInInventory(currentRecipe.input2Name);
+        bool hasInput1 = HasEnoughInInventory(currentRecipe.input1Name, currentRecipe.input1Count);
+        bool hasInput2 = HasEnoughInInventory(currentRecipe.input2Name, currentRecipe.input2Count);
 
         chooseButton.interactable = hasInput1 && hasInput2;
     }
 
-    // Checks whether the player currently holds the given item, in the item list or in a slot
-    private bool HasItemInInventory(string itemName)
+    // Sums the stack counts of every inventory slot holding the given item and checks it meets requiredCount
+    private bool HasEnoughInInventory(string itemName, int requiredCount)
     {
-        if (InventorySystem.Instance.itemList.Contains(itemName)) return true;
+        int total = 0;
 
-        // Also scan slot children directly (covers items placed manually in the Editor)
         foreach (GameObject slot in InventorySystem.Instance.slotList)
         {
-            if (slot.transform.childCount > 0)
-            {
-                string childName = slot.transform.GetChild(0).gameObject.name
-                    .Replace("(Clone)", "").Trim();
-                if (childName == itemName) return true;
-            }
+            ItemSlot itemSlot = slot.GetComponent<ItemSlot>();
+            GameObject item = itemSlot != null ? itemSlot.Item : null;
+            if (item == null) continue;
+
+            ItemData data = item.GetComponent<ItemData>();
+            string childName = data != null ? data.itemName : item.name.Replace("(Clone)", "").Trim();
+            if (childName != itemName) continue;
+
+            total += data != null ? data.currentStack : 1;
+            if (total >= requiredCount) return true;
         }
         return false;
     }
 
-    // Moves the recipe's 2 ingredients from inventory into the crafting slots and closes the Tool Library
+    // Moves the recipe's required ingredient quantities from inventory into the crafting slots and closes the Tool Library
     private void OnChoose()
     {
         if (currentRecipe == null) return;
 
-        bool hasInput1 = HasItemInInventory(currentRecipe.input1Name);
-        bool hasInput2 = HasItemInInventory(currentRecipe.input2Name);
+        bool hasInput1 = HasEnoughInInventory(currentRecipe.input1Name, currentRecipe.input1Count);
+        bool hasInput2 = HasEnoughInInventory(currentRecipe.input2Name, currentRecipe.input2Count);
 
         if (!hasInput1 || !hasInput2)
         {
@@ -89,21 +99,31 @@ public class RecipeSlotUI : MonoBehaviour
             return;
         }
 
-        // Move the real items (don't spawn new ones) into the crafting slots
-        MoveItemToCraftingSlot(currentRecipe.input1Name, CraftingSystem.Instance.input1Slot);
-        MoveItemToCraftingSlot(currentRecipe.input2Name, CraftingSystem.Instance.input2Slot);
+        MoveItemToCraftingSlot(currentRecipe.input1Name, currentRecipe.input1Count, CraftingSystem.Instance.input1Slot);
+        MoveItemToCraftingSlot(currentRecipe.input2Name, currentRecipe.input2Count, CraftingSystem.Instance.input2Slot);
 
         CraftingSystem.Instance.CheckRecipe();
         ToolLibraryUI.Instance.Close();
     }
 
-    // Finds the named item in inventory and relocates it into the given crafting slot (splitting a stack if needed)
-    private void MoveItemToCraftingSlot(string itemName, CraftingSlot craftingSlot)
+    // Gathers requiredCount units of itemName from across the inventory (possibly several slots) and places
+    // a single stacked item representing that quantity into the given crafting slot
+    private void MoveItemToCraftingSlot(string itemName, int requiredCount, CraftingSlot craftingSlot)
     {
         InventorySystem inv = InventorySystem.Instance;
 
+        if (craftingSlot.Item != null)
+        {
+            craftingSlot.Item.transform.SetParent(null);
+            Destroy(craftingSlot.Item);
+        }
+
+        int remaining = requiredCount;
+
         foreach (GameObject slot in inv.slotList)
         {
+            if (remaining <= 0) break;
+
             ItemSlot itemSlot = slot.GetComponent<ItemSlot>();
             if (itemSlot == null) continue;
 
@@ -112,38 +132,42 @@ public class RecipeSlotUI : MonoBehaviour
 
             ItemData data = item.GetComponent<ItemData>();
             string childName = data != null ? data.itemName : item.name.Replace("(Clone)", "").Trim();
+            if (childName != itemName) continue;
 
-            if (childName == itemName)
+            int available = data != null ? data.currentStack : 1;
+            int takeFromThisSlot = Mathf.Min(available, remaining);
+
+            if (data != null && data.currentStack > takeFromThisSlot)
             {
-                // Clear out whatever was already in the crafting slot
-                if (craftingSlot.Item != null)
-                {
-                    craftingSlot.Item.transform.SetParent(null);
-                    Destroy(craftingSlot.Item);
-                }
-
-                if (data != null && data.currentStack > 1)
-                {
-                    // More than 1 in the stack: decrement it and spawn a single new item into the crafting slot
-                    data.currentStack--;
-                    itemSlot.RefreshStackDisplay();
-                    inv.itemList.Remove(itemName);
-
-                    GameObject prefab = Resources.Load<GameObject>(itemName);
-                    GameObject spawned = Instantiate(prefab, craftingSlot.transform.position, craftingSlot.transform.rotation);
-                    spawned.transform.SetParent(craftingSlot.transform);
-                    spawned.transform.localPosition = Vector2.zero;
-                }
-                else
-                {
-                    // Exactly 1: move the actual item into the crafting slot
-                    item.transform.SetParent(craftingSlot.transform);
-                    item.transform.localPosition = Vector2.zero;
-                    itemSlot.RefreshStackDisplay();
-                    inv.itemList.Remove(itemName);
-                }
-                return;
+                data.currentStack -= takeFromThisSlot;
             }
+            else
+            {
+                // Unparent before Destroy — Destroy is deferred to end of frame, so without this,
+                // RefreshStackDisplay() below would still find the item (with its old currentStack)
+                // and show a stale count for the rest of this frame
+                item.transform.SetParent(null);
+                Destroy(item);
+            }
+
+            itemSlot.RefreshStackDisplay();
+
+            for (int i = 0; i < takeFromThisSlot; i++)
+                inv.itemList.Remove(itemName);
+
+            remaining -= takeFromThisSlot;
         }
+
+        GameObject prefab = Resources.Load<GameObject>(itemName);
+        if (prefab == null) { Debug.LogError("Prefab not found: " + itemName); return; }
+
+        GameObject spawned = Instantiate(prefab, craftingSlot.transform.position, craftingSlot.transform.rotation);
+        spawned.transform.SetParent(craftingSlot.transform);
+        spawned.transform.localPosition = Vector2.zero;
+
+        ItemData spawnedData = spawned.GetComponent<ItemData>();
+        if (spawnedData != null) spawnedData.currentStack = requiredCount;
+
+        craftingSlot.RefreshStackDisplay();
     }
 }

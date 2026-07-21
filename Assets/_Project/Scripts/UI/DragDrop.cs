@@ -39,6 +39,9 @@ public class DragDrop : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDrag
         // Refresh the old slot right away (hides its stack text since it's now empty)
         ItemSlot oldSlot = startParent.GetComponent<ItemSlot>();
         if (oldSlot != null) oldSlot.RefreshStackDisplay();
+
+        CraftingSlot oldCraftingSlot = startParent.GetComponent<CraftingSlot>();
+        if (oldCraftingSlot != null) oldCraftingSlot.RefreshStackDisplay();
     }
 
     // Moves the item to follow the pointer
@@ -78,6 +81,9 @@ public class DragDrop : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDrag
         // Refresh the slot it landed in
         ItemSlot newSlot = transform.parent.GetComponent<ItemSlot>();
         if (newSlot != null) newSlot.RefreshStackDisplay();
+
+        CraftingSlot newCraftingSlot = transform.parent.GetComponent<CraftingSlot>();
+        if (newCraftingSlot != null) newCraftingSlot.RefreshStackDisplay();
 
         itemBeingDragged = null;
     }

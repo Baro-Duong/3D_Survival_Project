@@ -5,7 +5,9 @@ using UnityEngine;
 public class CraftingRecipe : ScriptableObject
 {
     public string input1Name;   // must match an item's name exactly
+    public int input1Count = 1;
     public string input2Name;
+    public int input2Count = 1;
     public string outputName;
 
     public Sprite input1Icon;

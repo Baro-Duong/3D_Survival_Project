@@ -18,6 +18,7 @@ public class CraftingSystem : MonoBehaviour
     public List<CraftingRecipe> allRecipes = new List<CraftingRecipe>();
 
     private CraftingRecipe matchedRecipe;
+    private bool inputsSwapped; // true if input1Slot actually holds recipe.input2Name (and vice versa)
 
     // Singleton setup
     private void Awake()
@@ -37,51 +38,90 @@ public class CraftingSystem : MonoBehaviour
     }
 
     public void Show() => craftingScreenUI.SetActive(true);
-    public void Hide() => craftingScreenUI.SetActive(false);
 
-    // Called whenever an item is dropped into a slot; enables the craft button if the 2 inputs match a recipe
+    // Hides the crafting screen and returns any leftover items in the 3 slots back to inventory,
+    // so nothing gets stranded/lost when the player closes the inventory mid-craft
+    public void Hide()
+    {
+        craftingScreenUI.SetActive(false);
+
+        ReturnSlotToInventory(input1Slot);
+        ReturnSlotToInventory(input2Slot);
+        ReturnSlotToInventory(outputSlot);
+
+        matchedRecipe = null;
+        craftButton.interactable = false;
+    }
+
+    // Moves whatever item is in the given crafting slot back into the next empty inventory/hotbar slot(s)
+    private void ReturnSlotToInventory(CraftingSlot slot)
+    {
+        if (slot.Item == null) return;
+
+        ItemData data = slot.Item.GetComponent<ItemData>();
+        string itemName = data != null ? data.itemName : slot.Item.name.Replace("(Clone)", "").Trim();
+        int count = data != null ? data.currentStack : 1;
+
+        slot.Item.transform.SetParent(null);
+        Destroy(slot.Item);
+        slot.RefreshStackDisplay();
+
+        for (int i = 0; i < count; i++)
+            InventorySystem.Instance.AddToInvetory(itemName);
+    }
+
+    // Called whenever an item is dropped into a slot; enables the craft button if the 2 inputs match a
+    // recipe both by item name AND by having enough of each in stock
     public void CheckRecipe()
     {
         string item1 = input1Slot.ItemName;
         string item2 = input2Slot.ItemName;
 
         matchedRecipe = null;
+        inputsSwapped = false;
+        int bestSpecificity = -1; // total ingredient count of the current best match — prefers the more demanding recipe when several share the same 2 item names
 
         foreach (CraftingRecipe recipe in allRecipes)
         {
-            // Input order doesn't matter (item1+item2 or item2+item1 both match)
-            bool match = (recipe.input1Name == item1 && recipe.input2Name == item2)
-                      || (recipe.input1Name == item2 && recipe.input2Name == item1);
+            bool straightMatch = recipe.input1Name == item1 && recipe.input2Name == item2
+                && HasEnough(input1Slot, recipe.input1Count) && HasEnough(input2Slot, recipe.input2Count);
 
-            if (match)
+            // Input order doesn't matter (item1+item2 or item2+item1 both match)
+            bool swappedMatch = !straightMatch && recipe.input1Name == item2 && recipe.input2Name == item1
+                && HasEnough(input1Slot, recipe.input2Count) && HasEnough(input2Slot, recipe.input1Count);
+
+            if (!straightMatch && !swappedMatch) continue;
+
+            int specificity = recipe.input1Count + recipe.input2Count;
+            if (specificity > bestSpecificity)
             {
+                bestSpecificity = specificity;
                 matchedRecipe = recipe;
-                break;
+                inputsSwapped = swappedMatch;
             }
         }
 
         craftButton.interactable = (matchedRecipe != null);
     }
 
-    // Consumes the 2 input items and spawns the recipe's output item
+    // Returns true if the slot's item stack has at least `required` units
+    private bool HasEnough(CraftingSlot slot, int required)
+    {
+        if (slot.Item == null) return false;
+        ItemData data = slot.Item.GetComponent<ItemData>();
+        return data != null && data.currentStack >= required;
+    }
+
+    // Consumes the required quantity from each input and spawns the recipe's output item
     private void OnCraftButtonPressed()
     {
         if (matchedRecipe == null) return;
 
-        string item1Name = input1Slot.ItemName;
-        string item2Name = input2Slot.ItemName;
+        int input1Required = inputsSwapped ? matchedRecipe.input2Count : matchedRecipe.input1Count;
+        int input2Required = inputsSwapped ? matchedRecipe.input1Count : matchedRecipe.input2Count;
 
-        // Remove the 2 input items
-        if (input1Slot.Item != null)
-        {
-            input1Slot.Item.transform.SetParent(null);
-            Destroy(input1Slot.Item);
-        }
-        if (input2Slot.Item != null)
-        {
-            input2Slot.Item.transform.SetParent(null);
-            Destroy(input2Slot.Item);
-        }
+        ConsumeFromSlot(input1Slot, input1Required);
+        ConsumeFromSlot(input2Slot, input2Required);
 
         // Remove any leftover item in the output slot
         if (outputSlot.Item != null)
@@ -101,11 +141,36 @@ public class CraftingSystem : MonoBehaviour
         GameObject outputItem = Instantiate(prefab, outputSlot.transform.position, outputSlot.transform.rotation);
         outputItem.transform.SetParent(outputSlot.transform);
         outputItem.transform.localPosition = Vector2.zero;
+        outputSlot.RefreshStackDisplay();
 
         craftButton.interactable = false;
         matchedRecipe = null;
 
         // Re-check in case the slots still match another recipe
         CheckRecipe();
+    }
+
+    // Removes `amount` from the slot's item stack, destroying the item only once its stack hits 0
+    private void ConsumeFromSlot(CraftingSlot slot, int amount)
+    {
+        if (slot.Item == null) return;
+
+        ItemData data = slot.Item.GetComponent<ItemData>();
+        string itemName = data != null ? data.itemName : slot.Item.name.Replace("(Clone)", "").Trim();
+
+        for (int i = 0; i < amount; i++)
+            InventorySystem.Instance.itemList.Remove(itemName);
+
+        if (data != null && data.currentStack > amount)
+        {
+            data.currentStack -= amount;
+        }
+        else
+        {
+            slot.Item.transform.SetParent(null);
+            Destroy(slot.Item);
+        }
+
+        slot.RefreshStackDisplay();
     }
 }

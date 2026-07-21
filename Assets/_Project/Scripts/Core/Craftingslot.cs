@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
+using TMPro;
 
 // One slot (Input1 / Input2 / Output) inside the crafting UI; forwards drag events to its child item
 public class CraftingSlot : MonoBehaviour, IDropHandler, IPointerDownHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
@@ -7,13 +8,18 @@ public class CraftingSlot : MonoBehaviour, IDropHandler, IPointerDownHandler, IB
     public enum SlotType { Input1, Input2, Output }
     public SlotType slotType;
 
-    // Returns the item GameObject currently in this slot, or null if empty
+    public TMP_Text stackText; // stack count text, drag into the Inspector (optional)
+
+    // Returns the child GameObject that has an ItemData component (skips StackText), or null if empty
     public GameObject Item
     {
         get
         {
-            if (transform.childCount > 0)
-                return transform.GetChild(0).gameObject;
+            foreach (Transform child in transform)
+            {
+                if (child.GetComponent<ItemData>() != null)
+                    return child.gameObject;
+            }
             return null;
         }
     }
@@ -34,12 +40,14 @@ public class CraftingSlot : MonoBehaviour, IDropHandler, IPointerDownHandler, IB
     // Not used directly; the child item's own DragDrop handles pointer-down
     public void OnPointerDown(PointerEventData eventData) { }
 
-    // Forwards begin-drag to the child item's DragDrop
+    // Forwards begin-drag to the child item's DragDrop (does nothing if the slot is empty)
     public void OnBeginDrag(PointerEventData eventData)
     {
         var dd = GetChildDragDrop();
         if (dd != null) dd.OnBeginDrag(eventData);
-        else ExecuteEvents.ExecuteHierarchy(gameObject, eventData, ExecuteEvents.beginDragHandler);
+        // Deliberately no else-branch here — ExecuteEvents.ExecuteHierarchy(gameObject, ...) would
+        // re-dispatch IBeginDragHandler back onto this same CraftingSlot, causing infinite recursion
+        // (StackOverflowException). Don't reintroduce it.
     }
 
     // Forwards drag to the child item's DragDrop
@@ -64,5 +72,29 @@ public class CraftingSlot : MonoBehaviour, IDropHandler, IPointerDownHandler, IB
     {
         if (Item != null)
             Destroy(Item);
+    }
+
+    // Shows/updates the stack count text, or hides it for empty slots and non-stackable items
+    public void RefreshStackDisplay()
+    {
+        if (stackText == null) return;
+
+        if (Item != null)
+        {
+            ItemData data = Item.GetComponent<ItemData>();
+            if (data != null && data.maxStack > 1)
+            {
+                stackText.text = data.currentStack.ToString();
+                stackText.gameObject.SetActive(true);
+            }
+            else
+            {
+                stackText.gameObject.SetActive(false);
+            }
+        }
+        else
+        {
+            stackText.gameObject.SetActive(false);
+        }
     }
 }
