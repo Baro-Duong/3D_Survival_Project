@@ -12,6 +12,7 @@ public class PlayerStats : MonoBehaviour
     public float currentHP;
     public float currentThirst;
     public float currentHunger;
+    public bool isDead = false;
 
     [Header("UI - HP")]
     public Slider hpBar;
@@ -66,6 +67,12 @@ public class PlayerStats : MonoBehaviour
 
         if (currentHunger <= 0)
             currentHP = Mathf.Max(0, currentHP - config.hpDrainWhenNoHunger * Time.deltaTime);
+
+        if (currentHP <= 0 && !isDead)
+        {
+            isDead = true;
+            if (DeadScreen.Instance != null) DeadScreen.Instance.Show();
+        }
 
         UpdateUI();
     }
