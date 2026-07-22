@@ -17,7 +17,11 @@ public class DeadScreen : MonoBehaviour
     public float targetAlpha = 0.85f;
 
     [Header("Disable on death")]
-    public MonoBehaviour[] playerControlScripts; // PlayerMovement, MouseMovement, PlayerAttack, HotbarSelection, PotInteraction...
+    public PlayerMovement playerMovement;
+    public MouseMovement mouseMovement;
+    public PlayerAttack playerAttack;
+    public HotbarSelection hotbarSelection;
+    public PotInteraction potInteraction;
 
     [Header("Scenes")]
     public string mainMenuSceneName = "MenuScene";
@@ -73,8 +77,11 @@ public class DeadScreen : MonoBehaviour
         fadeTimer = 0f;
         isFading = true;
 
-        foreach (MonoBehaviour script in playerControlScripts)
-            if (script != null) script.enabled = false;
+        if (playerMovement != null) playerMovement.enabled = false;
+        if (mouseMovement != null) mouseMovement.enabled = false;
+        if (playerAttack != null) playerAttack.enabled = false;
+        if (hotbarSelection != null) hotbarSelection.enabled = false;
+        if (potInteraction != null) potInteraction.enabled = false;
     }
 
     // Reloads the current scene (fresh player stats, no need to manually re-enable anything)
