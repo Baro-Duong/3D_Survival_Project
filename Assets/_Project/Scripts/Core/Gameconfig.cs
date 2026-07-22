@@ -31,9 +31,16 @@ public class GameConfig : ScriptableObject
     public float hpDrainWhenNoThirst = 3f;
     public float hpDrainWhenNoHunger = 1f;
 
+    [Header("Player Stats - HP Regen")]
+    public float hpRegenRate = 5f;
+    public float hpRegenThreshold = 50f; // Thirst AND Hunger must both be above this to regen
+    public float thirstDrainRegenBonus = 0.5f; // extra drain while actively regenerating
+    public float hungerDrainRegenBonus = 0.15f;
+
     // ==================== PLAYER COMBAT ====================
     [Header("Player Combat")]
-    public float attackDamage = 5f;
+    public float attackDamage = 2f;       // bare hands (or any non-Axe item)
+    public float axeAttackDamage = 5f;    // while holding an Axe (also consumes 1 durability)
     public float attackRange = 3f;
     public float attackCooldown = 0.5f;
 
@@ -41,9 +48,24 @@ public class GameConfig : ScriptableObject
     [Header("Item Drop")]
     public float dropForce = 5f;
 
+    // ==================== TREE CHOPPING ====================
+    [Header("Tree Chopping")]
+    public int chopsPerStick = 2;
+
+    // ==================== BUSH ====================
+    [Header("Bush")]
+    public int berriesPerHarvest = 5;
+    public float berryRegrowTime = 120f;
+
+    // ==================== FIREPIT DURABILITY ====================
+    [Header("FirePit Durability")]
+    public int firePitMaxUses = 50;
+    public int firePitBoilUseCost = 10;
+    public int firePitCookUseCost = 1;
+
     // ==================== RABBIT ====================
     [Header("Rabbit Stats")]
-    public float rabbitMaxHP = 12f;
+    public float rabbitMaxHP = 10f;
 
     [Header("Rabbit Movement")]
     public float rabbitMoveSpeed = 0.2f;
@@ -51,6 +73,12 @@ public class GameConfig : ScriptableObject
     public float rabbitWalkTimeMax = 6f;
     public float rabbitWaitTimeMin = 5f;
     public float rabbitWaitTimeMax = 7f;
+
+    [Header("Rabbit Attack")]
+    public float rabbitChaseSpeed = 1.5f;
+    public float rabbitAttackRange = 1.2f;
+    public float rabbitAttackDamage = 5f;
+    public float rabbitAttackCooldown = 1f;
 
     [Header("Rabbit Spawning")]
     public int maxRabbitsOnMap = 10;

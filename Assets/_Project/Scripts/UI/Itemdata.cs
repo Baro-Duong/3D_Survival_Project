@@ -12,4 +12,8 @@ public class ItemData : MonoBehaviour
     public bool isConsumable = false;
     public float hungerRestore = 0f;
     public float thirstRestore = 0f;
+
+    [Header("Durability (tools only, 0 = not a durability item)")]
+    public int maxDurability = 0;
+    public int currentDurability = 0;
 }

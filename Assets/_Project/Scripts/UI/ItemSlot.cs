@@ -62,7 +62,7 @@ public class ItemSlot : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
         }
     }
 
-    // Shows/updates the stack count text, or hides it for empty slots and non-stackable items
+    // Shows the remaining durability (tools) or stack count (stackable items), or hides it otherwise
     public void RefreshStackDisplay()
     {
         if (stackText == null) return;
@@ -70,7 +70,12 @@ public class ItemSlot : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
         if (Item != null)
         {
             ItemData data = Item.GetComponent<ItemData>();
-            if (data != null && data.maxStack > 1)
+            if (data != null && data.maxDurability > 0)
+            {
+                stackText.text = data.currentDurability.ToString();
+                stackText.gameObject.SetActive(true);
+            }
+            else if (data != null && data.maxStack > 1)
             {
                 stackText.text = data.currentStack.ToString();
                 stackText.gameObject.SetActive(true);

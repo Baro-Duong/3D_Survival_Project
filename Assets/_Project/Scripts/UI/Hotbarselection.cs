@@ -136,24 +136,43 @@ public class HotbarSelection : MonoBehaviour
             PlayerStats.Instance.DrinkWater(data.thirstRestore);
         }
 
-        item.transform.SetParent(null);
-        item.SetActive(false);
-        Destroy(item);
         InventorySystem.Instance.itemList.Remove(itemName);
+
+        // Only consume 1 unit from the stack — destroy the item only once the stack is empty
+        bool stackEmptied = data.currentStack <= 1;
+        if (!stackEmptied)
+        {
+            data.currentStack--;
+        }
+        else
+        {
+            item.transform.SetParent(null);
+            item.SetActive(false);
+            Destroy(item);
+        }
+        slot.RefreshStackDisplay();
 
         if (itemName == "WaterBottle")
         {
             GameObject bottlePrefab = Resources.Load<GameObject>("Bottle");
             if (bottlePrefab != null)
             {
-                GameObject bottle = Instantiate(bottlePrefab, hotbarSlots[selectedIndex].transform.position, Quaternion.identity);
-                bottle.transform.SetParent(hotbarSlots[selectedIndex].transform);
-                bottle.transform.localPosition = Vector2.zero;
-                InventorySystem.Instance.itemList.Add("Bottle");
+                if (stackEmptied)
+                {
+                    // Slot is now free — reuse it directly, same as before
+                    GameObject bottle = Instantiate(bottlePrefab, hotbarSlots[selectedIndex].transform.position, Quaternion.identity);
+                    bottle.transform.SetParent(hotbarSlots[selectedIndex].transform);
+                    bottle.transform.localPosition = Vector2.zero;
+                    InventorySystem.Instance.itemList.Add("Bottle");
+                    slot.RefreshStackDisplay();
+                }
+                else
+                {
+                    // Slot still holds the remaining WaterBottle stack — the empty Bottle goes elsewhere
+                    InventorySystem.Instance.AddToInvetory("Bottle");
+                }
             }
         }
-
-        slot.RefreshStackDisplay();
     }
 
     // Returns the item GameObject currently equipped in the selected slot, or null

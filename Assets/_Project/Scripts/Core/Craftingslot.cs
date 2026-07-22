@@ -82,7 +82,12 @@ public class CraftingSlot : MonoBehaviour, IDropHandler, IPointerDownHandler, IB
         if (Item != null)
         {
             ItemData data = Item.GetComponent<ItemData>();
-            if (data != null && data.maxStack > 1)
+            if (data != null && data.maxDurability > 0)
+            {
+                stackText.text = data.currentDurability.ToString();
+                stackText.gameObject.SetActive(true);
+            }
+            else if (data != null && data.maxStack > 1)
             {
                 stackText.text = data.currentStack.ToString();
                 stackText.gameObject.SetActive(true);

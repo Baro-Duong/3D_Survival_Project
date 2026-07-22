@@ -1,11 +1,14 @@
 using UnityEngine;
 
-// Simple rabbit AI: walks in a random cardinal direction, waits, then picks a new direction
+// Rabbit AI: wanders in a random cardinal direction while calm; once hit (aggressive), chases and
+// attacks the player instead
 public class AI_Movement : MonoBehaviour
 {
     public GameConfig config;
 
     Animator animator;
+    RabbitHealth rabbitHealth;
+    Transform player;
     Vector3 stopPosition;
 
     float walkTime;
@@ -16,10 +19,16 @@ public class AI_Movement : MonoBehaviour
     int walkDirection;
     public bool isWalking;
 
-    // Rolls random walk/wait durations and starts moving
+    float attackCooldownTimer = 0f;
+
+    // Rolls random walk/wait durations, caches references, and starts moving
     void Start()
     {
         animator = GetComponent<Animator>();
+        rabbitHealth = GetComponent<RabbitHealth>();
+
+        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+        if (playerObj != null) player = playerObj.transform;
 
         walkTime = Random.Range(config.rabbitWalkTimeMin, config.rabbitWalkTimeMax);
         waitTime = Random.Range(config.rabbitWaitTimeMin, config.rabbitWaitTimeMax);
@@ -30,9 +39,15 @@ public class AI_Movement : MonoBehaviour
         ChooseDirection();
     }
 
-    // While walking, faces the chosen direction and moves forward; while waiting, counts down to the next walk
+    // Chases and attacks the player once aggressive; otherwise wanders as before
     void Update()
     {
+        if (rabbitHealth != null && rabbitHealth.isAggressive)
+        {
+            ChasePlayer();
+            return;
+        }
+
         if (isWalking)
         {
             animator.SetBool("isRunning", true);
@@ -61,6 +76,34 @@ public class AI_Movement : MonoBehaviour
         {
             waitCounter -= Time.deltaTime;
             if (waitCounter <= 0) ChooseDirection();
+        }
+    }
+
+    // Turns to face the player and moves toward them; attacks (with a cooldown) once in range
+    private void ChasePlayer()
+    {
+        if (player == null) return;
+
+        animator.SetBool("isRunning", true);
+
+        Vector3 toPlayer = player.position - transform.position;
+        toPlayer.y = 0f;
+        float distance = toPlayer.magnitude;
+
+        if (distance > config.rabbitAttackRange)
+        {
+            transform.rotation = Quaternion.LookRotation(toPlayer.normalized);
+            transform.position += transform.forward * config.rabbitChaseSpeed * Time.deltaTime;
+        }
+        else
+        {
+            attackCooldownTimer -= Time.deltaTime;
+            if (attackCooldownTimer <= 0f)
+            {
+                if (PlayerStats.Instance != null)
+                    PlayerStats.Instance.TakeDamage(config.rabbitAttackDamage);
+                attackCooldownTimer = config.rabbitAttackCooldown;
+            }
         }
     }
 

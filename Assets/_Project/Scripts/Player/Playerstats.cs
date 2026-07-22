@@ -51,22 +51,31 @@ public class PlayerStats : MonoBehaviour
         UpdateUI();
     }
 
-    // Drains thirst/hunger over time (faster thirst drain while sprinting) and damages HP if either hits 0
+    // Drains thirst/hunger over time (faster while sprinting or regenerating HP) and damages/regens HP accordingly
     private void Update()
     {
         bool isSprinting = playerMovement != null && playerMovement.isSprinting;
+        bool isRegenerating = currentHP < config.maxHP
+            && currentThirst > config.hpRegenThreshold
+            && currentHunger > config.hpRegenThreshold;
 
         float thirstDrain = config.thirstDrainRate;
         if (isSprinting) thirstDrain += config.thirstSprintBonus;
+        if (isRegenerating) thirstDrain += config.thirstDrainRegenBonus;
         currentThirst = Mathf.Max(0, currentThirst - thirstDrain * Time.deltaTime);
 
-        currentHunger = Mathf.Max(0, currentHunger - config.hungerDrainRate * Time.deltaTime);
+        float hungerDrain = config.hungerDrainRate;
+        if (isRegenerating) hungerDrain += config.hungerDrainRegenBonus;
+        currentHunger = Mathf.Max(0, currentHunger - hungerDrain * Time.deltaTime);
 
         if (currentThirst <= 0)
             currentHP = Mathf.Max(0, currentHP - config.hpDrainWhenNoThirst * Time.deltaTime);
 
         if (currentHunger <= 0)
             currentHP = Mathf.Max(0, currentHP - config.hpDrainWhenNoHunger * Time.deltaTime);
+
+        if (isRegenerating)
+            currentHP = Mathf.Min(config.maxHP, currentHP + config.hpRegenRate * Time.deltaTime);
 
         if (currentHP <= 0 && !isDead)
         {

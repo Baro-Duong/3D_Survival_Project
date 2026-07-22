@@ -45,6 +45,11 @@ public class PotInteraction : MonoBehaviour
             float pct = isCooking ? cookHoldTime / cookRequiredTime * 100f : 0f;
             ShowText(isCooking ? $"Cooking... {(int)pct}%" : "Hold F to Cook Meat");
         }
+        else if (hitTag == "FirePit" && hit.collider.GetComponent<FirePitManager>() != null)
+        {
+            FirePitManager fp = hit.collider.GetComponent<FirePitManager>();
+            ShowText($"Uses: {fp.uses}/{config.firePitMaxUses}");
+        }
         else
             HideText();
     }
@@ -97,6 +102,8 @@ public class PotInteraction : MonoBehaviour
                 if (cookHoldTime >= cookRequiredTime)
                 {
                     ConsumeOneAndAdd("CookedMeat");
+                    FirePitManager fp = hit.collider.GetComponent<FirePitManager>();
+                    if (fp != null) fp.ConsumeCookUse();
                     isCooking = false;
                     cookHoldTime = 0f;
                 }
@@ -167,13 +174,14 @@ public class PotInteraction : MonoBehaviour
         if (data != null && data.currentStack > 1)
         {
             data.currentStack--;
-            slot.RefreshStackDisplay();
         }
         else
         {
             slot.Item.transform.SetParent(null);
             Destroy(slot.Item);
         }
+        slot.RefreshStackDisplay();
+
         InventorySystem.Instance.itemList.Remove(oldName);
 
         InventorySystem.Instance.AddToInvetory(newName);

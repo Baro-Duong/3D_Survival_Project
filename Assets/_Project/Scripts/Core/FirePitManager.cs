@@ -6,12 +6,22 @@ public class FirePitManager : MonoBehaviour
     public enum FirePitState { Normal, Boiling, BoiledWater }
 
     public FirePitState state = FirePitState.Normal;
-    
+    public GameConfig config;
+
+    public int uses = -1; // -1 = not yet initialized; Start() fills it from config on first placement only
+
     private float boilTimer = 0f;
     private float boilDuration = 30f;
     private int scoopCount = 0;
     private int maxScoops = 3;
     private float potEjectForce = 5f;
+
+    // Initializes uses from config, but only the very first time (SpawnReplacement copies it forward
+    // on every subsequent transition, so this must not overwrite an already-carried-over value)
+    private void Start()
+    {
+        if (uses < 0) uses = config.firePitMaxUses;
+    }
 
     // Advances the boil timer while Boiling and transitions to BoiledWater once it elapses
     private void Update()
@@ -27,9 +37,11 @@ public class FirePitManager : MonoBehaviour
         }
     }
 
-    // Starts boiling: switches state and swaps the visual to the boiling prefab
+    // Starts boiling: consumes the boil-use cost, switches state, and swaps the visual to the boiling prefab
     public void StartBoiling()
     {
+        uses -= config.firePitBoilUseCost;
+
         state = FirePitState.Boiling;
         boilTimer = 0f;
         scoopCount = 0;
@@ -37,7 +49,8 @@ public class FirePitManager : MonoBehaviour
         SpawnReplacement(ReferenceManager.Instance.boilingFirePitPrefab);
     }
 
-    // Called each time the player scoops water; after the 3rd scoop, reverts to Normal and drops a Pot
+    // Called each time the player scoops water; after the 3rd scoop, reverts to Normal (or breaks if out
+    // of uses) and drops a Pot either way
     public void ScoopWater()
     {
         scoopCount++;
@@ -45,7 +58,11 @@ public class FirePitManager : MonoBehaviour
         {
             state = FirePitState.Normal;
             Vector3 pos = transform.position;
-            SpawnReplacement(ReferenceManager.Instance.firePitPrefab);
+
+            if (uses <= 0)
+                Destroy(gameObject); // worn out — gone for good
+            else
+                SpawnReplacement(ReferenceManager.Instance.firePitPrefab);
 
             GameObject potWorldPrefab = ReferenceManager.Instance.potWorldPrefab;
             if (potWorldPrefab != null)
@@ -59,6 +76,14 @@ public class FirePitManager : MonoBehaviour
         }
     }
 
+    // Consumes the cook-use cost after successfully cooking meat; breaks the FirePit if it runs out
+    public void ConsumeCookUse()
+    {
+        uses -= config.firePitCookUseCost;
+        if (uses <= 0)
+            Destroy(gameObject);
+    }
+
     // Switches state and, if entering BoiledWater, swaps the visual to the boiled prefab
     private void TransitionTo(FirePitState newState)
     {
@@ -67,7 +92,7 @@ public class FirePitManager : MonoBehaviour
             SpawnReplacement(ReferenceManager.Instance.boiledFirePitPrefab);
     }
 
-    // Destroys this GameObject and instantiates the given prefab in its place, carrying only state/scoopCount
+    // Destroys this GameObject and instantiates the given prefab in its place, carrying state/scoopCount/uses
     // forward — the 4 prefab references themselves live once on ReferenceManager, not per-instance, so there's
     // nothing left to copy (and nothing left that can end up self-referencing a scene instance)
     private void SpawnReplacement(GameObject prefab)
@@ -80,6 +105,8 @@ public class FirePitManager : MonoBehaviour
         {
             newFP.state = state;
             newFP.scoopCount = scoopCount;
+            newFP.config = config;
+            newFP.uses = uses;
         }
         else
         {

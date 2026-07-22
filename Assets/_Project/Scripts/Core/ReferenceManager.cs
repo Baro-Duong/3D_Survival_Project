@@ -14,6 +14,10 @@ public class ReferenceManager : MonoBehaviour
     public GameObject boiledFirePitPrefab;    // BoilledWaterFirePit
     public GameObject potWorldPrefab;         // Pot world item dropped when water runs out
 
+    [Header("Bush Prefabs")]
+    public GameObject bushWithBerriesPrefab;
+    public GameObject bushEmptyPrefab;
+
     // Singleton setup
     private void Awake()
     {
