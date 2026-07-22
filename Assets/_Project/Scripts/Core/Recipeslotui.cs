@@ -18,8 +18,12 @@ public class RecipeSlotUI : MonoBehaviour
 
     private CraftingRecipe currentRecipe;
 
-    // Wires up the Choose button
-    private void Start()
+    // Wires up the Choose button. Deliberately in Awake(), not Start(): ToolLibraryUI deactivates this
+    // slot's GameObject right at the start of its own Start(), and Unity skips a disabled object's
+    // Start() until it's reactivated — Awake() is guaranteed to run first for every object before any
+    // Start() runs, so registering the listener here avoids the button silently doing nothing until
+    // the Tool Library had been opened once.
+    private void Awake()
     {
         if (chooseButton != null)
             chooseButton.onClick.AddListener(OnChoose);

@@ -54,20 +54,17 @@ public class InventorySystem : MonoBehaviour
                 if (child.CompareTag("Slot"))
                     slotList.Add(child.gameObject);
             }
-            Debug.Log($"Hotbar slots: {slotList.Count}");
         }
         else
         {
             Debug.LogError("hotBarScreenUI is NULL!");
         }
 
-        int beforeInventory = slotList.Count;
         foreach (Transform child in inventoryScreenUI.GetComponentsInChildren<Transform>())
         {
             if (child.CompareTag("Slot"))
                 slotList.Add(child.gameObject);
         }
-        Debug.Log($"Inventory slots: {slotList.Count - beforeInventory}, Total: {slotList.Count}");
     }
 
     // Toggles the inventory/crafting screen open and closed with the E key

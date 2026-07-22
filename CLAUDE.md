@@ -107,6 +107,36 @@ Long debugging session (multiple root causes, fixed one at a time):
    generally: raycast/trigger-tag checks only see whichever GameObject the Collider itself lives on,
    not tags on a parent.
 
+## ToolLibrary "must open once before it works" — resolved 2026-07-22
+
+`toolsLibraryBtn` (opens the Tool Library) did nothing on first click; only worked after some other
+prior action. Root cause, found by checking Console for the very first log line in
+`ToolLibraryUI.Start()` — it never printed at all, meaning `Start()` wasn't running:
+
+- The `Tool Library UI` field (the panel `ToolLibraryUI.Start()` calls `SetActive(false)` on) was
+  **self-referencing the same GameObject that hosts the `ToolLibraryUI` script** — the exact
+  "don't do it this way" case already documented below (SetActive(false) on the script's own
+  GameObject). `Start()` deactivating its own object got persisted into the scene at some point,
+  so the object loaded already-inactive and `Awake()`/`Start()` never ran at all afterward.
+- Fixed by restructuring: created a new empty parent GameObject `ToolLibrary` (always stays active,
+  holds the `ToolLibraryUI` script — moved via Copy Component / Paste Component As New to preserve
+  all the already-wired field references), and renamed the original object (which still holds all
+  the visual content: recipe slots, Next/Back/Close buttons, page text) to `Panel`, nested under the
+  new `ToolLibrary`. The `Tool Library UI` field now correctly points at `Panel`, a genuinely
+  different GameObject from the one running the script.
+- Separately, also fixed a **second, independent** timing bug in the same area: `RecipeSlotUI`'s
+  Choose button wired its `onClick` listener in `Start()`, but `ToolLibraryUI.Awake()` used to
+  deactivate all `recipeSlots` GameObjects in `Awake()` — Unity doesn't guarantee `Awake()` ordering
+  between different scripts, so if `ToolLibraryUI.Awake()` ran first, `RecipeSlotUI`'s own `Start()`
+  got deferred until the slot was later reactivated (i.e. until Tool Library was opened once), so its
+  Choose button did nothing on a fresh, first-ever open. Fixed by moving the slot/panel deactivation
+  from `ToolLibraryUI.Awake()` to `ToolLibraryUI.Start()`, and moving `RecipeSlotUI`'s button wiring
+  from `Start()` to `Awake()` — since Unity guarantees *every* object's `Awake()` completes before
+  *any* object's `Start()` runs, this ordering is now deterministic regardless of which script's
+  Awake/Start Unity happens to call first.
+- Cleaned up the leftover `Debug.Log` diagnostics in `ToolLibraryUI` and `InventorySystem.PopulateSlotList()`
+  that were added while chasing this bug (kept the `Debug.LogError` null-checks, which are still useful).
+
 ## In progress / not fully tested
 
 - **`AI_Movement` turn-around-on-Water**: added `OnTriggerEnter` (reverses `walkDirection` 180° on
