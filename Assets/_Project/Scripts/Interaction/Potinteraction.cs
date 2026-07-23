@@ -10,7 +10,6 @@ public class PotInteraction : MonoBehaviour
 
     // Cooking
     private float cookHoldTime = 0f;
-    private float cookRequiredTime = 10f;
     private bool isCooking = false;
 
     // Raycasts forward each frame and updates both the interaction text and the input handling
@@ -42,7 +41,7 @@ public class PotInteraction : MonoBehaviour
             ShowText("Scoop Water");
         else if (heldItem == "RawMeat" && hitTag == "FirePit")
         {
-            float pct = isCooking ? cookHoldTime / cookRequiredTime * 100f : 0f;
+            float pct = isCooking ? cookHoldTime / config.cookRequiredTime * 100f : 0f;
             ShowText(isCooking ? $"Cooking... {(int)pct}%" : "Hold F to Cook Meat");
         }
         else if (hitTag == "FirePit" && hit.collider.GetComponent<FirePitManager>() != null)
@@ -99,7 +98,7 @@ public class PotInteraction : MonoBehaviour
             {
                 isCooking = true;
                 cookHoldTime += Time.deltaTime;
-                if (cookHoldTime >= cookRequiredTime)
+                if (cookHoldTime >= config.cookRequiredTime)
                 {
                     ConsumeOneAndAdd("CookedMeat");
                     FirePitManager fp = hit.collider.GetComponent<FirePitManager>();

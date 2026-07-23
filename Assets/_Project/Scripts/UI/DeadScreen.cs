@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 // Shows the Game Over panel when the player dies: fades in a red overlay, freezes player control,
 // and wires up the Restart/Main Menu buttons
@@ -11,6 +12,11 @@ public class DeadScreen : MonoBehaviour
     [Header("UI")]
     public GameObject deadScreenUI;
     public Image redBackground;
+
+    [Header("Timer")]
+    public GameObject timerHUD;        // the "Timer" box shown during gameplay, hidden on death
+    public TMP_Text liveTimerText;     // ticks up every frame while playing
+    public TMP_Text survivalTimeText;  // "Your Time" text inside deadScreenUI, set once on death
 
     [Header("Fade")]
     public float fadeDuration = 2f;
@@ -29,6 +35,9 @@ public class DeadScreen : MonoBehaviour
     private bool isFading = false;
     private float fadeTimer = 0f;
 
+    private float survivalTime = 0f;
+    private bool isGameOver = false;
+
     // Singleton setup
     private void Awake()
     {
@@ -44,9 +53,16 @@ public class DeadScreen : MonoBehaviour
         if (deadScreenUI != null) deadScreenUI.SetActive(false);
     }
 
-    // Fades the red background in from transparent to targetAlpha over fadeDuration
+    // Counts up survival time while alive (refreshing the always-visible HUD text), and fades the red
+    // background in while dying
     private void Update()
     {
+        if (!isGameOver)
+        {
+            survivalTime += Time.deltaTime;
+            if (liveTimerText != null) liveTimerText.text = FormatSurvivalTime(survivalTime);
+        }
+
         if (!isFading) return;
 
         fadeTimer += Time.deltaTime;
@@ -62,11 +78,16 @@ public class DeadScreen : MonoBehaviour
         if (t >= 1f) isFading = false;
     }
 
-    // Shows the Game Over panel, unlocks the cursor, and disables player control
+    // Shows the Game Over panel, unlocks the cursor, disables player control, and freezes/shows the survival time
     public void Show()
     {
+        isGameOver = true;
+
         if (deadScreenUI != null) deadScreenUI.SetActive(true);
         Cursor.lockState = CursorLockMode.None;
+
+        if (timerHUD != null) timerHUD.SetActive(false);
+        if (survivalTimeText != null) survivalTimeText.text = FormatSurvivalTime(survivalTime);
 
         if (redBackground != null)
         {
@@ -94,5 +115,13 @@ public class DeadScreen : MonoBehaviour
     public void GoToMainMenu()
     {
         SceneManager.LoadScene(mainMenuSceneName);
+    }
+
+    // Formats seconds as "MM:SS" for the survival time display
+    private string FormatSurvivalTime(float seconds)
+    {
+        int minutes = Mathf.FloorToInt(seconds / 60f);
+        int secs = Mathf.FloorToInt(seconds % 60f);
+        return $"Survived: {minutes:00}:{secs:00}";
     }
 }

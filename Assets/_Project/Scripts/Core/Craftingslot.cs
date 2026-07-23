@@ -79,6 +79,10 @@ public class CraftingSlot : MonoBehaviour, IDropHandler, IPointerDownHandler, IB
     {
         if (stackText == null) return;
 
+        // Newly added items are parented as the last sibling, which renders on top and would cover
+        // stackText — keep stackText last so it always renders above the item icon
+        stackText.transform.SetAsLastSibling();
+
         if (Item != null)
         {
             ItemData data = Item.GetComponent<ItemData>();

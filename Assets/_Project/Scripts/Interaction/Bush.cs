@@ -1,7 +1,8 @@
 using UnityEngine;
 
 // Attached to a harvestable bush. Interacting with it while it HasBerries gives 1 Stick + a batch of
-// Berries at once and swaps to the Empty prefab; it regrows back to HasBerries after berryRegrowTime
+// Berries at once and swaps to the Empty prefab; it regrows back to HasBerries after berryRegrowTime.
+// Also drives the name shown via SelectionManager: "BerryBush" while ready, "Bush (Ns)" while regrowing.
 public class Bush : MonoBehaviour
 {
     public enum BushState { HasBerries, Empty }
@@ -9,14 +10,25 @@ public class Bush : MonoBehaviour
 
     public GameConfig config;
 
+    private InteractableObject interactable;
     private float regrowTimer = 0f;
+    private int lastDisplayedSeconds = -1;
 
-    // Counts down the regrow timer while Empty and swaps back to HasBerries once it elapses
+    // Caches the InteractableObject reference and sets the initial display name
+    private void Start()
+    {
+        interactable = GetComponent<InteractableObject>();
+        UpdateDisplayName();
+    }
+
+    // Counts down the regrow timer while Empty (updating the countdown name) and swaps back once it elapses
     private void Update()
     {
         if (state != BushState.Empty) return;
 
         regrowTimer += Time.deltaTime;
+        UpdateDisplayName();
+
         if (regrowTimer >= config.berryRegrowTime)
         {
             regrowTimer = 0f;
@@ -36,6 +48,27 @@ public class Bush : MonoBehaviour
         state = BushState.Empty;
         regrowTimer = 0f;
         SpawnReplacement(ReferenceManager.Instance.bushEmptyPrefab);
+    }
+
+    // Updates the InteractableObject's name: "BerryBush" when ready, "Bush (Ns)" counting down while empty.
+    // Skips re-writing the string when the displayed second count hasn't changed, to avoid needless work.
+    private void UpdateDisplayName()
+    {
+        if (interactable == null) return;
+
+        if (state == BushState.HasBerries)
+        {
+            interactable.ItemName = "BerryBush";
+        }
+        else
+        {
+            int remainingSeconds = Mathf.CeilToInt(Mathf.Max(0f, config.berryRegrowTime - regrowTimer));
+            if (remainingSeconds != lastDisplayedSeconds)
+            {
+                lastDisplayedSeconds = remainingSeconds;
+                interactable.ItemName = $"Bush ({remainingSeconds}s)";
+            }
+        }
     }
 
     // Destroys this GameObject and instantiates the given prefab in its place, carrying state/timer forward.
