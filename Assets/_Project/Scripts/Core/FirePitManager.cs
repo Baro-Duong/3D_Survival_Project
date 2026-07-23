@@ -40,7 +40,9 @@ public class FirePitManager : MonoBehaviour
     // Starts boiling: consumes the boil-use cost, switches state, and swaps the visual to the boiling prefab
     public void StartBoiling()
     {
-        uses -= config.firePitBoilUseCost;
+        // Clamp at 0 (never negative) — a negative value would be misread by the next replacement's
+        // Start() as "uninitialized" (uses < 0 sentinel) and get reset back to firePitMaxUses
+        uses = Mathf.Max(0, uses - config.firePitBoilUseCost);
 
         state = FirePitState.Boiling;
         boilTimer = 0f;
@@ -79,7 +81,7 @@ public class FirePitManager : MonoBehaviour
     // Consumes the cook-use cost after successfully cooking meat; breaks the FirePit if it runs out
     public void ConsumeCookUse()
     {
-        uses -= config.firePitCookUseCost;
+        uses = Mathf.Max(0, uses - config.firePitCookUseCost);
         if (uses <= 0)
             Destroy(gameObject);
     }

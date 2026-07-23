@@ -92,7 +92,6 @@ public class PlayerAttack : MonoBehaviour
         data.currentDurability--;
 
         ItemSlot slot = item.GetComponentInParent<ItemSlot>();
-        if (slot != null) slot.RefreshStackDisplay();
 
         if (data.currentDurability <= 0)
         {
@@ -100,6 +99,8 @@ public class PlayerAttack : MonoBehaviour
             item.transform.SetParent(null);
             Destroy(item);
         }
+
+        if (slot != null) slot.RefreshStackDisplay();
     }
 
     // Returns the current bare-hand attack damage from config

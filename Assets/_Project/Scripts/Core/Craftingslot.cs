@@ -82,6 +82,9 @@ public class CraftingSlot : MonoBehaviour, IDropHandler, IPointerDownHandler, IB
         // Newly added items are parented as the last sibling, which renders on top and would cover
         // stackText — keep stackText last so it always renders above the item icon
         stackText.transform.SetAsLastSibling();
+        // TMP_Text has Raycast Target on by default; sitting on top of the icon would otherwise
+        // steal pointer/drag events over whatever area it covers (the "only some pixels drag" bug)
+        stackText.raycastTarget = false;
 
         if (Item != null)
         {

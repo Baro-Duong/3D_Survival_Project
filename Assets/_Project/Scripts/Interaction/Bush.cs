@@ -31,6 +31,7 @@ public class Bush : MonoBehaviour
 
         if (regrowTimer >= config.berryRegrowTime)
         {
+            state = BushState.HasBerries;
             regrowTimer = 0f;
             SpawnReplacement(ReferenceManager.Instance.bushWithBerriesPrefab);
         }

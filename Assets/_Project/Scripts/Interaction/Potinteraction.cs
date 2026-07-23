@@ -41,8 +41,14 @@ public class PotInteraction : MonoBehaviour
             ShowText("Scoop Water");
         else if (heldItem == "RawMeat" && hitTag == "FirePit")
         {
-            float pct = isCooking ? cookHoldTime / config.cookRequiredTime * 100f : 0f;
-            ShowText(isCooking ? $"Cooking... {(int)pct}%" : "Hold F to Cook Meat");
+            FirePitManager fp = hit.collider.GetComponent<FirePitManager>();
+            if (fp != null && fp.uses <= 0)
+                ShowText("FirePit is worn out");
+            else
+            {
+                float pct = isCooking ? cookHoldTime / config.cookRequiredTime * 100f : 0f;
+                ShowText(isCooking ? $"Cooking... {(int)pct}%" : "Hold F to Cook Meat");
+            }
         }
         else if (hitTag == "FirePit" && hit.collider.GetComponent<FirePitManager>() != null)
         {
@@ -91,9 +97,17 @@ public class PotInteraction : MonoBehaviour
             return;
         }
 
-        // RawMeat + FirePit -> CookedMeat (hold F for 10s)
+        // RawMeat + FirePit -> CookedMeat (hold F for 10s), blocked once the FirePit is worn out
         if (heldItem == "RawMeat" && hitTag == "FirePit")
         {
+            FirePitManager fp = hit.collider.GetComponent<FirePitManager>();
+            if (fp == null || fp.uses <= 0)
+            {
+                isCooking = false;
+                cookHoldTime = 0f;
+                return;
+            }
+
             if (Input.GetKey(KeyCode.F))
             {
                 isCooking = true;
@@ -101,8 +115,7 @@ public class PotInteraction : MonoBehaviour
                 if (cookHoldTime >= config.cookRequiredTime)
                 {
                     ConsumeOneAndAdd("CookedMeat");
-                    FirePitManager fp = hit.collider.GetComponent<FirePitManager>();
-                    if (fp != null) fp.ConsumeCookUse();
+                    fp.ConsumeCookUse();
                     isCooking = false;
                     cookHoldTime = 0f;
                 }
