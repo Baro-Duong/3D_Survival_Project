@@ -69,10 +69,10 @@ public class PlayerStats : MonoBehaviour
         currentHunger = Mathf.Max(0, currentHunger - hungerDrain * Time.deltaTime);
 
         if (currentThirst <= 0)
-            currentHP = Mathf.Max(0, currentHP - config.hpDrainWhenNoThirst * Time.deltaTime);
+            TakeDamage(config.hpDrainWhenNoThirst * Time.deltaTime);
 
         if (currentHunger <= 0)
-            currentHP = Mathf.Max(0, currentHP - config.hpDrainWhenNoHunger * Time.deltaTime);
+            TakeDamage(config.hpDrainWhenNoHunger * Time.deltaTime);
 
         if (isRegenerating)
             currentHP = Mathf.Min(config.maxHP, currentHP + config.hpRegenRate * Time.deltaTime);
@@ -98,7 +98,11 @@ public class PlayerStats : MonoBehaviour
         if (hungerText != null) hungerText.text = Mathf.CeilToInt(currentHunger) + "/" + (int)config.maxHunger;
     }
 
-    public void TakeDamage(float amount) => currentHP = Mathf.Max(0, currentHP - amount);
+    public void TakeDamage(float amount)
+    {
+        currentHP = Mathf.Max(0, currentHP - amount);
+        if (DamageFlash.Instance != null) DamageFlash.Instance.Flash();
+    }
     public void Heal(float amount) => currentHP = Mathf.Min(config.maxHP, currentHP + amount);
     public void DrinkWater(float amount) => currentThirst = Mathf.Min(config.maxThirst, currentThirst + amount);
     public void EatFood(float amount) => currentHunger = Mathf.Min(config.maxHunger, currentHunger + amount);

@@ -44,6 +44,11 @@ public class GameConfig : ScriptableObject
     public float attackRange = 3f;
     public float attackCooldown = 0.5f;
 
+    // ==================== DAMAGE FLASH ====================
+    [Header("Damage Flash")]
+    public float damageFlashAlpha = 0.25f;      // peak red overlay opacity when hit
+    public float damageFlashFadeDuration = 0.4f; // seconds to fade back to transparent
+
     // ==================== HOTBAR / DROP ====================
     [Header("Item Drop")]
     public float dropForce = 5f;
