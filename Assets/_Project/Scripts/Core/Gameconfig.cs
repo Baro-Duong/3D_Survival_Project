@@ -75,6 +75,7 @@ public class GameConfig : ScriptableObject
     public int firePitCookUseCost = 1;
     public float cookRequiredTime = 10f; // seconds holding F to turn RawMeat into CookedMeat
     public int stickRepairUses = 2; // uses restored per Stick fed into the FirePit (clamped at firePitMaxUses)
+    public int rockRepairUses = 5;  // uses restored per Rock fed into the FirePit (clamped at firePitMaxUses)
 
     // ==================== RABBIT ====================
     [Header("Rabbit Stats")]

@@ -58,6 +58,14 @@ public class PotInteraction : MonoBehaviour
             else
                 ShowText("FirePit is already full");
         }
+        else if (heldItem == "Rock" && hitTag == "FirePit")
+        {
+            FirePitManager fp = hit.collider.GetComponent<FirePitManager>();
+            if (fp != null && fp.uses < config.firePitMaxUses)
+                ShowText($"Add Rock (+{config.rockRepairUses} Uses)");
+            else
+                ShowText("FirePit is already full");
+        }
         else if (hitTag == "FirePit" && hit.collider.GetComponent<FirePitManager>() != null)
         {
             FirePitManager fp = hit.collider.GetComponent<FirePitManager>();
@@ -112,6 +120,18 @@ public class PotInteraction : MonoBehaviour
             if (fp != null && fp.uses < config.firePitMaxUses)
             {
                 fp.AddUses(config.stickRepairUses);
+                ConsumeOneFromHeld();
+            }
+            return;
+        }
+
+        // Rock + FirePit -> restores uses, consumes 1 Rock
+        if (heldItem == "Rock" && hitTag == "FirePit" && Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            FirePitManager fp = hit.collider.GetComponent<FirePitManager>();
+            if (fp != null && fp.uses < config.firePitMaxUses)
+            {
+                fp.AddUses(config.rockRepairUses);
                 ConsumeOneFromHeld();
             }
             return;
