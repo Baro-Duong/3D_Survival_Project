@@ -39,8 +39,8 @@ public class GameConfig : ScriptableObject
 
     // ==================== PLAYER COMBAT ====================
     [Header("Player Combat")]
-    public float attackDamage = 2f;       // bare hands (or any non-Axe item)
-    public float axeAttackDamage = 5f;    // while holding an Axe (also consumes 1 durability)
+    public float attackDamage = 2f;       // bare hands (or any non-tool item)
+    public float toolAttackDamage = 5f;   // while holding an Axe or Pickaxe (also consumes 1 durability)
     public float attackRange = 3f;
     public float attackCooldown = 0.5f;
 
@@ -56,11 +56,17 @@ public class GameConfig : ScriptableObject
     // ==================== TREE CHOPPING ====================
     [Header("Tree Chopping")]
     public int chopsPerStick = 2;
+    public int chopsPerApple = 10; // every Nth chop also drops an Apple, launched straight up
 
     // ==================== BUSH ====================
     [Header("Bush")]
     public int berriesPerHarvest = 5;
     public float berryRegrowTime = 120f;
+
+    // ==================== BIG ROCK / PICKAXE MINING ====================
+    [Header("Big Rock Mining")]
+    public int hitsPerRock = 2;
+    public float rockBonusSpawnInterval = 180f; // safety-net Rock, independent of mining hits
 
     // ==================== FIREPIT DURABILITY ====================
     [Header("FirePit Durability")]
@@ -68,6 +74,7 @@ public class GameConfig : ScriptableObject
     public int firePitBoilUseCost = 10;
     public int firePitCookUseCost = 1;
     public float cookRequiredTime = 10f; // seconds holding F to turn RawMeat into CookedMeat
+    public int stickRepairUses = 2; // uses restored per Stick fed into the FirePit (clamped at firePitMaxUses)
 
     // ==================== RABBIT ====================
     [Header("Rabbit Stats")]
@@ -89,14 +96,4 @@ public class GameConfig : ScriptableObject
     [Header("Rabbit Spawning")]
     public int maxRabbitsOnMap = 10;
     public float rabbitSpawnCheckInterval = 60f;
-
-    // ==================== ITEMS ====================
-    [Header("Apple")]
-    public float appleHungerRestore = 10f;
-    public float appleThirstRestore = 5f;
-    public int appleMaxStack = 10;
-
-    [Header("Rock / Stick")]
-    public int rockMaxStack = 10;
-    public int stickMaxStack = 10;
 }

@@ -50,6 +50,14 @@ public class PotInteraction : MonoBehaviour
                 ShowText(isCooking ? $"Cooking... {(int)pct}%" : "Hold F to Cook Meat");
             }
         }
+        else if (heldItem == "Stick" && hitTag == "FirePit")
+        {
+            FirePitManager fp = hit.collider.GetComponent<FirePitManager>();
+            if (fp != null && fp.uses < config.firePitMaxUses)
+                ShowText($"Add Stick (+{config.stickRepairUses} Uses)");
+            else
+                ShowText("FirePit is already full");
+        }
         else if (hitTag == "FirePit" && hit.collider.GetComponent<FirePitManager>() != null)
         {
             FirePitManager fp = hit.collider.GetComponent<FirePitManager>();
@@ -93,6 +101,18 @@ public class PotInteraction : MonoBehaviour
             {
                 ReplaceHeldItem("Bottle", "WaterBottle");
                 fp.ScoopWater();
+            }
+            return;
+        }
+
+        // Stick + FirePit -> restores uses (sink for surplus Stick from Bush), consumes 1 Stick
+        if (heldItem == "Stick" && hitTag == "FirePit" && Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            FirePitManager fp = hit.collider.GetComponent<FirePitManager>();
+            if (fp != null && fp.uses < config.firePitMaxUses)
+            {
+                fp.AddUses(config.stickRepairUses);
+                ConsumeOneFromHeld();
             }
             return;
         }
@@ -197,6 +217,34 @@ public class PotInteraction : MonoBehaviour
         InventorySystem.Instance.itemList.Remove(oldName);
 
         InventorySystem.Instance.AddToInvetory(newName);
+    }
+
+    // Consumes 1 unit from the held item's stack (destroying it only if that was the last one), with no
+    // replacement item produced — used when an item is spent as a pure resource, e.g. Stick as FirePit fuel
+    private void ConsumeOneFromHeld()
+    {
+        int index = HotbarSelection.Instance.selectedIndex;
+        GameObject[] slots = HotbarSelection.Instance.hotbarSlots;
+        if (slots[index] == null) return;
+
+        ItemSlot slot = slots[index].GetComponent<ItemSlot>();
+        if (slot == null || slot.Item == null) return;
+
+        ItemData data = slot.Item.GetComponent<ItemData>();
+        string itemName = data != null ? data.itemName : slot.Item.name.Replace("(Clone)", "").Trim();
+
+        if (data != null && data.currentStack > 1)
+        {
+            data.currentStack--;
+        }
+        else
+        {
+            slot.Item.transform.SetParent(null);
+            Destroy(slot.Item);
+        }
+        slot.RefreshStackDisplay();
+
+        InventorySystem.Instance.itemList.Remove(itemName);
     }
 
     // Destroys the held item without replacing it (consumed by the action, e.g. DirtyWaterPot into the fire)

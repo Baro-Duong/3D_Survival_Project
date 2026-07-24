@@ -86,6 +86,12 @@ public class FirePitManager : MonoBehaviour
             Destroy(gameObject);
     }
 
+    // Feeds Stick into the FirePit as makeshift fuel, restoring uses (clamped at firePitMaxUses)
+    public void AddUses(int amount)
+    {
+        uses = Mathf.Min(config.firePitMaxUses, uses + amount);
+    }
+
     // Switches state and, if entering BoiledWater, swaps the visual to the boiled prefab
     private void TransitionTo(FirePitState newState)
     {

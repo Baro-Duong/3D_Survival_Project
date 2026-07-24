@@ -43,13 +43,16 @@ public class PlayerAttack : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, config.attackRange))
         {
-            bool holdingAxe = GetHeldItemName() == "Axe";
+            string heldName = GetHeldItemName();
+            bool holdingAxe = heldName == "Axe";
+            bool holdingPickaxe = heldName == "Pickaxe";
+            bool holdingTool = holdingAxe || holdingPickaxe;
 
             RabbitHealth rabbit = hit.collider.GetComponentInParent<RabbitHealth>();
             if (rabbit != null)
             {
-                rabbit.TakeDamage(holdingAxe ? config.axeAttackDamage : config.attackDamage);
-                if (holdingAxe) ConsumeAxeDurability();
+                rabbit.TakeDamage(holdingTool ? config.toolAttackDamage : config.attackDamage);
+                if (holdingTool) ConsumeToolDurability();
                 return;
             }
 
@@ -57,7 +60,15 @@ public class PlayerAttack : MonoBehaviour
             if (tree != null && holdingAxe)
             {
                 tree.Chop();
-                ConsumeAxeDurability();
+                ConsumeToolDurability();
+                return;
+            }
+
+            BigRock bigRock = hit.collider.GetComponentInParent<BigRock>();
+            if (bigRock != null && holdingPickaxe)
+            {
+                bigRock.Mine();
+                ConsumeToolDurability();
                 return;
             }
 
@@ -80,8 +91,8 @@ public class PlayerAttack : MonoBehaviour
         return data != null ? data.itemName : item.name.Replace("(Clone)", "").Trim();
     }
 
-    // Consumes 1 use from the currently held Axe's durability, breaking (destroying) it once it hits 0
-    private void ConsumeAxeDurability()
+    // Consumes 1 use from the currently held tool's (Axe/Pickaxe) durability, breaking (destroying) it once it hits 0
+    private void ConsumeToolDurability()
     {
         GameObject item = HotbarSelection.Instance.GetSelectedItem();
         if (item == null) return;
