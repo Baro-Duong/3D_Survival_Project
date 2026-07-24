@@ -59,31 +59,39 @@ public class FirePitManager : MonoBehaviour
         if (scoopCount >= maxScoops)
         {
             state = FirePitState.Normal;
-            Vector3 pos = transform.position;
 
             if (uses <= 0)
                 Destroy(gameObject); // worn out — gone for good
             else
                 SpawnReplacement(ReferenceManager.Instance.firePitPrefab);
 
-            GameObject potWorldPrefab = ReferenceManager.Instance.potWorldPrefab;
-            if (potWorldPrefab != null)
-            {
-                GameObject pot = Instantiate(potWorldPrefab, pos + Vector3.up * 2f, Quaternion.identity);
-                Rigidbody rb = pot.GetComponent<Rigidbody>();
-                if (rb == null) rb = pot.AddComponent<Rigidbody>();
-                // Set velocity directly (mass-independent) so the Pot always launches upward at the same speed
-                rb.linearVelocity = Vector3.up * potEjectForce;
-            }
+            EjectPot();
         }
     }
 
-    // Consumes the cook-use cost after successfully cooking meat; breaks the FirePit if it runs out
+    // Consumes the cook-use cost after successfully cooking meat; breaks the FirePit if it runs out.
+    // If it breaks while a Pot is "inside" (Boiling/BoiledWater state), eject the Pot so it isn't lost.
     public void ConsumeCookUse()
     {
         uses = Mathf.Max(0, uses - config.firePitCookUseCost);
         if (uses <= 0)
+        {
+            if (state == FirePitState.Boiling || state == FirePitState.BoiledWater)
+                EjectPot();
             Destroy(gameObject);
+        }
+    }
+
+    // Spawns a Pot world item above the FirePit and launches it upward (mass-independent velocity, not AddForce impulse)
+    private void EjectPot()
+    {
+        GameObject potWorldPrefab = ReferenceManager.Instance.potWorldPrefab;
+        if (potWorldPrefab == null) return;
+
+        GameObject pot = Instantiate(potWorldPrefab, transform.position + Vector3.up * 2f, Quaternion.identity);
+        Rigidbody rb = pot.GetComponent<Rigidbody>();
+        if (rb == null) rb = pot.AddComponent<Rigidbody>();
+        rb.linearVelocity = Vector3.up * potEjectForce;
     }
 
     // Feeds Stick into the FirePit as makeshift fuel, restoring uses (clamped at firePitMaxUses)
