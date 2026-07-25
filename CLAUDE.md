@@ -1,6 +1,7 @@
 # 3D_Survival_Project (Unity 6, URP)
 
-First-person survival/farming game, built on top of Mike's Code "3D Survival Game" tutorial
+First-person survival game (no farming/crop-planting loop — pivoted away from that early on;
+see the folder-rename note below), built on top of Mike's Code "3D Survival Game" tutorial
 but with custom-redesigned systems. Actively developed by the project owner with Claude's help.
 
 Note: this folder was previously named `3D_Farming_Project` (renamed mid-development).
@@ -228,13 +229,9 @@ prior action. Root cause, found by checking Console for the very first log line 
 
 ## Scenes
 
-- `Scenes/Main/FarmScene.unity`, `IslandScene.unity`, `SmallIslandScene.unity` — world/gameplay scene
-  candidates (naming suggests iteration on the map).
-- `Scenes/UI/MenuScene.unity` — main menu.
+- `Scenes/Main/FarmScene.unity` — legacy name from the pre-pivot farming concept, unused/stale.
+- `Scenes/Main/IslandScene.unity`, `SmallIslandScene.unity` — world/gameplay scene candidates
+  (`SmallIslandScene.unity` is the active one, see above).
+- `Scenes/UI/MenuScene.unity` — main menu (currently still a leftover copy of the gameplay scene's
+  objects, not yet built out as an actual home screen — in progress).
 - `Scenes/Dev/test.unity`, `TestScene.unity` — developer test scenes.
-
-## Notable gap
-
-Despite the survival/farming premise, there is **no crop planting/growth system** in the codebase yet
-(no scripts for soil, seeds, or plant growth over time). If the farming loop is a goal, this is
-likely the biggest missing core system.
