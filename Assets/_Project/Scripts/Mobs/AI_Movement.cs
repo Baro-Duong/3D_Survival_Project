@@ -42,6 +42,10 @@ public class AI_Movement : MonoBehaviour
     // Chases and attacks the player once aggressive; otherwise wanders as before
     void Update()
     {
+        // Boss rabbits turn hostile on their own; normal rabbits only aggro after being hit
+        if (rabbitHealth != null && rabbitHealth.isBoss && !rabbitHealth.isAggressive)
+            CheckBossDetection();
+
         if (rabbitHealth != null && rabbitHealth.isAggressive)
         {
             ChasePlayer();
@@ -79,7 +83,19 @@ public class AI_Movement : MonoBehaviour
         }
     }
 
-    // Turns to face the player and moves toward them; attacks (with a cooldown) once in range
+    // Makes the boss aggro by itself once the player enters its detection radius, which is wider than
+    // the range it actually attacks from — it spots the player from afar, then closes in to bite
+    private void CheckBossDetection()
+    {
+        if (player == null) return;
+
+        float detectionRange = config.rabbitAttackRange * config.bossDetectionRangeMultiplier;
+        if (Vector3.Distance(transform.position, player.position) <= detectionRange)
+            rabbitHealth.isAggressive = true;
+    }
+
+    // Turns to face the player and moves toward them; attacks (with a cooldown) once in range.
+    // The boss chases faster and hits harder via StatMultiplier, but closes to the same attack range.
     private void ChasePlayer()
     {
         if (player == null) return;
@@ -90,10 +106,12 @@ public class AI_Movement : MonoBehaviour
         toPlayer.y = 0f;
         float distance = toPlayer.magnitude;
 
+        float statMultiplier = rabbitHealth != null ? rabbitHealth.StatMultiplier : 1f;
+
         if (distance > config.rabbitAttackRange)
         {
             transform.rotation = Quaternion.LookRotation(toPlayer.normalized);
-            transform.position += transform.forward * config.rabbitChaseSpeed * Time.deltaTime;
+            transform.position += transform.forward * config.rabbitChaseSpeed * statMultiplier * Time.deltaTime;
         }
         else
         {
@@ -101,7 +119,7 @@ public class AI_Movement : MonoBehaviour
             if (attackCooldownTimer <= 0f)
             {
                 if (PlayerStats.Instance != null)
-                    PlayerStats.Instance.TakeDamage(config.rabbitAttackDamage);
+                    PlayerStats.Instance.TakeDamage(config.rabbitAttackDamage * statMultiplier);
                 attackCooldownTimer = config.rabbitAttackCooldown;
             }
         }

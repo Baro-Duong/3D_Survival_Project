@@ -73,11 +73,17 @@ The meat-cooking operation specifically requires the F key to be held continuous
 
 ## 6.2.6 Combat and Damage Feedback
 
-📌 **[IMAGE 6]** *A rabbit pursuing the player, together with the full-screen red flash effect at the moment damage is received.*
+📌 **[IMAGE 6]** *A rabbit pursuing the player, together with the full-screen red flash effect at the moment damage is received. If a moment showing the alpha rabbit attacking can be captured, that image is preferable, as it depicts both creature variants.*
 
-The rabbit is the only creature in WildBound and functions simultaneously as a food source and as a threat. In its normal state, the rabbit moves randomly in four directions and does not attack unprompted. However, as soon as it is attacked for the first time, the rabbit enters a permanently aggressive state: it turns towards the player, pursues at a speed higher than its ordinary movement rate, and attacks on a fixed cycle once within range.
+The rabbit is the only creature in WildBound and functions simultaneously as a food source and as a threat. The game features two variants of this creature.
 
-This design converts hunting into a decision carrying risk, rather than an entirely safe operation: the player must weigh the health that may be lost against the food to be gained.
+**The ordinary rabbit** moves randomly in four directions and does not attack unprompted. However, as soon as it is attacked for the first time, it enters a permanently aggressive state: it turns towards the player, pursues at a speed higher than its ordinary movement rate, and attacks on a fixed cycle once within range. This design converts hunting into a decision carrying risk, rather than an entirely safe operation: the player must weigh the health that may be lost against the food to be gained.
+
+**The alpha rabbit** is a rare variant, distinguished by its larger size and a conspicuous reddish-pink colouring. It possesses double the health, damage and pursuit speed of an ordinary rabbit, and yields double the quantity of meat when killed. The most significant difference lies in its behaviour: the alpha rabbit **turns aggressive of its own accord as soon as the player enters its detection radius**, rather than waiting to be attacked first. This radius is wider than its actual attack range, meaning that it detects the player from a distance and then closes in.
+
+At most one alpha rabbit exists on the map at any given time. Once killed, the system must produce three ordinary rabbit spawns before a replacement is generated.
+
+The distinction between the two variants introduces a second tier of risk into the game. The ordinary rabbit represents a safe food source provided the player accepts a small loss of health, whereas the alpha rabbit constitutes a high-reward target that obliges the player to prepare in advance, both in terms of current health and of the tool being carried. Its markedly different colour and size are a deliberate decision, intended to allow the player to recognise the threat from a distance and to decide independently whether to engage or avoid it.
 
 When the player receives damage — whether from a rabbit bite or from the depletion of water and food — the entire screen flashes red briefly and then fades. This feedback mechanism was introduced following the observation that, when relying on the health bar alone, players readily fail to notice that they are losing health while concentrating on observing their surroundings.
 

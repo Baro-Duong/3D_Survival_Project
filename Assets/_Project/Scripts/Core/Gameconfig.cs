@@ -97,4 +97,12 @@ public class GameConfig : ScriptableObject
     [Header("Rabbit Spawning")]
     public int maxRabbitsOnMap = 10;
     public float rabbitSpawnCheckInterval = 60f;
+
+    [Header("Boss Rabbit")]
+    public float bossStatMultiplier = 2f;           // multiplies max HP, attack damage and chase speed
+    public float bossDetectionRangeMultiplier = 2f; // auto-aggro radius = rabbitAttackRange * this
+    public int bossSpawnCycles = 3;                 // spawn cycles that must pass after a boss dies before the next one
+                                                    // (delay = bossSpawnCycles * rabbitSpawnCheckInterval seconds,
+                                                    //  so it stays correct no matter how many burrows exist)
+    public int bossMeatDrop = 2;                    // meat items dropped by a boss (normal rabbits drop 1)
 }

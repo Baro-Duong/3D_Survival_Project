@@ -64,7 +64,7 @@ public class SelectionManager : MonoBehaviour
             {
                 onTarget = true;
                 selectedObject = rabbit.gameObject;
-                interaction_text.text = "Rabbit [" + (int)rabbit.currentHP + "/" + (int)rabbit.config.rabbitMaxHP + "]";
+                interaction_text.text = rabbit.DisplayName + " [" + (int)rabbit.currentHP + "/" + (int)rabbit.MaxHP + "]";
                 interaction_Info_UI.SetActive(true);
                 return;
             }

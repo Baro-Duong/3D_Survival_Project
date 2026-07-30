@@ -75,11 +75,17 @@ Riêng thao tác nấu thịt yêu cầu giữ phím F liên tục trong mười
 
 ## 6.2.6 Chiến đấu và phản hồi khi nhận sát thương
 
-📌 **[ẢNH 6]** *Thỏ đang truy đuổi người chơi, kèm hiệu ứng lóa đỏ trên toàn màn hình tại thời điểm người chơi nhận sát thương.*
+📌 **[ẢNH 6]** *Thỏ đang truy đuổi người chơi, kèm hiệu ứng lóa đỏ trên toàn màn hình tại thời điểm người chơi nhận sát thương. Nếu bắt được khoảnh khắc thỏ đầu đàn tấn công thì nên dùng ảnh đó, vì thể hiện được cả hai loại sinh vật.*
 
-Thỏ là sinh vật duy nhất trong WildBound, đồng thời vừa là nguồn thức ăn vừa là mối đe dọa. Ở trạng thái bình thường, thỏ di chuyển ngẫu nhiên theo bốn hướng và không chủ động tấn công. Tuy nhiên, ngay khi bị tấn công lần đầu, thỏ chuyển sang trạng thái hung dữ vĩnh viễn: nó quay về phía người chơi, truy đuổi với tốc độ cao hơn tốc độ di chuyển thông thường của nó, và tấn công theo chu kỳ khi ở trong tầm.
+Thỏ là sinh vật duy nhất trong WildBound, đồng thời vừa là nguồn thức ăn vừa là mối đe dọa. Trò chơi có hai biến thể của sinh vật này.
 
-Thiết kế này nhằm biến việc săn bắt thành một quyết định có rủi ro thay vì một thao tác an toàn tuyệt đối: người chơi phải cân nhắc giữa lượng máu có thể mất và lượng thức ăn thu được.
+**Thỏ thường** di chuyển ngẫu nhiên theo bốn hướng và không chủ động tấn công. Tuy nhiên, ngay khi bị tấn công lần đầu, nó chuyển sang trạng thái hung dữ vĩnh viễn: quay về phía người chơi, truy đuổi với tốc độ cao hơn tốc độ di chuyển thông thường, và tấn công theo chu kỳ khi ở trong tầm. Thiết kế này biến việc săn bắt thành một quyết định có rủi ro thay vì một thao tác an toàn tuyệt đối: người chơi phải cân nhắc giữa lượng máu có thể mất và lượng thức ăn thu được.
+
+**Thỏ đầu đàn** là biến thể hiếm, được phân biệt bằng kích thước lớn hơn và màu sắc đỏ hồng nổi bật. Nó có lượng máu, sát thương và tốc độ truy đuổi gấp đôi thỏ thường, đồng thời rơi ra gấp đôi lượng thịt khi bị hạ. Khác biệt quan trọng nhất nằm ở hành vi: thỏ đầu đàn **chủ động chuyển sang trạng thái hung dữ ngay khi người chơi tiến vào bán kính phát hiện của nó**, thay vì chờ bị tấn công trước. Bán kính này rộng hơn tầm tấn công thực tế, nghĩa là nó phát hiện người chơi từ xa rồi mới áp sát.
+
+Tại mỗi thời điểm chỉ tồn tại tối đa một thỏ đầu đàn trên bản đồ. Sau khi bị hạ, hệ thống phải sinh ra ba lượt thỏ thường rồi mới sinh lại một con mới.
+
+Sự phân biệt giữa hai biến thể tạo ra một cấp độ rủi ro thứ hai trong trò chơi. Thỏ thường là nguồn thức ăn an toàn nếu người chơi chấp nhận mất một lượng máu nhỏ, trong khi thỏ đầu đàn là mục tiêu có phần thưởng cao nhưng buộc người chơi phải chuẩn bị trước — cả về lượng máu hiện có lẫn công cụ đang cầm. Việc màu sắc và kích thước của nó khác biệt rõ rệt là một quyết định có chủ đích, nhằm giúp người chơi nhận ra mối nguy từ xa và tự quyết định giao chiến hay tránh né.
 
 Khi người chơi nhận sát thương — dù từ vết cắn của thỏ hay do cạn kiệt nước và thức ăn — toàn bộ màn hình sẽ lóa đỏ trong thời gian ngắn rồi mờ dần. Cơ chế phản hồi này được bổ sung do quan sát thấy rằng nếu chỉ dựa vào thanh máu, người chơi rất dễ bỏ sót việc mình đang mất máu trong lúc tập trung quan sát môi trường xung quanh.
 
