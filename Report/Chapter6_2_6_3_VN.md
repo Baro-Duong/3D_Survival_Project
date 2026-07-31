@@ -11,7 +11,7 @@
 
 # 6.2 Các tính năng của sản phẩm
 
-Mục này trình bày các tính năng chính của WildBound thông qua hình ảnh chụp từ sản phẩm đang vận hành. Bảy tính năng được lựa chọn nhằm bao quát toàn bộ vòng lặp cốt lõi của trò chơi, từ màn hình khởi đầu, quá trình thu thập và chế tạo, cho tới các tình huống chiến đấu và kết thúc lượt chơi.
+Mục này trình bày các tính năng chính của WildBound thông qua hình ảnh chụp từ sản phẩm đang vận hành. Tám tính năng được lựa chọn nhằm bao quát toàn bộ vòng lặp cốt lõi của trò chơi, từ màn hình khởi đầu cùng phần hướng dẫn, qua quá trình thu thập và chế tạo, cho tới các tình huống chiến đấu và kết thúc lượt chơi.
 
 ---
 
@@ -19,15 +19,31 @@ Mục này trình bày các tính năng chính của WildBound thông qua hình 
 
 📌 **[ẢNH 1]** *Màn hình chính với tên trò chơi, nút Play và khung cảnh nền được làm mờ.*
 
-Màn hình chính là điểm khởi đầu của trò chơi, gồm tên sản phẩm đặt ở trung tâm và nút Play phía dưới. Phần nền là khung cảnh thật của hòn đảo, được quan sát bằng một camera tự động xoay ngang quanh một điểm cố định, sau đó chuyển sang vị trí quan sát khác thông qua hiệu ứng chuyển cảnh mờ dần.
+Màn hình chính là điểm khởi đầu của trò chơi, gồm tên sản phẩm đặt ở trung tâm và hai nút phía dưới: Play và Tutorial. Phần nền là khung cảnh thật của hòn đảo, được quan sát bằng một camera tự động xoay ngang quanh một điểm cố định, sau đó chuyển sang vị trí quan sát khác thông qua hiệu ứng chuyển cảnh mờ dần.
 
 Toàn bộ khung cảnh nền được làm mờ bằng hiệu ứng Depth of Field. Mục đích của lựa chọn thiết kế này là tạo chiều sâu thị giác cho màn hình chính mà không làm phân tán sự chú ý khỏi các thành phần điều khiển. Do lớp giao diện được kết xuất ở chế độ Screen Space Overlay, nó nằm ngoài phạm vi tác động của các hiệu ứng hậu xử lý áp dụng lên camera, nhờ đó tên trò chơi và nút điều khiển vẫn giữ được độ sắc nét tuyệt đối trên nền mờ.
 
+Ở lần chạy đầu tiên, nút Play bị vô hiệu hóa và chỉ khả dụng sau khi người chơi đã đọc phần hướng dẫn trình bày ở mục tiếp theo. Cơ chế này được phân tích đầy đủ tại đó.
+
 ---
 
-## 6.2.2 Giao diện trong lúc chơi
+## 6.2.2 Lớp phủ hướng dẫn
 
-📌 **[ẢNH 2]** *Khung cảnh trong lúc chơi, hiển thị đầy đủ các thành phần giao diện và dòng chữ gợi ý tương tác.*
+📌 **[ẢNH 2]** *Lớp phủ hướng dẫn hiển thị đè lên màn hình chính, kèm bộ đếm trang và các nút điều hướng.*
+
+WildBound không có chỉ dẫn nào bên trong màn chơi, trong khi một số cơ chế của trò chơi — đặc biệt là điều kiện để máu tự hồi phục — rất khó để người chơi tự suy ra bằng cách thử nghiệm. Vì vậy, một phần hướng dẫn được bổ sung nhằm truyền đạt các quy tắc cốt lõi trước khi lượt chơi bắt đầu.
+
+Phần hướng dẫn được trình bày dưới dạng lớp phủ vẽ đè lên màn hình chính thay vì một scene riêng biệt. Lựa chọn này giữ cho khung cảnh nền vẫn tiếp tục chuyển động phía sau bảng nội dung, bảo toàn tính liền mạch về thị giác, đồng thời tránh được độ trễ tải dữ liệu mà việc chuyển scene sẽ gây ra. Bảng nội dung được điều hướng bằng hai nút Back và Next kèm bộ đếm trang, áp dụng đúng cơ chế phân trang đã được thiết lập ở thư viện công thức bên trong trò chơi, nhờ đó hai giao diện vận hành nhất quán với nhau. Nút Close đóng lớp phủ và đưa người chơi trở lại màn hình chính.
+
+Nút Play trên màn hình chính ban đầu bị vô hiệu hóa và được mở khóa khi người chơi lật tới trang hướng dẫn cuối cùng. Mục đích là bảo đảm người chơi lần đầu nắm được các quy tắc cốt lõi trước khi bước vào một trò chơi mà việc hiểu sai chúng dẫn tới cái chết rất nhanh. Để yêu cầu này không trở thành trở ngại cho người chơi quay lại, trạng thái đã đọc hướng dẫn được ghi nhớ lâu dài: ở mọi lần khởi động sau đó, nút Play khả dụng ngay lập tức và phần hướng dẫn trở thành tùy chọn. Cách làm này giữ được giá trị hướng dẫn dành cho người chơi mới mà không bắt người đã quen trò chơi phải đọc lại.
+
+Phần hướng dẫn hiện gồm hai trang: một trang giới thiệu bối cảnh và mục tiêu, và một trang giải thích ba chỉ số sinh tồn cùng cách thức phục hồi chúng đúng đắn. Cấu trúc trang được tổ chức theo hướng dữ liệu, nghĩa là có thể bổ sung thêm trang chỉ bằng cách đặt thêm đối tượng trang vào giao diện mà không phải sửa đổi mã nguồn điều khiển.
+
+---
+
+## 6.2.3 Giao diện trong lúc chơi
+
+📌 **[ẢNH 3]** *Khung cảnh trong lúc chơi, hiển thị đầy đủ các thành phần giao diện và dòng chữ gợi ý tương tác.*
 
 Giao diện trong lúc chơi được tổ chức theo nguyên tắc đặt toàn bộ thông tin ở vùng rìa màn hình, giữ cho phần trung tâm — nơi người chơi quan sát và thao tác — luôn thông thoáng.
 
@@ -37,11 +53,11 @@ Việc hiển thị đồng thời cả thanh trạng thái lẫn giá trị s�
 
 ---
 
-## 6.2.3 Túi đồ và bảng chế tạo
+## 6.2.4 Túi đồ và bảng chế tạo
 
-📌 **[ẢNH 3]** *Giao diện túi đồ đang mở, có vật phẩm xếp chồng hiển thị số lượng và một vật phẩm đang được kéo.*
+📌 **[ẢNH 4]** *Giao diện túi đồ đang mở, có vật phẩm xếp chồng hiển thị số lượng và một vật phẩm đang được kéo.*
 
-Giao diện túi đồ được mở bằng phím E, gồm hai vùng chức năng. Vùng chứa đồ có tổng cộng 26 ô, trong đó tám ô đầu tiên đồng thời là các ô của thanh công cụ nhanh và luôn được ưu tiên lấp đầy trước. Vùng chế tạo gồm hai ô nguyên liệu đầu vào, một ô kết quả và nút thực hiện chế tạo.
+Giao diện túi đồ được mở bằng phím E, gồm hai vùng chức năng. Vùng chứa đồ có 24 ô, cộng với 8 ô của thanh công cụ nhanh là tổng cộng 32 ô; các ô thanh công cụ nhanh luôn được ưu tiên lấp đầy trước. Vùng chế tạo gồm hai ô nguyên liệu đầu vào, một ô kết quả và nút thực hiện chế tạo.
 
 Các vật phẩm cùng loại được xếp chồng trong một ô duy nhất, với số lượng hiển thị ở góc ô. Cùng vị trí hiển thị này được dùng lại để thể hiện độ bền còn lại đối với các công cụ, trong đó giá trị độ bền được ưu tiên hiển thị khi vật phẩm là công cụ.
 
@@ -49,9 +65,9 @@ Việc di chuyển vật phẩm giữa các ô được thực hiện bằng tha
 
 ---
 
-## 6.2.4 Thư viện công thức
+## 6.2.5 Thư viện công thức
 
-📌 **[ẢNH 4]** *Bảng thư viện công thức hiển thị các công thức kèm nguyên liệu và nút Choose.*
+📌 **[ẢNH 5]** *Bảng thư viện công thức hiển thị các công thức kèm nguyên liệu và nút Choose.*
 
 Thư viện công thức là bảng tra cứu liệt kê toàn bộ công thức chế tạo hiện có trong trò chơi, được phân trang với bốn công thức trên mỗi trang. Mỗi mục hiển thị biểu tượng của hai loại nguyên liệu kèm số lượng yêu cầu và biểu tượng của sản phẩm tạo thành.
 
@@ -61,9 +77,9 @@ Mỗi công thức đi kèm nút Choose. Khi được kích hoạt, hệ thống
 
 ---
 
-## 6.2.5 Chuỗi tương tác nấu nướng
+## 6.2.6 Chuỗi tương tác nấu nướng
 
-📌 **[ẢNH 5]** *Người chơi đang cầm thịt sống và giữ phím F trước bếp lửa, hiển thị tiến trình nấu theo phần trăm.*
+📌 **[ẢNH 6]** *Người chơi đang cầm thịt sống và giữ phím F trước bếp lửa, hiển thị tiến trình nấu theo phần trăm.*
 
 Chuỗi tương tác nấu nướng là hệ thống tương tác phức tạp nhất trong WildBound, đồng thời là hệ thống kết nối nhiều nguồn tài nguyên khác nhau của trò chơi.
 
@@ -73,9 +89,9 @@ Riêng thao tác nấu thịt yêu cầu giữ phím F liên tục trong mười
 
 ---
 
-## 6.2.6 Chiến đấu và phản hồi khi nhận sát thương
+## 6.2.7 Chiến đấu và phản hồi khi nhận sát thương
 
-📌 **[ẢNH 6]** *Thỏ đang truy đuổi người chơi, kèm hiệu ứng lóa đỏ trên toàn màn hình tại thời điểm người chơi nhận sát thương. Nếu bắt được khoảnh khắc thỏ đầu đàn tấn công thì nên dùng ảnh đó, vì thể hiện được cả hai loại sinh vật.*
+📌 **[ẢNH 7]** *Thỏ đang truy đuổi người chơi, kèm hiệu ứng lóa đỏ trên toàn màn hình tại thời điểm người chơi nhận sát thương. Nếu bắt được khoảnh khắc thỏ đầu đàn tấn công thì nên dùng ảnh đó, vì thể hiện được cả hai loại sinh vật.*
 
 Thỏ là sinh vật duy nhất trong WildBound, đồng thời vừa là nguồn thức ăn vừa là mối đe dọa. Trò chơi có hai biến thể của sinh vật này.
 
@@ -91,9 +107,9 @@ Khi người chơi nhận sát thương — dù từ vết cắn của thỏ hay
 
 ---
 
-## 6.2.7 Màn hình kết thúc
+## 6.2.8 Màn hình kết thúc
 
-📌 **[ẢNH 7]** *Màn hình kết thúc với nền đỏ, dòng chữ Game Over, thời gian sống sót và hai nút điều khiển.*
+📌 **[ẢNH 8]** *Màn hình kết thúc với nền đỏ, dòng chữ Game Over, thời gian sống sót và hai nút điều khiển.*
 
 Khi lượng máu của người chơi giảm về không, màn hình kết thúc được kích hoạt. Một lớp nền màu đỏ hiện dần lên trong khoảng hai giây thay vì xuất hiện tức thì, nhằm tạo cảm giác chuyển tiếp mềm mại hơn.
 
@@ -149,7 +165,7 @@ Cùng một cấu trúc mã này được áp dụng lại cho hệ thống bụ
 
 ## 6.3.2 Thuật toán so khớp công thức chế tạo
 
-**Vấn đề cần giải quyết.** Hệ thống chế tạo phải xác định công thức tương ứng với hai nguyên liệu người chơi đặt vào. Vấn đề phát sinh khi nhiều công thức cùng sử dụng một cặp nguyên liệu nhưng khác nhau về số lượng: rìu yêu cầu một gậy và hai đá, trong khi bếp lửa yêu cầu bốn gậy và ba đá. Thuật toán chọn công thức khớp đầu tiên luôn trả về rìu, kể cả khi người chơi đã đặt đủ nguyên liệu cho bếp lửa.
+**Vấn đề cần giải quyết.** Hệ thống chế tạo phải xác định công thức tương ứng với hai nguyên liệu người chơi đặt vào. Vấn đề phát sinh khi nhiều công thức cùng sử dụng một cặp nguyên liệu nhưng khác nhau về số lượng: rìu yêu cầu một gậy và một đá, trong khi bếp lửa yêu cầu năm gậy và bốn đá. Thuật toán chọn công thức khớp đầu tiên luôn trả về rìu, kể cả khi người chơi đã đặt đủ nguyên liệu cho bếp lửa.
 
 ```csharp
  1  public void CheckRecipe()
@@ -276,7 +292,7 @@ Song song với đó, toàn bộ thông số cân bằng được tách khỏi m
 10      public int   firePitBoilUseCost = 10;
 11      public int   stickRepairUses    = 2;
 12      public int   rockRepairUses     = 5;
-13      // ... khoảng bốn mươi thông số khác
+13      // ... khoảng năm mươi thông số khác
 14  }
 ```
 

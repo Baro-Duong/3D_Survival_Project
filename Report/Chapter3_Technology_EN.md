@@ -3,7 +3,7 @@
 > - Toàn bộ chương viết ở **ngôi thứ ba, giọng bị động**, thống nhất với bản tiếng Việt.
 > - Trích dẫn theo **RMIT Harvard** (không dấu phẩy giữa tên và năm).
 > - `📌 [IMAGE]` = vị trí chèn ảnh chụp màn hình.
-> - `*(to be added)*` trong bảng mục 3.6.2 = tên nhà phát hành còn thiếu. Lấy nhanh bằng: Unity → **Window → Package Manager → My Assets**.
+> - Bảng mục 3.6.2 đã điền đủ tên nhà phát hành. Ba tên gói bị cắt ngắn trên Asset Store cần xác nhận lại tên đầy đủ: **Toony Kitchen & Ingredients**, **Interiors FREE**, **Low Poly Trees – Free Nature Pack**.
 > - Sau khi paraphrase bằng QuillBot, **kiểm tra lại các thuật ngữ kỹ thuật và tên riêng** (`MonoBehaviour`, `ScriptableObject`, `Raycast Target`, `WildBound`, tên gói asset) — công cụ paraphrase thường thay thế sai những từ này.
 
 ---
@@ -102,7 +102,7 @@ In WildBound, the URP Volume system is used to produce a Depth of Field effect i
 
 C# is an object-oriented programming language developed by Microsoft, combining type safety with a highly expressive syntax (Microsoft 2025). Unity uses C# as its sole official scripting language, and consequently the entire logic of WildBound is written in this language.
 
-The total volume of source code developed within this project amounts to **31 script files comprising approximately 2,900 lines of code**. The object-oriented programming features employed include the following:
+The total volume of source code developed within this project amounts to **32 script files comprising approximately 3,200 lines of code**. The object-oriented programming features employed include the following:
 
 - **Inheritance**: every behavioural script inherits from Unity's `MonoBehaviour` base class, through which the engine automatically invokes the methods of the script lifecycle.
 - **Data encapsulation**: properties that must be readable externally but modifiable only from within their own class are declared with asymmetric access, for example `public int selectedIndex { get; private set; }` in the hotbar management class.
@@ -135,7 +135,7 @@ A distinction should be drawn between Git and GitHub: Git is a distributed versi
 
 ### 3.5.2 The Workflow Applied in the Project
 
-The workflow adopted in WildBound follows the standard cycle of reviewing the status of changes, staging those changes, creating a commit accompanied by a descriptive message, and synchronising with the remote repository. At the time of writing, the project has recorded **25 commits** in the repository `Baro-Duong/3D_Survival_Project`.
+The workflow adopted in WildBound follows the standard cycle of reviewing the status of changes, staging those changes, creating a commit accompanied by a descriptive message, and synchronising with the remote repository. At the time of writing, the project has recorded **28 commits** in the repository `Baro-Duong/3D_Survival_Project`.
 
 The naming convention applied to commits was to describe precisely the work carried out, rather than employing generic labels. As a result, the commit history simultaneously functions as a development log that can serve as evidence when comparing actual progress against the project plan.
 
@@ -165,26 +165,26 @@ In order to ensure the accuracy of this report, the inventory below was establis
 
 | Functional group | Asset package | Publisher | Content used |
 |---|---|---|---|
-| Terrain | Fantasy Environments | *(to be added)* | Ground surface materials (grass, pathways) |
-| | Fantasy Skybox FREE | *(to be added)* | Supplementary surface textures for terrain |
-| Vegetation | Yughues Free Palm Trees | Yughues | Five palm tree model variants |
-| | Fantasy Environments | *(to be added)* | Birch tree model |
-| | Idyllic Fantasy Nature | *(to be added)* | Harvestable bush model, vegetation shader |
-| | Happy Little Trees | Nebula | Decorative bush models |
-| Minerals | Rocks Stylized | PolyOne | Minable boulder model |
-| | Fantasy Environments | *(to be added)* | Small rock model |
-| Water | Simple Water Shader | *(to be added)* | Water surface and reflection effects |
-| Creatures | Rabbits | *(to be added)* | Rabbit model and three animations (idle, run, death) |
-| Tools | Low-Poly Forest Survival Starter Pack Lite | Devtricked | Fire pit and pickaxe models |
+| Terrain | Fantasy Landscape | PXLTIGER | Ground surface materials (grass, pathways) |
+| | Fantasy Skybox FREE | Render Knight | Supplementary surface textures for terrain |
+| Vegetation | Yughues Free Palm Trees | Nobiax / Yughues | Five palm tree model variants |
+| | Fantasy Landscape | PXLTIGER | Birch tree model |
+| | Idyllic Fantasy Nature | Edenity | Harvestable bush model, vegetation shader |
+| | Low Poly Trees – Free Nature Pack | Nebula | Decorative bush models |
+| Minerals | Free Pack – Rocks Stylized | PolyOne Studio | Minable boulder model |
+| | Fantasy Landscape | PXLTIGER | Small rock model |
+| Water | Simple Water Shader URP | IgniteCoders | Water surface and reflection effects |
+| Creatures | White Rabbit | Niwashi Games | Rabbit model and three animations (idle, run, death) |
+| Tools | Low-Poly Forest Survival Starter Pack | Devtricked | Fire pit and pickaxe models |
 | | Low Poly Fantasy Warrior | asoliddev | Axe model |
-| Items | Rustic Series: a Pot | NZ BULLET Studio | Cooking pot model |
-| | Toony Kitchen Ingredients Free | *(to be added)* | Meat model |
-| | Match3D Object Pack: Fruits and Vegetables | ThreeBox | Apple model |
-| | FREE Interiors 2 | Mnostva Art | Water bottle model |
-| Effects | VFX Pack Fire | *(to be added)* | Fire and smoke effects for the fire pit |
-| Interface | 2D Mega Pack | Brackeys | Health, food and water icons on the status bars |
-| | UI Inventory Pack | GameDev Simplified | Interface frames and icons |
-| Scenery | Wood Boat | *(to be added)* | Decorative boat model |
+| Items | Rustic Series: a Pot | NZ Bullet Studio | Cooking pot model |
+| | Toony Kitchen & Ingredients | Sigun Studio | Meat model |
+| | Match 3D Object Pack: Fruits and Vegetables | ThreeBox | Apple model |
+| | Interiors FREE | Mnostva Art | Water bottle model |
+| Effects | VFX URP – Fire Package | Cartoon VFX by Wallcoeur | Fire and smoke effects for the fire pit |
+| Interface | Free 2D Mega Pack | Brackeys | Health, food and water icons on the status bars |
+| | Inventory Framework FREE | Game Dev Simplified | Interface frames and icons |
+| Scenery | Wood Boat | E6 Model | Decorative boat model |
 
 ---
 

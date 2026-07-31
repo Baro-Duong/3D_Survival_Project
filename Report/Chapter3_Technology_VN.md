@@ -103,7 +103,7 @@ Trong WildBound, hệ thống Volume của URP được sử dụng để tạo 
 
 C# là ngôn ngữ lập trình hướng đối tượng do Microsoft phát triển, kết hợp giữa tính an toàn kiểu dữ liệu và cú pháp có tính biểu đạt cao (Microsoft 2025). Unity sử dụng C# làm ngôn ngữ scripting chính thức duy nhất, do đó toàn bộ logic của WildBound được viết bằng ngôn ngữ này.
 
-Tổng khối lượng mã nguồn được phát triển trong khuôn khổ đồ án là **31 tệp script với khoảng 2.900 dòng lệnh**. Các đặc trưng của lập trình hướng đối tượng đã được vận dụng bao gồm:
+Tổng khối lượng mã nguồn được phát triển trong khuôn khổ đồ án là **32 tệp script với khoảng 3.200 dòng lệnh**. Các đặc trưng của lập trình hướng đối tượng đã được vận dụng bao gồm:
 
 - **Kế thừa**: mọi script điều khiển hành vi đều kế thừa từ lớp cơ sở `MonoBehaviour` của Unity, qua đó được engine tự động gọi các phương thức trong vòng đời script.
 - **Đóng gói dữ liệu**: các thuộc tính cần được đọc từ bên ngoài nhưng chỉ được phép sửa đổi từ bên trong lớp được khai báo dưới dạng property với quyền truy cập bất đối xứng, ví dụ `public int selectedIndex { get; private set; }` trong lớp quản lý thanh công cụ nhanh.
@@ -136,7 +136,7 @@ Cần phân biệt Git và GitHub: Git là hệ thống quản lý phiên bản 
 
 ### 3.5.2 Quy trình áp dụng trong đồ án
 
-Quy trình làm việc được áp dụng trong WildBound tuân theo chu trình cơ bản: kiểm tra trạng thái thay đổi, đưa các thay đổi vào vùng chờ, tạo bản ghi thay đổi kèm thông điệp mô tả, và đồng bộ lên kho lưu trữ từ xa. Tính đến thời điểm viết báo cáo, dự án đã ghi nhận **25 bản commit** trên kho lưu trữ `Baro-Duong/3D_Survival_Project`.
+Quy trình làm việc được áp dụng trong WildBound tuân theo chu trình cơ bản: kiểm tra trạng thái thay đổi, đưa các thay đổi vào vùng chờ, tạo bản ghi thay đổi kèm thông điệp mô tả, và đồng bộ lên kho lưu trữ từ xa. Tính đến thời điểm viết báo cáo, dự án đã ghi nhận **28 bản commit** trên kho lưu trữ `Baro-Duong/3D_Survival_Project`.
 
 Nguyên tắc đặt tên bản ghi thay đổi được áp dụng là mô tả chính xác nội dung công việc đã thực hiện thay vì các nhãn chung chung. Nhờ đó, lịch sử commit đồng thời đóng vai trò như một nhật ký phát triển, có thể dùng làm căn cứ đối chiếu tiến độ với kế hoạch dự án.
 
@@ -166,26 +166,26 @@ Nhằm đảm bảo tính chính xác của báo cáo, danh mục dưới đây 
 
 | Nhóm chức năng | Gói tài nguyên | Nhà phát hành | Nội dung sử dụng |
 |---|---|---|---|
-| Địa hình | Fantasy Environments | *(cần bổ sung)* | Lớp vật liệu mặt đất (cỏ, đường mòn) |
-| | Fantasy Skybox FREE | *(cần bổ sung)* | Kết cấu bề mặt bổ trợ cho địa hình |
-| Thảm thực vật | Yughues Free Palm Trees | Yughues | Năm biến thể mô hình cây dừa |
-| | Fantasy Environments | *(cần bổ sung)* | Mô hình cây bạch dương |
-| | Idyllic Fantasy Nature | *(cần bổ sung)* | Mô hình bụi cây thu hoạch được, shader thực vật |
-| | Happy Little Trees | Nebula | Mô hình bụi cây trang trí |
-| Khoáng sản | Rocks Stylized | PolyOne | Mô hình tảng đá lớn khai thác được |
-| | Fantasy Environments | *(cần bổ sung)* | Mô hình đá nhỏ |
-| Mặt nước | Simple Water Shader | *(cần bổ sung)* | Bề mặt nước và hiệu ứng phản chiếu |
-| Sinh vật | Rabbits | *(cần bổ sung)* | Mô hình thỏ và ba hoạt ảnh (đứng yên, chạy, chết) |
-| Công cụ | Low-Poly Forest Survival Starter Pack Lite | Devtricked | Mô hình bếp lửa và cuốc chim |
+| Địa hình | Fantasy Landscape | PXLTIGER | Lớp vật liệu mặt đất (cỏ, đường mòn) |
+| | Fantasy Skybox FREE | Render Knight | Kết cấu bề mặt bổ trợ cho địa hình |
+| Thảm thực vật | Yughues Free Palm Trees | Nobiax / Yughues | Năm biến thể mô hình cây dừa |
+| | Fantasy Landscape | PXLTIGER | Mô hình cây bạch dương |
+| | Idyllic Fantasy Nature | Edenity | Mô hình bụi cây thu hoạch được, shader thực vật |
+| | Low Poly Trees – Free Nature Pack | Nebula | Mô hình bụi cây trang trí |
+| Khoáng sản | Free Pack – Rocks Stylized | PolyOne Studio | Mô hình tảng đá lớn khai thác được |
+| | Fantasy Landscape | PXLTIGER | Mô hình đá nhỏ |
+| Mặt nước | Simple Water Shader URP | IgniteCoders | Bề mặt nước và hiệu ứng phản chiếu |
+| Sinh vật | White Rabbit | Niwashi Games | Mô hình thỏ và ba hoạt ảnh (đứng yên, chạy, chết) |
+| Công cụ | Low-Poly Forest Survival Starter Pack | Devtricked | Mô hình bếp lửa và cuốc chim |
 | | Low Poly Fantasy Warrior | asoliddev | Mô hình rìu |
-| Vật phẩm | Rustic Series: a Pot | NZ BULLET Studio | Mô hình nồi nấu |
-| | Toony Kitchen Ingredients Free | *(cần bổ sung)* | Mô hình thịt |
-| | Match3D Object Pack: Fruits and Vegetables | ThreeBox | Mô hình táo |
-| | FREE Interiors 2 | Mnostva Art | Mô hình chai đựng nước |
-| Hiệu ứng | VFX Pack Fire | *(cần bổ sung)* | Hiệu ứng lửa và khói cho bếp |
-| Giao diện | 2D Mega Pack | Brackeys | Biểu tượng máu, thức ăn, nước uống trên thanh chỉ số |
-| | UI Inventory Pack | GameDev Simplified | Khung nền và biểu tượng giao diện |
-| Bối cảnh | Wood Boat | *(cần bổ sung)* | Mô hình thuyền trang trí |
+| Vật phẩm | Rustic Series: a Pot | NZ Bullet Studio | Mô hình nồi nấu |
+| | Toony Kitchen & Ingredients | Sigun Studio | Mô hình thịt |
+| | Match 3D Object Pack: Fruits and Vegetables | ThreeBox | Mô hình táo |
+| | Interiors FREE | Mnostva Art | Mô hình chai đựng nước |
+| Hiệu ứng | VFX URP – Fire Package | Cartoon VFX by Wallcoeur | Hiệu ứng lửa và khói cho bếp |
+| Giao diện | Free 2D Mega Pack | Brackeys | Biểu tượng máu, thức ăn, nước uống trên thanh chỉ số |
+| | Inventory Framework FREE | Game Dev Simplified | Khung nền và biểu tượng giao diện |
+| Bối cảnh | Wood Boat | E6 Model | Mô hình thuyền trang trí |
 
 ---
 

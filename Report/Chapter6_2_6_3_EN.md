@@ -9,7 +9,7 @@
 
 # 6.2 Product Features
 
-This section presents the principal features of WildBound through screenshots captured from the running product. The seven features selected cover the complete core loop of the game, from the opening screen through the processes of resource gathering and crafting, to combat situations and the conclusion of a play session.
+This section presents the principal features of WildBound through screenshots captured from the running product. The eight features selected cover the complete core loop of the game, from the opening screen and its tutorial, through the processes of resource gathering and crafting, to combat situations and the conclusion of a play session.
 
 ---
 
@@ -17,15 +17,31 @@ This section presents the principal features of WildBound through screenshots ca
 
 📌 **[IMAGE 1]** *The main menu showing the game title, the Play button and the blurred background scene.*
 
-The main menu is the entry point of the game, comprising the product title positioned centrally with the Play button below it. The background is an actual view of the island, observed through a camera that automatically pans horizontally around a fixed point before transitioning to a different vantage point by means of a fade effect.
+The main menu is the entry point of the game, comprising the product title positioned centrally with two buttons below it: Play and Tutorial. The background is an actual view of the island, observed through a camera that automatically pans horizontally around a fixed point before transitioning to a different vantage point by means of a fade effect.
 
 The entire background scene is blurred using a Depth of Field effect. The purpose of this design choice is to create visual depth on the main menu without drawing attention away from the interactive elements. Because the interface layer is rendered in Screen Space Overlay mode, it falls outside the scope of post-processing effects applied to the camera, and consequently the game title and controls retain complete sharpness against the blurred background.
 
+On a first launch the Play button is disabled, and becomes available only once the player has read the tutorial described in the following section. This arrangement is discussed there in full.
+
 ---
 
-## 6.2.2 In-game Interface
+## 6.2.2 Tutorial Overlay
 
-📌 **[IMAGE 2]** *The in-game view showing all interface components together with the interaction prompt text.*
+📌 **[IMAGE 2]** *The tutorial overlay displayed above the main menu, showing the page counter and the navigation controls.*
+
+WildBound contains no in-game instructional prompts, and several of its mechanics — particularly the conditions governing health regeneration — are difficult for a player to deduce through experimentation alone. A tutorial was therefore provided to convey the essential rules before play begins.
+
+The tutorial is presented as an overlay drawn on top of the main menu rather than as a separate scene. This choice keeps the panning background visible behind the panel, preserving visual continuity, and avoids the loading delay that switching scenes would introduce. The panel is navigated with Back and Next buttons accompanied by a page counter, following the same pagination pattern already established by the tool library within the game, so that the two interfaces behave consistently. A Close button dismisses the overlay and returns the player to the plain menu.
+
+The Play button on the main menu is initially disabled and is unlocked once the player reaches the final tutorial page. The intention is to guarantee that a first-time player encounters the core rules before entering a game in which misunderstanding them leads quickly to death. So that this requirement does not become an obstacle for returning players, the fact that the tutorial has been read is recorded persistently: on every subsequent launch the Play button is available immediately and the tutorial becomes optional. This preserves the instructional benefit for a new player while avoiding the imposition of repeated reading on someone already familiar with the game.
+
+The tutorial currently comprises two pages: an introduction establishing the premise and objective, and a page explaining the three survival meters together with the correct means of restoring them. The page structure is data-driven, in the sense that additional pages can be added purely by placing further page objects in the interface without any modification to the controlling code.
+
+---
+
+## 6.2.3 In-game Interface
+
+📌 **[IMAGE 3]** *The in-game view showing all interface components together with the interaction prompt text.*
 
 The in-game interface is organised on the principle of positioning all information at the periphery of the screen, keeping the central region — where the player observes and operates — unobstructed.
 
@@ -35,11 +51,11 @@ Displaying both the status bar and the numerical value simultaneously is a delib
 
 ---
 
-## 6.2.3 Inventory and Crafting Panel
+## 6.2.4 Inventory and Crafting Panel
 
-📌 **[IMAGE 3]** *The open inventory interface, showing stacked items with quantity indicators and an item being dragged.*
+📌 **[IMAGE 4]** *The open inventory interface, showing stacked items with quantity indicators and an item being dragged.*
 
-The inventory interface is opened with the E key and comprises two functional areas. The storage area contains twenty-six slots in total, of which the first eight simultaneously serve as the hotbar slots and are always filled first. The crafting area consists of two input slots, an output slot and a button that executes the craft.
+The inventory interface is opened with the E key and comprises two functional areas. The storage area contains twenty-four slots, which together with the eight hotbar slots gives the player thirty-two slots in total; the hotbar slots are always filled first. The crafting area consists of two input slots, an output slot and a button that executes the craft.
 
 Items of the same type are stacked within a single slot, with the quantity displayed in the corner of that slot. This same display position is reused to indicate remaining durability for tools, where the durability value takes precedence when the item in question is a tool.
 
@@ -47,9 +63,9 @@ Items are moved between slots by means of a drag-and-drop operation. The craft b
 
 ---
 
-## 6.2.4 Tool Library
+## 6.2.5 Tool Library
 
-📌 **[IMAGE 4]** *The tool library panel displaying recipes with their ingredients and the Choose button.*
+📌 **[IMAGE 5]** *The tool library panel displaying recipes with their ingredients and the Choose button.*
 
 The tool library is a reference panel listing all crafting recipes available in the game, paginated at four recipes per page. Each entry displays the icons of the two ingredient types together with the required quantities, and the icon of the resulting product.
 
@@ -59,9 +75,9 @@ Each recipe is accompanied by a Choose button. When activated, the system automa
 
 ---
 
-## 6.2.5 The Cooking Interaction Chain
+## 6.2.6 The Cooking Interaction Chain
 
-📌 **[IMAGE 5]** *The player holding raw meat and pressing the F key at the fire pit, with the cooking progress displayed as a percentage.*
+📌 **[IMAGE 6]** *The player holding raw meat and pressing the F key at the fire pit, with the cooking progress displayed as a percentage.*
 
 The cooking interaction chain is the most complex interaction system in WildBound and simultaneously the system that connects the game's various resource streams together.
 
@@ -71,9 +87,9 @@ The meat-cooking operation specifically requires the F key to be held continuous
 
 ---
 
-## 6.2.6 Combat and Damage Feedback
+## 6.2.7 Combat and Damage Feedback
 
-📌 **[IMAGE 6]** *A rabbit pursuing the player, together with the full-screen red flash effect at the moment damage is received. If a moment showing the alpha rabbit attacking can be captured, that image is preferable, as it depicts both creature variants.*
+📌 **[IMAGE 7]** *A rabbit pursuing the player, together with the full-screen red flash effect at the moment damage is received. If a moment showing the alpha rabbit attacking can be captured, that image is preferable, as it depicts both creature variants.*
 
 The rabbit is the only creature in WildBound and functions simultaneously as a food source and as a threat. The game features two variants of this creature.
 
@@ -89,9 +105,9 @@ When the player receives damage — whether from a rabbit bite or from the deple
 
 ---
 
-## 6.2.7 Death Screen
+## 6.2.8 Death Screen
 
-📌 **[IMAGE 7]** *The death screen showing the red background, the Game Over text, the survival time and the two control buttons.*
+📌 **[IMAGE 8]** *The death screen showing the red background, the Game Over text, the survival time and the two control buttons.*
 
 When the player's health reaches zero, the death screen is activated. A red background layer fades in over approximately two seconds rather than appearing instantaneously, in order to produce a softer transition.
 
@@ -147,7 +163,7 @@ The same code structure is applied again in the bush system, differing only in t
 
 ## 6.3.2 The Crafting Recipe Matching Algorithm
 
-**The problem to be solved.** The crafting system must determine which recipe corresponds to the two ingredients the player has placed in the input slots. A difficulty arises when several recipes use the same pair of ingredients but differ in the quantities required: the axe requires one stick and two rocks, whereas the fire pit requires four sticks and three rocks. An algorithm selecting the first matching recipe invariably returns the axe, even when the player has supplied sufficient ingredients for the fire pit.
+**The problem to be solved.** The crafting system must determine which recipe corresponds to the two ingredients the player has placed in the input slots. A difficulty arises when several recipes use the same pair of ingredients but differ in the quantities required: the axe requires one stick and one rock, whereas the fire pit requires five sticks and four rocks. An algorithm selecting the first matching recipe invariably returns the axe, even when the player has supplied sufficient ingredients for the fire pit.
 
 ```csharp
  1  public void CheckRecipe()
@@ -274,7 +290,7 @@ In parallel, all balance parameters are separated from the source code and store
 10      public int   firePitBoilUseCost = 10;
 11      public int   stickRepairUses    = 2;
 12      public int   rockRepairUses     = 5;
-13      // ... approximately forty further parameters
+13      // ... approximately fifty further parameters
 14  }
 ```
 
