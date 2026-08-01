@@ -1,9 +1,9 @@
-> **⚠️ GHI CHÚ — XÓA KHỐI NÀY TRƯỚC KHI NỘP**
+> **⚠️ GHI CHÚ - XÓA KHỐI NÀY TRƯỚC KHI NỘP**
 >
-> - Ngôi thứ ba, giọng bị động — thống nhất với 6.2 và 6.3.
-> - Trích dẫn RMIT Harvard. Mục này thêm 2 nguồn mới: **Fullerton (2018)** và **Schell (2019)** — nhớ gộp vào danh sách tham khảo tổng.
-> - ⚠️ Bảng ở §6.4.3 có ba ô `[CONFIRM]` — mở GameConfig trong Unity đọc giá trị thật rồi điền.
-> - Sau khi paraphrase bằng QuillBot: giữ nguyên các con số trong bảng, tên riêng **WildBound**, và các mốc tham chiếu mục (**6.3.1 / 6.3.4 / 6.3.6 / 6.4.1 / 6.4.3**) — công cụ paraphrase hay đổi số thành chữ.
+> - Ngôi thứ ba, giọng bị động - thống nhất với 6.2 và 6.3.
+> - Trích dẫn RMIT Harvard. Mục này thêm 2 nguồn mới: **Fullerton (2018)** và **Schell (2019)** - nhớ gộp vào danh sách tham khảo tổng.
+> - ⚠️ Bảng ở §6.4.3 có ba ô `[CONFIRM]` - mở GameConfig trong Unity đọc giá trị thật rồi điền.
+> - Sau khi paraphrase bằng QuillBot: giữ nguyên các con số trong bảng, tên riêng **WildBound**, và các mốc tham chiếu mục (**6.3.1 / 6.3.4 / 6.3.6 / 6.4.1 / 6.4.3**) - công cụ paraphrase hay đổi số thành chữ.
 
 ---
 
@@ -11,7 +11,7 @@
 
 ### 6.4.1 Method and Criteria of Evaluation
 
-Before the results are presented, the method employed and its limitations should be stated explicitly. All testing of WildBound was carried out by the developer alone, without the participation of external players. This means that every judgement concerning the game's difficulty, pacing and comprehensibility originates from the perspective of someone already familiar with each internal mechanism — a perspective differing fundamentally from that of a first-time player. In the game design literature, testing with genuine players is regarded as an irreplaceable stage, precisely because a developer loses the capacity to experience their own product as a newcomer would (Fullerton 2018).
+Before the results are presented, the method employed and its limitations should be stated explicitly. All testing of WildBound was carried out by the developer alone, without the participation of external players. This means that every judgement concerning the game's difficulty, pacing and comprehensibility originates from the perspective of someone already familiar with each internal mechanism - a perspective differing fundamentally from that of a first-time player. In the game design literature, testing with genuine players is regarded as an irreplaceable stage, precisely because a developer loses the capacity to experience their own product as a newcomer would (Fullerton 2018).
 
 Owing to this limitation, the evaluation below is divided into two groups carrying different degrees of reliability:
 
@@ -54,8 +54,8 @@ This is the aspect most amenable to objective verification, since it is determin
 | Stick | Harvesting bushes (with berries) | Chopping trees with the axe | Bushes regrow on a fixed cycle |
 | Rock | Collected from the map | Mining the boulder with the pickaxe | The boulder produces rock on a fixed cycle |
 | Meat | Hunting ordinary rabbits | Hunting the alpha rabbit (double yield) | Burrows spawn rabbits periodically |
-| Berries | Harvesting bushes | — | Bushes regrow on a fixed cycle |
-| Clean water | Boiling dirty water at the fire pit | — | Dependent on fire pit durability |
+| Berries | Harvesting bushes | - | Bushes regrow on a fixed cycle |
+| Clean water | Boiling dirty water at the fire pit | - | Dependent on fire pit durability |
 
 **The initial tool cost problem.** The three existing crafting recipes require:
 
@@ -65,7 +65,9 @@ This is the aspect most amenable to objective verification, since it is determin
 | Pickaxe | 1 | 2 | 3 |
 | Fire pit | 5 | 4 | 9 |
 
-The player begins with no tools and must therefore rely on the two sources that require none: harvesting bushes and collecting rock from the map. With a cost of two ingredients for the axe and three for the pickaxe, the threshold for obtaining an initial toolset lies within reach during the opening minutes, which avoids stranding the player at the outset. The fire pit, by contrast, with nine ingredients in total, becomes feasible only once tools are available. This produces a natural progression: manual gathering, then tool crafting, then large-scale extraction, then fire pit construction, and finally access to clean water and cooked food.
+The player begins with no gathering tools - only a cooking pot and an empty bottle - and must therefore rely on the two sources that require none: harvesting bushes and collecting rock from the map. With a cost of two ingredients for the axe and three for the pickaxe, the threshold for obtaining an initial toolset lies within reach during the opening minutes, which avoids stranding the player at the outset. The fire pit, by contrast, with nine ingredients in total, becomes feasible only once tools are available. This produces a natural progression: manual gathering, then tool crafting, then large-scale extraction, then fire pit construction, and finally access to clean water and cooked food.
+
+The starting equipment reinforces this direction. Neither the pot nor the bottle serves any purpose until a fire pit exists, since one is required to boil water and the other to carry it away afterwards. The player therefore begins holding two objects whose usefulness is deferred, which signals the fire pit as the objective to work towards without any explicit instruction being given.
 
 **Dead-end prevention.** The most serious risk in any crafting system with consumption is that the player expends finite resources on poor choices and enters an unrecoverable state. WildBound addresses this risk through two safety nets operating independently of the player's actions:
 
@@ -114,7 +116,7 @@ Every significant action in WildBound produces immediate visual feedback:
 | Looking at the fire pit | Remaining durability | Informs the decision whether to add fuel |
 | Before the first session | Tutorial overlay on the main menu | Conveys the rules that cannot be inferred by experimentation |
 
-The governing principle is that the player should understand the game state without recourse to external documentation. The tutorial overlay described in Section 6.2.2 serves the same principle at the point of entry: rather than supplying a separate manual, the rules least amenable to discovery through play — above all the conditions under which health regenerates — are presented within the game itself before the first session begins. The red-flash feedback mechanism illustrates this: it was introduced after observing that, when relying on the health bar alone, players readily fail to notice that they are losing health while concentrating on their surroundings.
+The governing principle is that the player should understand the game state without recourse to external documentation. The tutorial overlay described in Section 6.2.2 serves the same principle at the point of entry: rather than supplying a separate manual, the rules least amenable to discovery through play - above all the conditions under which health regenerates - are presented within the game itself before the first session begins. The red-flash feedback mechanism illustrates this: it was introduced after observing that, when relying on the health bar alone, players readily fail to notice that they are losing health while concentrating on their surroundings.
 
 It must be emphasised, however, that the entirety of this section falls within the subjective group defined in Section 6.4.1. Whether these feedback mechanisms are genuinely intelligible to a new player has not been verified.
 
@@ -124,29 +126,29 @@ It must be emphasised, however, that the entirety of this section falls within t
 
 The limitations are divided into three groups according to their nature, since their severity and their routes to resolution differ.
 
-**Group 1 — Features not yet built**
+**Group 1 - Features not yet built**
 
 *No save or load functionality.* This is the most substantial limitation in feature terms. The entirety of the player's progress exists in memory and is discarded on exit. Consequently every session must begin afresh, which restricts the game to short sessions and diminishes the value of accumulating resources over the longer term.
 
-*No day–night cycle or weather system.* Both systems formed part of the original intention but were removed when the project scope was narrowed. Their absence leaves the environment comparatively static: conditions in the first minute and the thirtieth minute are identical, save for the player's own depleted statistics.
+*No day-night cycle or weather system.* Both systems formed part of the original intention but were removed when the project scope was narrowed. Their absence leaves the environment comparatively static: conditions in the first minute and the thirtieth minute are identical, save for the player's own depleted statistics.
 
 *The game has no audio.* There is no background music, no sound effects for actions, and no audio warning cue. This is a considerable omission in experiential terms, since audio is the second most important feedback channel after vision, particularly in the survival genre where signalling a threat outside the field of view carries significant weight (Schell 2019).
 
 *Content confined to a single map.* There are no new regions to explore and no long-term objective beyond extending survival time. This limits the motivation to replay once the player has grasped all the mechanics.
 
-**Group 2 — Existing systems implemented at a basic level**
+**Group 2 - Existing systems implemented at a basic level**
 
 *Creature artificial intelligence.* The rabbit moves in four fixed directions and pursues the player in a straight line, without pathfinding capability. A creature may consequently become stuck when an obstacle lies between itself and the player. Unity's navigation package is already present in the project but has not been used, owing to time constraints.
 
 *The crafting system is restricted to two ingredients.* The current recipe structure permits the combination of exactly two ingredient types, which constrains the recipe design space and makes expansion towards more elaborate recipes difficult.
 
-*Limited coherence of visual style.* Because several asset packages by different authors were used, the models differ somewhat in their level of detail and modelling style. This follows directly from the decision to prioritise time for system design — a conscious trade-off, but a limitation of the finished product nonetheless.
+*Limited coherence of visual style.* Because several asset packages by different authors were used, the models differ somewhat in their level of detail and modelling style. This follows directly from the decision to prioritise time for system design - a conscious trade-off, but a limitation of the finished product nonetheless.
 
 *Singleton-based architecture.* As analysed in Section 6.3.4, this pattern suits the present scale but would become an obstacle were the project extended to a multiplayer mode.
 
-**Group 3 — Limitations of the evaluation process**
+**Group 3 - Limitations of the evaluation process**
 
-*No testing with external players.* This is the most serious limitation in methodological terms, and differs in kind from the two groups above: those concern things not yet built, whereas this one means that all current balance parameters reflect the perception of a single individual — one who already knew every mechanism in advance. Values such as statistic depletion rates, tool durability and creature health may prove too easy or too demanding for a new player, and there is at present no means of determining which.
+*No testing with external players.* This is the most serious limitation in methodological terms, and differs in kind from the two groups above: those concern things not yet built, whereas this one means that all current balance parameters reflect the perception of a single individual - one who already knew every mechanism in advance. Values such as statistic depletion rates, tool durability and creature health may prove too easy or too demanding for a new player, and there is at present no means of determining which.
 
 ---
 

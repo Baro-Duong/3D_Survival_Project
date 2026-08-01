@@ -1,21 +1,21 @@
-# CHƯƠNG 6 — MỤC 6.2 VÀ 6.3
+# CHƯƠNG 6 - MỤC 6.2 VÀ 6.3
 ### Bản tiếng Việt (bản duyệt nội dung)
 
 > **Ghi chú:**
-> - Ngôi thứ ba, giọng bị động — thống nhất với Chương 3.
+> - Ngôi thứ ba, giọng bị động - thống nhất với Chương 3.
 > - Trích dẫn chuẩn RMIT Harvard.
 > - `📌 [ẢNH n]` là vị trí chèn ảnh chụp màn hình.
 > - Các khối mã được rút gọn, chỉ giữ phần cốt lõi; phần lược bỏ đánh dấu bằng `// ...`.
 
 ---
 
-# 6.2 Các tính năng của sản phẩm
+## 6.2 Các tính năng của sản phẩm
 
 Mục này trình bày các tính năng chính của WildBound thông qua hình ảnh chụp từ sản phẩm đang vận hành. Tám tính năng được lựa chọn nhằm bao quát toàn bộ vòng lặp cốt lõi của trò chơi, từ màn hình khởi đầu cùng phần hướng dẫn, qua quá trình thu thập và chế tạo, cho tới các tình huống chiến đấu và kết thúc lượt chơi.
 
 ---
 
-## 6.2.1 Màn hình chính
+### 6.2.1 Màn hình chính
 
 📌 **[ẢNH 1]** *Màn hình chính với tên trò chơi, nút Play và khung cảnh nền được làm mờ.*
 
@@ -27,25 +27,25 @@ Toàn bộ khung cảnh nền được làm mờ bằng hiệu ứng Depth of Fi
 
 ---
 
-## 6.2.2 Lớp phủ hướng dẫn
+### 6.2.2 Lớp phủ hướng dẫn
 
 📌 **[ẢNH 2]** *Lớp phủ hướng dẫn hiển thị đè lên màn hình chính, kèm bộ đếm trang và các nút điều hướng.*
 
-WildBound không có chỉ dẫn nào bên trong màn chơi, trong khi một số cơ chế của trò chơi — đặc biệt là điều kiện để máu tự hồi phục — rất khó để người chơi tự suy ra bằng cách thử nghiệm. Vì vậy, một phần hướng dẫn được bổ sung nhằm truyền đạt các quy tắc cốt lõi trước khi lượt chơi bắt đầu.
+WildBound không có chỉ dẫn nào bên trong màn chơi, trong khi một số cơ chế của trò chơi - đặc biệt là điều kiện để máu tự hồi phục - rất khó để người chơi tự suy ra bằng cách thử nghiệm. Vì vậy, một phần hướng dẫn được bổ sung nhằm truyền đạt các quy tắc cốt lõi trước khi lượt chơi bắt đầu.
 
 Phần hướng dẫn được trình bày dưới dạng lớp phủ vẽ đè lên màn hình chính thay vì một scene riêng biệt. Lựa chọn này giữ cho khung cảnh nền vẫn tiếp tục chuyển động phía sau bảng nội dung, bảo toàn tính liền mạch về thị giác, đồng thời tránh được độ trễ tải dữ liệu mà việc chuyển scene sẽ gây ra. Bảng nội dung được điều hướng bằng hai nút Back và Next kèm bộ đếm trang, áp dụng đúng cơ chế phân trang đã được thiết lập ở thư viện công thức bên trong trò chơi, nhờ đó hai giao diện vận hành nhất quán với nhau. Nút Close đóng lớp phủ và đưa người chơi trở lại màn hình chính.
 
-Nút Play trên màn hình chính ban đầu bị vô hiệu hóa và được mở khóa khi người chơi lật tới trang hướng dẫn cuối cùng. Mục đích là bảo đảm người chơi lần đầu nắm được các quy tắc cốt lõi trước khi bước vào một trò chơi mà việc hiểu sai chúng dẫn tới cái chết rất nhanh. Để yêu cầu này không trở thành trở ngại cho người chơi quay lại, trạng thái đã đọc hướng dẫn được ghi nhớ lâu dài: ở mọi lần khởi động sau đó, nút Play khả dụng ngay lập tức và phần hướng dẫn trở thành tùy chọn. Cách làm này giữ được giá trị hướng dẫn dành cho người chơi mới mà không bắt người đã quen trò chơi phải đọc lại.
+Nút Play trên màn hình chính ban đầu bị vô hiệu hóa và được mở khóa khi người chơi lật tới trang hướng dẫn cuối cùng. Mục đích là bảo đảm các quy tắc cốt lõi được tiếp nhận trước khi bước vào một trò chơi mà việc hiểu sai chúng dẫn tới cái chết rất nhanh. Trạng thái khóa được áp dụng lại mỗi lần màn hình chính được tải, kể cả khi người chơi quay về từ màn hình kết thúc, và không có dữ liệu nào ghi nhớ việc đã đọc hướng dẫn giữa các lần chạy. Quyết định này giúp phần hiện thực không cần tới bộ nhớ lưu trữ lâu dài và bảo đảm phần hướng dẫn không bao giờ bị bỏ qua, đổi lại người chơi quay lại vẫn phải đóng bảng hướng dẫn ở mỗi lần khởi động.
 
 Phần hướng dẫn hiện gồm hai trang: một trang giới thiệu bối cảnh và mục tiêu, và một trang giải thích ba chỉ số sinh tồn cùng cách thức phục hồi chúng đúng đắn. Cấu trúc trang được tổ chức theo hướng dữ liệu, nghĩa là có thể bổ sung thêm trang chỉ bằng cách đặt thêm đối tượng trang vào giao diện mà không phải sửa đổi mã nguồn điều khiển.
 
 ---
 
-## 6.2.3 Giao diện trong lúc chơi
+### 6.2.3 Giao diện trong lúc chơi
 
 📌 **[ẢNH 3]** *Khung cảnh trong lúc chơi, hiển thị đầy đủ các thành phần giao diện và dòng chữ gợi ý tương tác.*
 
-Giao diện trong lúc chơi được tổ chức theo nguyên tắc đặt toàn bộ thông tin ở vùng rìa màn hình, giữ cho phần trung tâm — nơi người chơi quan sát và thao tác — luôn thông thoáng.
+Giao diện trong lúc chơi được tổ chức theo nguyên tắc đặt toàn bộ thông tin ở vùng rìa màn hình, giữ cho phần trung tâm - nơi người chơi quan sát và thao tác - luôn thông thoáng.
 
 Các thành phần bao gồm: ba thanh chỉ số sinh tồn (máu, khát, đói) kèm giá trị số cụ thể; thanh công cụ nhanh gồm tám ô ở cạnh dưới, trong đó ô đang được chọn được đánh dấu bằng viền sáng màu vàng; bộ đếm thời gian sống sót ở góc màn hình; và dòng chữ gợi ý tương tác xuất hiện ở trung tâm khi người chơi hướng tầm nhìn vào một vật thể có thể tương tác.
 
@@ -53,7 +53,7 @@ Việc hiển thị đồng thời cả thanh trạng thái lẫn giá trị s�
 
 ---
 
-## 6.2.4 Túi đồ và bảng chế tạo
+### 6.2.4 Túi đồ và bảng chế tạo
 
 📌 **[ẢNH 4]** *Giao diện túi đồ đang mở, có vật phẩm xếp chồng hiển thị số lượng và một vật phẩm đang được kéo.*
 
@@ -65,7 +65,7 @@ Việc di chuyển vật phẩm giữa các ô được thực hiện bằng tha
 
 ---
 
-## 6.2.5 Thư viện công thức
+### 6.2.5 Thư viện công thức
 
 📌 **[ẢNH 5]** *Bảng thư viện công thức hiển thị các công thức kèm nguyên liệu và nút Choose.*
 
@@ -77,7 +77,7 @@ Mỗi công thức đi kèm nút Choose. Khi được kích hoạt, hệ thống
 
 ---
 
-## 6.2.6 Chuỗi tương tác nấu nướng
+### 6.2.6 Chuỗi tương tác nấu nướng
 
 📌 **[ẢNH 6]** *Người chơi đang cầm thịt sống và giữ phím F trước bếp lửa, hiển thị tiến trình nấu theo phần trăm.*
 
@@ -85,11 +85,11 @@ Chuỗi tương tác nấu nướng là hệ thống tương tác phức tạp n
 
 Hệ thống hoạt động dựa trên tổ hợp giữa vật phẩm người chơi đang cầm và vật thể người chơi đang hướng tầm nhìn tới. Cùng một bếp lửa sẽ cho ra các tùy chọn tương tác khác nhau tùy theo vật phẩm trên tay: cầm nồi nước bẩn sẽ cho phép đun nước, cầm chai rỗng trước bếp đã đun xong sẽ cho phép múc nước, cầm thịt sống sẽ cho phép nấu, còn cầm gậy hoặc đá sẽ cho phép bổ sung độ bền cho bếp.
 
-Riêng thao tác nấu thịt yêu cầu giữ phím F liên tục trong mười giây. Trong suốt thời gian đó, tiến trình được hiển thị theo phần trăm và sẽ bị đặt lại nếu người chơi thả phím hoặc quay đi. Cơ chế giữ phím kèm phản hồi tiến trình được lựa chọn thay cho thao tác bấm một lần nhằm tạo cảm giác nấu nướng cần thời gian, đồng thời buộc người chơi phải đứng yên tại chỗ — một khoảng thời gian dễ bị tổn thương có chủ đích trong thiết kế.
+Riêng thao tác nấu thịt yêu cầu giữ phím F liên tục trong mười giây. Trong suốt thời gian đó, tiến trình được hiển thị theo phần trăm và sẽ bị đặt lại nếu người chơi thả phím hoặc quay đi. Cơ chế giữ phím kèm phản hồi tiến trình được lựa chọn thay cho thao tác bấm một lần nhằm tạo cảm giác nấu nướng cần thời gian, đồng thời buộc người chơi phải đứng yên tại chỗ - một khoảng thời gian dễ bị tổn thương có chủ đích trong thiết kế.
 
 ---
 
-## 6.2.7 Chiến đấu và phản hồi khi nhận sát thương
+### 6.2.7 Chiến đấu và phản hồi khi nhận sát thương
 
 📌 **[ẢNH 7]** *Thỏ đang truy đuổi người chơi, kèm hiệu ứng lóa đỏ trên toàn màn hình tại thời điểm người chơi nhận sát thương. Nếu bắt được khoảnh khắc thỏ đầu đàn tấn công thì nên dùng ảnh đó, vì thể hiện được cả hai loại sinh vật.*
 
@@ -101,33 +101,33 @@ Thỏ là sinh vật duy nhất trong WildBound, đồng thời vừa là nguồ
 
 Tại mỗi thời điểm chỉ tồn tại tối đa một thỏ đầu đàn trên bản đồ. Sau khi bị hạ, hệ thống phải sinh ra ba lượt thỏ thường rồi mới sinh lại một con mới.
 
-Sự phân biệt giữa hai biến thể tạo ra một cấp độ rủi ro thứ hai trong trò chơi. Thỏ thường là nguồn thức ăn an toàn nếu người chơi chấp nhận mất một lượng máu nhỏ, trong khi thỏ đầu đàn là mục tiêu có phần thưởng cao nhưng buộc người chơi phải chuẩn bị trước — cả về lượng máu hiện có lẫn công cụ đang cầm. Việc màu sắc và kích thước của nó khác biệt rõ rệt là một quyết định có chủ đích, nhằm giúp người chơi nhận ra mối nguy từ xa và tự quyết định giao chiến hay tránh né.
+Sự phân biệt giữa hai biến thể tạo ra một cấp độ rủi ro thứ hai trong trò chơi. Thỏ thường là nguồn thức ăn an toàn nếu người chơi chấp nhận mất một lượng máu nhỏ, trong khi thỏ đầu đàn là mục tiêu có phần thưởng cao nhưng buộc người chơi phải chuẩn bị trước - cả về lượng máu hiện có lẫn công cụ đang cầm. Việc màu sắc và kích thước của nó khác biệt rõ rệt là một quyết định có chủ đích, nhằm giúp người chơi nhận ra mối nguy từ xa và tự quyết định giao chiến hay tránh né.
 
-Khi người chơi nhận sát thương — dù từ vết cắn của thỏ hay do cạn kiệt nước và thức ăn — toàn bộ màn hình sẽ lóa đỏ trong thời gian ngắn rồi mờ dần. Cơ chế phản hồi này được bổ sung do quan sát thấy rằng nếu chỉ dựa vào thanh máu, người chơi rất dễ bỏ sót việc mình đang mất máu trong lúc tập trung quan sát môi trường xung quanh.
+Khi người chơi nhận sát thương - dù từ vết cắn của thỏ hay do cạn kiệt nước và thức ăn - toàn bộ màn hình sẽ lóa đỏ trong thời gian ngắn rồi mờ dần. Cơ chế phản hồi này được bổ sung do quan sát thấy rằng nếu chỉ dựa vào thanh máu, người chơi rất dễ bỏ sót việc mình đang mất máu trong lúc tập trung quan sát môi trường xung quanh.
 
 ---
 
-## 6.2.8 Màn hình kết thúc
+### 6.2.8 Màn hình kết thúc
 
 📌 **[ẢNH 8]** *Màn hình kết thúc với nền đỏ, dòng chữ Game Over, thời gian sống sót và hai nút điều khiển.*
 
 Khi lượng máu của người chơi giảm về không, màn hình kết thúc được kích hoạt. Một lớp nền màu đỏ hiện dần lên trong khoảng hai giây thay vì xuất hiện tức thì, nhằm tạo cảm giác chuyển tiếp mềm mại hơn.
 
-Đồng thời, toàn bộ các thành phần điều khiển của người chơi — di chuyển, xoay camera, tấn công, chọn ô công cụ và tương tác — đều bị vô hiệu hóa, và con trỏ chuột được giải phóng để người chơi có thể thao tác với các nút trên màn hình.
+Đồng thời, toàn bộ các thành phần điều khiển của người chơi - di chuyển, xoay camera, tấn công, chọn ô công cụ và tương tác - đều bị vô hiệu hóa, và con trỏ chuột được giải phóng để người chơi có thể thao tác với các nút trên màn hình.
 
 Thời gian sống sót của lượt chơi được đóng băng và hiển thị ngay dưới dòng chữ kết thúc, trong khi bộ đếm thời gian trên giao diện chính được ẩn đi. Đây là chỉ số thành tích duy nhất của trò chơi: do WildBound không có điều kiện chiến thắng, thời gian sống sót đóng vai trò thước đo hiệu quả của người chơi và là động lực để thực hiện lượt chơi tiếp theo. Hai nút điều khiển cho phép bắt đầu lại lượt chơi mới hoặc quay về màn hình chính.
 
 ---
 
-# 6.3 Hiện thực sản phẩm
+## 6.3 Hiện thực sản phẩm
 
 Mục này phân tích bảy đoạn mã tiêu biểu trong WildBound. Các đoạn mã được lựa chọn theo nguyên tắc mỗi đoạn minh họa một kỹ thuật khác biệt, nhằm phản ánh phạm vi các vấn đề kỹ thuật đã được xử lý trong quá trình phát triển. Toàn bộ mã được rút gọn để giữ lại phần cốt lõi; các phần lược bỏ được đánh dấu bằng `// ...`.
 
 ---
 
-## 6.3.1 Mẫu thay thế đối tượng có bảo toàn trạng thái
+### 6.3.1 Mẫu thay thế đối tượng có bảo toàn trạng thái
 
-**Vấn đề cần giải quyết.** Bếp lửa trong WildBound có ba trạng thái với hình dạng khác nhau: bếp thường, bếp đang đun và bếp đã đun xong. Tương tự, bụi cây có hai trạng thái: còn quả và đã bị hái. Yêu cầu đặt ra là khi chuyển trạng thái, mô hình ba chiều phải thay đổi tương ứng, nhưng toàn bộ dữ liệu tiến trình — độ bền còn lại, số lần đã múc nước, thời gian hồi sinh — phải được giữ nguyên.
+**Vấn đề cần giải quyết.** Bếp lửa trong WildBound có ba trạng thái với hình dạng khác nhau: bếp thường, bếp đang đun và bếp đã đun xong. Tương tự, bụi cây có hai trạng thái: còn quả và đã bị hái. Yêu cầu đặt ra là khi chuyển trạng thái, mô hình ba chiều phải thay đổi tương ứng, nhưng toàn bộ dữ liệu tiến trình - độ bền còn lại, số lần đã múc nước, thời gian hồi sinh - phải được giữ nguyên.
 
 ```csharp
  1  private void SpawnReplacement(GameObject prefab)
@@ -151,19 +151,19 @@ Mục này phân tích bảy đoạn mã tiêu biểu trong WildBound. Các đo�
 19  }
 ```
 
-**Giải thích kỹ thuật.** Phương thức này hiện thực mẫu máy trạng thái (state machine) kết hợp với việc hoán đổi prefab (Nystrom 2014). Dòng 4 tạo ra thực thể mới tại đúng vị trí và góc quay của thực thể cũ. Các dòng 9–12 thực hiện việc chuyển giao dữ liệu sang thực thể mới. Dòng 18 hủy thực thể cũ.
+**Giải thích kỹ thuật.** Phương thức này hiện thực mẫu máy trạng thái (state machine) kết hợp với việc hoán đổi prefab (Nystrom 2014). Dòng 4 tạo ra thực thể mới tại đúng vị trí và góc quay của thực thể cũ. Các dòng 9-12 thực hiện việc chuyển giao dữ liệu sang thực thể mới. Dòng 18 hủy thực thể cũ.
 
 **Cơ sở của thiết kế.** Phương án thay thế là giữ nguyên một đối tượng duy nhất và chỉ hoán đổi thành phần hiển thị. Tuy nhiên, các trạng thái của bếp lửa khác nhau không chỉ ở mô hình mà còn ở hiệu ứng hạt, vị trí điểm va chạm và cấu trúc đối tượng con, khiến việc hoán đổi từng phần trở nên phức tạp và dễ phát sinh lỗi hơn so với việc thay thế toàn bộ.
 
 Điểm đáng chú ý nhất là cấu trúc của khối lệnh từ dòng 6 đến 17. Trong phiên bản đầu tiên, nhánh `else` ở dòng 14 không tồn tại, trong khi lệnh `Destroy` ở dòng 18 vẫn luôn được thực thi. Hậu quả là khi prefab đích thiếu thành phần `FirePitManager`, việc chuyển giao dữ liệu bị bỏ qua trong im lặng nhưng đối tượng cũ vẫn bị hủy, để lại một đối tượng thay thế không còn khả năng tương tác. Lỗi này đã xảy ra hai lần trong dự án trước khi thông báo lỗi ở dòng 16 được bổ sung. Bài học rút ra là mọi lời gọi `GetComponent` trên một đối tượng vừa được tạo đều cần có nhánh xử lý khi kết quả trả về rỗng.
 
-Cần lưu ý thêm rằng đoạn mã trên **không** sao chép các tham chiếu prefab sang thực thể mới. Toàn bộ tham chiếu prefab được lưu tập trung tại một đối tượng quản lý duy nhất trong scene. Cách tổ chức này loại bỏ hoàn toàn rủi ro một thực thể vô tình tham chiếu tới chính đối tượng sắp bị hủy — một lỗi đã từng phát sinh và được trình bày tại mục 3.1.4.
+Cần lưu ý thêm rằng đoạn mã trên **không** sao chép các tham chiếu prefab sang thực thể mới. Toàn bộ tham chiếu prefab được lưu tập trung tại một đối tượng quản lý duy nhất trong scene. Cách tổ chức này loại bỏ hoàn toàn rủi ro một thực thể vô tình tham chiếu tới chính đối tượng sắp bị hủy - một lỗi đã từng phát sinh và được trình bày tại mục 3.1.4.
 
 Cùng một cấu trúc mã này được áp dụng lại cho hệ thống bụi cây, chỉ khác về kiểu dữ liệu và tập biến được chuyển giao. Việc một mẫu thiết kế phục vụ được hai hệ thống có bản chất khác nhau cho thấy tính khái quát của giải pháp.
 
 ---
 
-## 6.3.2 Thuật toán so khớp công thức chế tạo
+### 6.3.2 Thuật toán so khớp công thức chế tạo
 
 **Vấn đề cần giải quyết.** Hệ thống chế tạo phải xác định công thức tương ứng với hai nguyên liệu người chơi đặt vào. Vấn đề phát sinh khi nhiều công thức cùng sử dụng một cặp nguyên liệu nhưng khác nhau về số lượng: rìu yêu cầu một gậy và một đá, trong khi bếp lửa yêu cầu năm gậy và bốn đá. Thuật toán chọn công thức khớp đầu tiên luôn trả về rìu, kể cả khi người chơi đã đặt đủ nguyên liệu cho bếp lửa.
 
@@ -203,13 +203,13 @@ Cùng một cấu trúc mã này được áp dụng lại cho hệ thống bụ
 
 **Giải thích kỹ thuật.** Thay vì dừng ở công thức khớp đầu tiên, thuật toán duyệt toàn bộ danh sách và ghi nhận công thức tốt nhất theo một tiêu chí định lượng. Tiêu chí này được đặt tên là *độ đặc hiệu* (specificity), tính bằng tổng số nguyên liệu mà công thức yêu cầu (dòng 22). Công thức có độ đặc hiệu cao hơn được ưu tiên (dòng 23).
 
-Các dòng 10–18 xử lý một yêu cầu khác về trải nghiệm: người chơi không cần quan tâm tới thứ tự đặt nguyên liệu. Mỗi công thức được kiểm tra theo cả hai chiều, và biến `inputsSwapped` ghi nhớ chiều nào đã khớp để giai đoạn trừ nguyên liệu sau đó trừ đúng số lượng từ đúng ô.
+Các dòng 10-18 xử lý một yêu cầu khác về trải nghiệm: người chơi không cần quan tâm tới thứ tự đặt nguyên liệu. Mỗi công thức được kiểm tra theo cả hai chiều, và biến `inputsSwapped` ghi nhớ chiều nào đã khớp để giai đoạn trừ nguyên liệu sau đó trừ đúng số lượng từ đúng ô.
 
 **Cơ sở của thiết kế.** Một phương án khác là buộc mỗi công thức phải có cặp nguyên liệu duy nhất, tức không cho phép hai công thức dùng chung nguyên liệu. Phương án này giải quyết được xung đột nhưng lại hạn chế nghiêm trọng không gian thiết kế của trò chơi, bởi trong một trò chơi sinh tồn với số loại tài nguyên hữu hạn, việc nhiều công cụ cùng được chế tạo từ gỗ và đá là hoàn toàn tự nhiên. Giải pháp dựa trên độ đặc hiệu giữ được tính linh hoạt đó, đồng thời phù hợp với trực giác của người chơi: khi đã bỏ ra nhiều nguyên liệu hơn, người chơi mong đợi nhận được sản phẩm tương xứng.
 
 ---
 
-## 6.3.3 Vòng lặp mô phỏng sinh tồn
+### 6.3.3 Vòng lặp mô phỏng sinh tồn
 
 **Vấn đề cần giải quyết.** Hệ thống chỉ số sinh tồn phải mô phỏng mối quan hệ giữa ba chỉ số máu, khát và đói theo thời gian thực, đồng thời tạo ra áp lực tài nguyên liên tục lên người chơi.
 
@@ -245,19 +245,19 @@ Các dòng 10–18 xử lý một yêu cầu khác về trải nghiệm: ngườ
 29  }
 ```
 
-**Giải thích kỹ thuật.** Mọi phép biến đổi chỉ số đều được nhân với `Time.deltaTime` — khoảng thời gian thực đã trôi qua kể từ khung hình trước. Nhờ đó tốc độ tiêu hao chỉ số là như nhau trên mọi cấu hình máy, bất kể số khung hình mỗi giây đạt được. Nếu bỏ qua phép nhân này, người chơi trên máy cấu hình cao sẽ mất nước nhanh hơn nhiều lần so với máy cấu hình thấp.
+**Giải thích kỹ thuật.** Mọi phép biến đổi chỉ số đều được nhân với `Time.deltaTime` - khoảng thời gian thực đã trôi qua kể từ khung hình trước. Nhờ đó tốc độ tiêu hao chỉ số là như nhau trên mọi cấu hình máy, bất kể số khung hình mỗi giây đạt được. Nếu bỏ qua phép nhân này, người chơi trên máy cấu hình cao sẽ mất nước nhanh hơn nhiều lần so với máy cấu hình thấp.
 
 Các hàm `Mathf.Max` và `Mathf.Min` được dùng để giới hạn chỉ số trong khoảng hợp lệ, ngăn giá trị âm hoặc vượt quá mức tối đa.
 
 **Cơ sở của thiết kế.** Điểm cốt lõi về mặt thiết kế trò chơi nằm ở biến `isRegenerating` và cách nó được sử dụng ở các dòng 10 và 14. Việc hồi máu tự động chỉ diễn ra khi cả nước lẫn thức ăn đều trên ngưỡng năm mươi phần trăm, và quan trọng hơn, quá trình hồi máu làm tăng thêm tốc độ tiêu hao của chính hai chỉ số đó.
 
-Thiết kế này biến việc hồi máu thành một sự đánh đổi thay vì một cơ chế miễn phí. Người chơi bị thương nặng buộc phải lựa chọn giữa việc dừng lại để hồi phục — đồng nghĩa với tiêu tốn nhanh hơn lượng nước và thức ăn dự trữ — hoặc tiếp tục hoạt động với lượng máu thấp. Nếu hồi máu diễn ra vô điều kiện, toàn bộ áp lực tài nguyên của trò chơi sẽ bị vô hiệu hóa, vì người chơi chỉ cần đứng chờ là mọi thiệt hại đều được xóa bỏ.
+Thiết kế này biến việc hồi máu thành một sự đánh đổi thay vì một cơ chế miễn phí. Người chơi bị thương nặng buộc phải lựa chọn giữa việc dừng lại để hồi phục - đồng nghĩa với tiêu tốn nhanh hơn lượng nước và thức ăn dự trữ - hoặc tiếp tục hoạt động với lượng máu thấp. Nếu hồi máu diễn ra vô điều kiện, toàn bộ áp lực tài nguyên của trò chơi sẽ bị vô hiệu hóa, vì người chơi chỉ cần đứng chờ là mọi thiệt hại đều được xóa bỏ.
 
 Các dòng 17 và 18 hiện thực hình phạt khi chỉ số cạn kiệt, với mức độ khác nhau: hết nước gây thiệt hại gấp ba lần hết thức ăn. Sự chênh lệch này phản ánh mức độ cấp thiết khác nhau của hai nhu cầu, đồng thời định hướng thứ tự ưu tiên của người chơi khi phải lựa chọn nguồn tài nguyên để tìm kiếm.
 
 ---
 
-## 6.3.4 Kiến trúc Singleton và cấu hình hướng dữ liệu
+### 6.3.4 Kiến trúc Singleton và cấu hình hướng dữ liệu
 
 **Vấn đề cần giải quyết.** Nhiều hệ thống trong trò chơi cần truy cập lẫn nhau: hệ thống tương tác phải thêm vật phẩm vào túi đồ, hệ thống chiến đấu phải trừ máu người chơi. Nếu mỗi lớp đều phải giữ tham chiếu trực tiếp tới các lớp còn lại, số lượng tham chiếu cần gán thủ công trong trình soạn thảo sẽ tăng rất nhanh.
 
@@ -308,7 +308,7 @@ Tuy nhiên, cần ghi nhận rằng đây là một hạn chế thực sự nế
 
 ---
 
-## 6.3.5 Chuỗi tương tác phụ thuộc ngữ cảnh
+### 6.3.5 Chuỗi tương tác phụ thuộc ngữ cảnh
 
 **Vấn đề cần giải quyết.** Cùng một vật thể trong thế giới trò chơi phải cho ra các hành vi khác nhau tùy theo vật phẩm người chơi đang cầm. Bếp lửa có tới sáu tương tác khác nhau, và tất cả phải được xử lý mà không khiến mã nguồn trở nên rối rắm.
 
@@ -364,7 +364,7 @@ Tuy nhiên, cần ghi nhận rằng đây là một hạn chế thực sự nế
 
 Điểm đáng chú ý về mặt cấu trúc là việc tách thành hai phương thức riêng biệt ở các dòng 10 và 11. `HandleInteractionText` chỉ quyết định hiển thị dòng chữ gợi ý nào, còn `HandleInput` chỉ xử lý thao tác bấm phím. Việc phân tách này cần thiết vì hai nhiệm vụ có điều kiện kích hoạt khác nhau: dòng chữ gợi ý phải hiển thị liên tục khi người chơi nhìn vào vật thể, trong khi hành động chỉ được thực thi tại thời điểm bấm phím.
 
-Cơ chế giữ phím được hiện thực ở các dòng 30–41: biến tích lũy `cookHoldTime` tăng dần theo thời gian thực và bị đặt lại về không ngay khi người chơi thả phím hoặc quay đi.
+Cơ chế giữ phím được hiện thực ở các dòng 30-41: biến tích lũy `cookHoldTime` tăng dần theo thời gian thực và bị đặt lại về không ngay khi người chơi thả phím hoặc quay đi.
 
 **Cơ sở của thiết kế.** Một bài học kiến trúc quan trọng đã được rút ra trong quá trình xây dựng hệ thống này. Ở phiên bản đầu, cả lớp này lẫn lớp quản lý hiển thị tên vật thể đều trực tiếp bật, tắt và ghi nội dung lên **cùng một** đối tượng giao diện, trong khi Unity không đảm bảo thứ tự thực thi giữa các lớp trong cùng một khung hình. Hậu quả là hai lớp liên tục ghi đè lên kết quả của nhau, dẫn đến hiện tượng dòng chữ gợi ý biến mất một cách không thể dự đoán trước.
 
@@ -372,7 +372,7 @@ Vấn đề được xử lý bằng cách xác lập nguyên tắc **một đ�
 
 ---
 
-## 6.3.6 Tái sử dụng logic cho nhiều loại công cụ
+### 6.3.6 Tái sử dụng logic cho nhiều loại công cụ
 
 **Vấn đề cần giải quyết.** Rìu và cuốc chim có cùng sát thương khi tấn công sinh vật và cùng cơ chế hao mòn độ bền, nhưng khác nhau về đối tượng chúng có thể tác động: rìu chặt được cây, cuốc đào được đá. Yêu cầu là xử lý điểm chung mà không viết trùng lặp mã nguồn.
 
@@ -425,7 +425,7 @@ Thứ tự kiểm tra từ dòng 15 đến dòng 31 cũng là một quyết đ�
 
 ---
 
-## 6.3.7 Điều khiển chuyển cảnh bằng máy trạng thái
+### 6.3.7 Điều khiển chuyển cảnh bằng máy trạng thái
 
 **Vấn đề cần giải quyết.** Màn hình chính cần một camera tự động: đứng yên tại một vị trí và xoay ngang để phô diễn khung cảnh, sau đó chuyển sang vị trí quan sát khác và lặp lại vô hạn. Quá trình chuyển vị trí phải được che giấu để người xem không nhìn thấy hiện tượng nhảy hình đột ngột.
 
@@ -469,9 +469,9 @@ Dòng 9 áp dụng `Mathf.SmoothStep` lên hệ số nội suy. Hàm này biến
 
 Dòng 19 là điểm mấu chốt của toàn bộ cơ chế: việc dịch chuyển camera sang vị trí mới được thực hiện đúng vào thời điểm màn hình đã tối hoàn toàn. Nhờ đó, hiện tượng nhảy hình được che giấu hoàn toàn khỏi người xem.
 
-**Cơ sở của thiết kế.** Phương án thay thế là di chuyển camera một cách liên tục giữa các điểm quan sát. Phương án này đã bị loại bỏ vì đường đi thẳng giữa hai điểm bất kỳ có thể xuyên qua địa hình hoặc vật thể, tạo ra hình ảnh lỗi mà việc khắc phục đòi hỏi phải xây dựng thêm hệ thống tìm đường cho camera — một khối lượng công việc không tương xứng với giá trị thu được ở màn hình chính.
+**Cơ sở của thiết kế.** Phương án thay thế là di chuyển camera một cách liên tục giữa các điểm quan sát. Phương án này đã bị loại bỏ vì đường đi thẳng giữa hai điểm bất kỳ có thể xuyên qua địa hình hoặc vật thể, tạo ra hình ảnh lỗi mà việc khắc phục đòi hỏi phải xây dựng thêm hệ thống tìm đường cho camera - một khối lượng công việc không tương xứng với giá trị thu được ở màn hình chính.
 
-Về mặt hiện thực, cơ chế đếm thời gian trong `Update()` được lựa chọn thay cho Coroutine của Unity. Cả hai đều khả thi về mặt kỹ thuật, nhưng phương án đầu giữ được tính nhất quán với toàn bộ phần còn lại của dự án, nơi mọi tiến trình theo thời gian — thời gian đun nước, thời gian hồi sinh của bụi cây, chu kỳ sinh sinh vật — đều được hiện thực bằng cùng một cách. Sự nhất quán này giúp giảm chi phí nhận thức khi đọc lại mã nguồn.
+Về mặt hiện thực, cơ chế đếm thời gian trong `Update()` được lựa chọn thay cho Coroutine của Unity. Cả hai đều khả thi về mặt kỹ thuật, nhưng phương án đầu giữ được tính nhất quán với toàn bộ phần còn lại của dự án, nơi mọi tiến trình theo thời gian - thời gian đun nước, thời gian hồi sinh của bụi cây, chu kỳ sinh sinh vật - đều được hiện thực bằng cùng một cách. Sự nhất quán này giúp giảm chi phí nhận thức khi đọc lại mã nguồn.
 
 ---
 

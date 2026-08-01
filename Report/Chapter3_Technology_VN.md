@@ -1,11 +1,11 @@
-# CHƯƠNG 3 — TECHNOLOGY AND TOOLS
-### Bản tiếng Việt (bản duyệt nội dung — sau khi duyệt sẽ chuyển sang bản học thuật tiếng Anh)
+# CHƯƠNG 3 - TECHNOLOGY AND TOOLS
+### Bản tiếng Việt (bản duyệt nội dung - sau khi duyệt sẽ chuyển sang bản học thuật tiếng Anh)
 
 > **Ghi chú dành cho người viết:**
 >
-> **1. Ngôi kể:** toàn bộ chương dùng **ngôi thứ ba, giọng bị động/vô nhân xưng**. Chủ ngữ của câu là *đồ án*, *dự án*, *hệ thống*, *sản phẩm* hoặc chính đối tượng kỹ thuật đang được nói tới — không dùng "tôi", cũng không dùng "tác giả đã làm X". Ví dụ: *"Unity được lựa chọn làm nền tảng phát triển"*, *"Hệ thống giao diện được xây dựng bằng uGUI"*, *"Vấn đề này được khắc phục bằng cách..."*. Khi dịch sang tiếng Anh cũng giữ nguyên nguyên tắc này (passive voice: *"Unity was selected as the development platform"*).
+> **1. Ngôi kể:** toàn bộ chương dùng **ngôi thứ ba, giọng bị động/vô nhân xưng**. Chủ ngữ của câu là *đồ án*, *dự án*, *hệ thống*, *sản phẩm* hoặc chính đối tượng kỹ thuật đang được nói tới - không dùng "tôi", cũng không dùng "tác giả đã làm X". Ví dụ: *"Unity được lựa chọn làm nền tảng phát triển"*, *"Hệ thống giao diện được xây dựng bằng uGUI"*, *"Vấn đề này được khắc phục bằng cách..."*. Khi dịch sang tiếng Anh cũng giữ nguyên nguyên tắc này (passive voice: *"Unity was selected as the development platform"*).
 >
-> **2. Trích dẫn:** theo chuẩn **RMIT Harvard** (Easy Cite) — trong bài **không có dấu phẩy** giữa tên và năm: `(Gregory 2018)`; hai tác giả dùng `and`: `(Chacon and Straub 2014)`.
+> **2. Trích dẫn:** theo chuẩn **RMIT Harvard** (Easy Cite) - trong bài **không có dấu phẩy** giữa tên và năm: `(Gregory 2018)`; hai tác giả dùng `and`: `(Chacon and Straub 2014)`.
 >
 > **3. `📌 [ẢNH]`** là vị trí nên chèn ảnh chụp màn hình minh họa.
 
@@ -27,17 +27,17 @@ Unity hiện là một trong những engine được sử dụng rộng rãi nh�
 
 Unity được lựa chọn làm nền tảng phát triển cho WildBound dựa trên ba lý do chính.
 
-Thứ nhất, Unity cung cấp một hệ sinh thái phát triển hoàn chỉnh — bao gồm trình soạn thảo trực quan, hệ thống vật lý, hệ thống hoạt ảnh, công cụ dựng địa hình và hệ thống giao diện người dùng — trong cùng một môi trường thống nhất. Điều này đặc biệt quan trọng đối với một đồ án cá nhân, nơi toàn bộ khối lượng công việc do một người đảm nhiệm và không có điều kiện tự xây dựng các hệ thống kỹ thuật nền tảng.
+Thứ nhất, Unity cung cấp một hệ sinh thái phát triển hoàn chỉnh - bao gồm trình soạn thảo trực quan, hệ thống vật lý, hệ thống hoạt ảnh, công cụ dựng địa hình và hệ thống giao diện người dùng - trong cùng một môi trường thống nhất. Điều này đặc biệt quan trọng đối với một đồ án cá nhân, nơi toàn bộ khối lượng công việc do một người đảm nhiệm và không có điều kiện tự xây dựng các hệ thống kỹ thuật nền tảng.
 
 Thứ hai, quy mô cộng đồng người dùng lớn cùng hệ thống tài liệu chính thức đầy đủ giúp rút ngắn đáng kể thời gian xử lý sự cố. Do đồ án được thực hiện độc lập, không có sự trao đổi trực tiếp với đồng nghiệp khi phát sinh lỗi kỹ thuật, khả năng tự tra cứu tài liệu trở thành yếu tố quyết định tiến độ.
 
-Thứ ba, Unity Asset Store cung cấp nguồn tài nguyên đồ họa phong phú, cho phép sử dụng các mô hình ba chiều có sẵn và dành phần lớn thời gian cho việc thiết kế, hiện thực các hệ thống trò chơi — vốn là trọng tâm học thuật của đồ án này.
+Thứ ba, Unity Asset Store cung cấp nguồn tài nguyên đồ họa phong phú, cho phép sử dụng các mô hình ba chiều có sẵn và dành phần lớn thời gian cho việc thiết kế, hiện thực các hệ thống trò chơi - vốn là trọng tâm học thuật của đồ án này.
 
 Phiên bản được sử dụng là **Unity 6 (6000.3.10f1)**. Việc lựa chọn phiên bản mới nhất tại thời điểm khởi động dự án nhằm tận dụng các cải tiến về hiệu năng và những tính năng mới nhất của engine, qua đó tối ưu hóa sản phẩm. Đánh đổi của lựa chọn này là phần lớn tài liệu hướng dẫn và bài giảng trực tuyến hiện có được xây dựng trên các phiên bản cũ hơn, dẫn đến việc một số thao tác trong giao diện hoặc tên gọi thành phần không trùng khớp hoàn toàn. Trong những trường hợp đó, cách làm tương ứng trên phiên bản đang dùng được xác định bằng việc đối chiếu trực tiếp với tài liệu chính thức của Unity.
 
-### 3.1.2 Kiến trúc GameObject – Component
+### 3.1.2 Kiến trúc GameObject - Component
 
-Unity được xây dựng trên mô hình kiến trúc hướng thành phần (component-based architecture). Trong mô hình này, mọi thực thể trong không gian trò chơi đều là một `GameObject` — bản thân nó chỉ là một vật chứa rỗng không mang chức năng nào. Toàn bộ hành vi và thuộc tính được bổ sung bằng cách gắn các `Component` vào GameObject đó (Unity Technologies 2025a).
+Unity được xây dựng trên mô hình kiến trúc hướng thành phần (component-based architecture). Trong mô hình này, mọi thực thể trong không gian trò chơi đều là một `GameObject` - bản thân nó chỉ là một vật chứa rỗng không mang chức năng nào. Toàn bộ hành vi và thuộc tính được bổ sung bằng cách gắn các `Component` vào GameObject đó (Unity Technologies 2025a).
 
 Mô hình này khác biệt căn bản so với cách tổ chức bằng kế thừa nhiều tầng trong lập trình hướng đối tượng truyền thống. Thay vì xây dựng một cây kế thừa cứng nhắc, các thành phần độc lập được tổ hợp lại để tạo ra thực thể mong muốn. Ưu điểm của cách tiếp cận này là tính linh hoạt: một hành vi được viết một lần dưới dạng component có thể tái sử dụng cho nhiều loại đối tượng hoàn toàn khác nhau mà không phát sinh quan hệ kế thừa phức tạp (Nystrom 2014).
 
@@ -55,13 +55,13 @@ Việc hiểu chính xác sự khác biệt này có ý nghĩa thực tiễn qua
 
 Prefab là cơ chế cho phép lưu một GameObject cùng toàn bộ cấu hình của nó thành một tài nguyên độc lập, từ đó có thể tạo ra nhiều bản sao trong quá trình chạy chương trình (Unity Technologies 2025a). Prefab là nền tảng của mọi hệ thống sinh đối tượng động trong WildBound: vật phẩm rơi ra khi chặt cây, thỏ được sinh ra định kỳ từ hang, và các biến thể trạng thái của bếp lửa đều được hiện thực bằng Prefab.
 
-Trong quá trình phát triển, một vấn đề kỹ thuật đáng chú ý đã được phát hiện liên quan đến việc gán tham chiếu Prefab. Khi một tham chiếu được kéo thả từ cửa sổ Hierarchy — tức là trỏ tới một thực thể đang tồn tại trong scene — thay vì từ cửa sổ Project (trỏ tới tài nguyên Prefab gốc), tham chiếu đó vẫn hiển thị hợp lệ trong giao diện cho đến khi thực thể được trỏ tới bị hủy trong lúc chạy. Sau thời điểm đó, toàn bộ chuỗi tham chiếu kế thừa từ nó trở nên vô hiệu. Bài học rút ra là tham chiếu Prefab luôn phải được gán từ cửa sổ Project để đảm bảo tính ổn định.
+Trong quá trình phát triển, một vấn đề kỹ thuật đáng chú ý đã được phát hiện liên quan đến việc gán tham chiếu Prefab. Khi một tham chiếu được kéo thả từ cửa sổ Hierarchy - tức là trỏ tới một thực thể đang tồn tại trong scene - thay vì từ cửa sổ Project (trỏ tới tài nguyên Prefab gốc), tham chiếu đó vẫn hiển thị hợp lệ trong giao diện cho đến khi thực thể được trỏ tới bị hủy trong lúc chạy. Sau thời điểm đó, toàn bộ chuỗi tham chiếu kế thừa từ nó trở nên vô hiệu. Bài học rút ra là tham chiếu Prefab luôn phải được gán từ cửa sổ Project để đảm bảo tính ổn định.
 
 ### 3.1.5 ScriptableObject
 
 ScriptableObject là một dạng lớp dữ liệu cho phép lưu trữ thông tin dưới dạng tài nguyên độc lập với scene, không cần gắn vào bất kỳ GameObject nào (Unity Technologies 2025a). Cơ chế này là nền tảng để hiện thực nguyên tắc thiết kế hướng dữ liệu (data-driven design), trong đó dữ liệu cấu hình được tách rời hoàn toàn khỏi mã nguồn xử lý logic.
 
-WildBound áp dụng ScriptableObject cho hai mục đích. Thứ nhất, tài nguyên `GameConfig` tập trung toàn bộ các thông số cân bằng trò chơi — tốc độ di chuyển, tốc độ tiêu hao thể lực, sát thương, độ bền công cụ, thời gian hồi sinh tài nguyên và các thông số của sinh vật. Nhờ đó, việc điều chỉnh độ khó của trò chơi có thể thực hiện hoàn toàn thông qua giao diện Unity mà không cần sửa đổi hay biên dịch lại mã nguồn. Thứ hai, mỗi công thức chế tạo được lưu dưới dạng một tài nguyên `CraftingRecipe` riêng biệt, cho phép bổ sung công thức mới mà không tác động đến hệ thống chế tạo hiện có.
+WildBound áp dụng ScriptableObject cho hai mục đích. Thứ nhất, tài nguyên `GameConfig` tập trung toàn bộ các thông số cân bằng trò chơi - tốc độ di chuyển, tốc độ tiêu hao thể lực, sát thương, độ bền công cụ, thời gian hồi sinh tài nguyên và các thông số của sinh vật. Nhờ đó, việc điều chỉnh độ khó của trò chơi có thể thực hiện hoàn toàn thông qua giao diện Unity mà không cần sửa đổi hay biên dịch lại mã nguồn. Thứ hai, mỗi công thức chế tạo được lưu dưới dạng một tài nguyên `CraftingRecipe` riêng biệt, cho phép bổ sung công thức mới mà không tác động đến hệ thống chế tạo hiện có.
 
 ### 3.1.6 Công cụ dựng địa hình
 
@@ -75,7 +75,7 @@ WildBound áp dụng ScriptableObject cho hai mục đích. Thứ nhất, tài n
 
 ### 3.2.1 Khái niệm render pipeline
 
-Render pipeline là chuỗi các bước xử lý mà engine thực hiện để chuyển đổi dữ liệu ba chiều của một cảnh — bao gồm hình học, vật liệu, ánh sáng và vị trí camera — thành hình ảnh hai chiều hiển thị trên màn hình (Gregory 2018). Unity cung cấp ba pipeline khác nhau, mỗi loại hướng tới một nhóm đối tượng sử dụng riêng biệt (Unity Technologies 2025b):
+Render pipeline là chuỗi các bước xử lý mà engine thực hiện để chuyển đổi dữ liệu ba chiều của một cảnh - bao gồm hình học, vật liệu, ánh sáng và vị trí camera - thành hình ảnh hai chiều hiển thị trên màn hình (Gregory 2018). Unity cung cấp ba pipeline khác nhau, mỗi loại hướng tới một nhóm đối tượng sử dụng riêng biệt (Unity Technologies 2025b):
 
 - **Built-in Render Pipeline**: pipeline thế hệ cũ, có khả năng tùy biến hạn chế.
 - **Universal Render Pipeline (URP)**: được thiết kế nhằm cân bằng giữa chất lượng hình ảnh và hiệu năng, hoạt động ổn định trên nhiều nền tảng phần cứng khác nhau.
@@ -87,7 +87,7 @@ URP được lựa chọn cho WildBound vì ba lý do. Thứ nhất, mức yêu 
 
 ### 3.2.3 Vấn đề tương thích pipeline trong thực tế
 
-Một trong những vấn đề kỹ thuật đáng kể nhất của giai đoạn giữa dự án là sự không tương thích giữa các render pipeline. Vấn đề phát sinh do các gói tài nguyên tải về từ Asset Store được nhà phát hành của chúng xây dựng cho những pipeline khác nhau: một số dùng Built-in, một số dùng URP, một số khác dùng HDRP. Do mỗi pipeline sử dụng một tập shader riêng và các tập này không tương thích lẫn nhau, các vật thể sử dụng shader không phù hợp với pipeline hiện hành sẽ được hiển thị bằng màu hồng đặc trưng — dấu hiệu cho biết Unity không thể phân giải được shader tương ứng.
+Một trong những vấn đề kỹ thuật đáng kể nhất của giai đoạn giữa dự án là sự không tương thích giữa các render pipeline. Vấn đề phát sinh do các gói tài nguyên tải về từ Asset Store được nhà phát hành của chúng xây dựng cho những pipeline khác nhau: một số dùng Built-in, một số dùng URP, một số khác dùng HDRP. Do mỗi pipeline sử dụng một tập shader riêng và các tập này không tương thích lẫn nhau, các vật thể sử dụng shader không phù hợp với pipeline hiện hành sẽ được hiển thị bằng màu hồng đặc trưng - dấu hiệu cho biết Unity không thể phân giải được shader tương ứng.
 
 Vấn đề này được khắc phục bằng việc thống nhất toàn bộ dự án về URP và chuyển đổi vật liệu của các tài nguyên không tương thích sang shader của URP. Bài học kỹ thuật rút ra là render pipeline cần được xác định ngay từ giai đoạn khởi tạo dự án, và mọi tài nguyên trước khi được đưa vào dự án đều cần được kiểm tra về pipeline mà nó hỗ trợ. Đây là một hạn chế mang tính kiến trúc của Unity mà tài liệu hướng dẫn dành cho người mới thường không đề cập đầy đủ.
 
@@ -144,7 +144,7 @@ Nguyên tắc đặt tên bản ghi thay đổi được áp dụng là mô tả
 
 Một khó khăn thực tế đã phát sinh ở lần đồng bộ đầu tiên. Do dự án Unity chứa khối lượng lớn tài nguyên đồ họa nhị phân, tổng dung lượng của bản ghi đầu tiên vượt quá **giới hạn 2GB cho mỗi lần đẩy dữ liệu của GitHub**, khiến thao tác bị từ chối. Tình huống này được xử lý bằng cách tách bản ghi thành hai bản ghi riêng biệt và đồng bộ tuần tự.
 
-Sự việc này cho thấy đặc thù của việc áp dụng quản lý phiên bản cho dự án game: khác với dự án phần mềm thông thường nơi mã nguồn chiếm phần lớn dung lượng, ở dự án game, tài nguyên đồ họa mới là thành phần chi phối. Điều này đòi hỏi phải cấu hình tệp `.gitignore` để loại trừ các thư mục do Unity tự sinh — như `Library/`, `Temp/` và `obj/` — vốn có thể được tái tạo tự động và không cần lưu trữ.
+Sự việc này cho thấy đặc thù của việc áp dụng quản lý phiên bản cho dự án game: khác với dự án phần mềm thông thường nơi mã nguồn chiếm phần lớn dung lượng, ở dự án game, tài nguyên đồ họa mới là thành phần chi phối. Điều này đòi hỏi phải cấu hình tệp `.gitignore` để loại trừ các thư mục do Unity tự sinh - như `Library/`, `Temp/` và `obj/` - vốn có thể được tái tạo tự động và không cần lưu trữ.
 
 Một quan sát bổ sung có giá trị: khi tiến hành rà soát mức độ sử dụng tài nguyên ở giai đoạn cuối dự án (trình bày tại mục 3.6), gói tài nguyên có dung lượng lớn nhất trong kho lưu trữ được xác định là **hoàn toàn không được sử dụng** trong sản phẩm. Điều này cho thấy việc kiểm soát tài nguyên đưa vào dự án cần được thực hiện thường xuyên ngay từ đầu, thay vì để tích lũy.
 
@@ -156,7 +156,7 @@ Một quan sát bổ sung có giá trị: khi tiến hành rà soát mức độ
 
 WildBound sử dụng các gói tài nguyên đồ họa miễn phí từ Unity Asset Store cho phần hình ảnh của trò chơi. Quyết định này xuất phát từ việc phân bổ nguồn lực: đồ án được thực hiện bởi một cá nhân trong khoảng bảy tháng, và trọng tâm học thuật được xác định là **thiết kế và hiện thực các hệ thống trò chơi**, không phải công việc tạo hình ba chiều. Việc sử dụng tài nguyên có sẵn cho phép tập trung thời gian vào phần lõi của đồ án.
 
-Cần nêu rõ phạm vi sử dụng: **các gói tài nguyên bên thứ ba chỉ cung cấp mô hình ba chiều, vật liệu, kết cấu bề mặt và hoạt ảnh. Toàn bộ logic vận hành của trò chơi — bao gồm hệ thống túi đồ, chế tạo, chỉ số sinh tồn, chiến đấu, trí tuệ nhân tạo của sinh vật và chuỗi tương tác nấu nướng — đều được thiết kế và lập trình trong khuôn khổ đồ án.**
+Cần nêu rõ phạm vi sử dụng: **các gói tài nguyên bên thứ ba chỉ cung cấp mô hình ba chiều, vật liệu, kết cấu bề mặt và hoạt ảnh. Toàn bộ logic vận hành của trò chơi - bao gồm hệ thống túi đồ, chế tạo, chỉ số sinh tồn, chiến đấu, trí tuệ nhân tạo của sinh vật và chuỗi tương tác nấu nướng - đều được thiết kế và lập trình trong khuôn khổ đồ án.**
 
 Về mặt bản quyền, các gói tài nguyên được sử dụng đều được phân phối theo Giấy phép Tiêu chuẩn của Unity Asset Store (Standard Unity Asset Store End User License Agreement). Giấy phép này cho phép sử dụng tài nguyên trong cả sản phẩm phi thương mại và thương mại trên cơ sở miễn phí bản quyền, với điều kiện tài nguyên được nhúng trong sản phẩm và không được phân phối lại dưới dạng độc lập (Unity Technologies 2025c).
 
@@ -171,8 +171,8 @@ Nhằm đảm bảo tính chính xác của báo cáo, danh mục dưới đây 
 | Thảm thực vật | Yughues Free Palm Trees | Nobiax / Yughues | Năm biến thể mô hình cây dừa |
 | | Fantasy Landscape | PXLTIGER | Mô hình cây bạch dương |
 | | Idyllic Fantasy Nature | Edenity | Mô hình bụi cây thu hoạch được, shader thực vật |
-| | Low Poly Trees – Free Nature Pack | Nebula | Mô hình bụi cây trang trí |
-| Khoáng sản | Free Pack – Rocks Stylized | PolyOne Studio | Mô hình tảng đá lớn khai thác được |
+| | Low Poly Trees - Free Nature Pack | Nebula | Mô hình bụi cây trang trí |
+| Khoáng sản | Free Pack - Rocks Stylized | PolyOne Studio | Mô hình tảng đá lớn khai thác được |
 | | Fantasy Landscape | PXLTIGER | Mô hình đá nhỏ |
 | Mặt nước | Simple Water Shader URP | IgniteCoders | Bề mặt nước và hiệu ứng phản chiếu |
 | Sinh vật | White Rabbit | Niwashi Games | Mô hình thỏ và ba hoạt ảnh (đứng yên, chạy, chết) |
@@ -182,7 +182,7 @@ Nhằm đảm bảo tính chính xác của báo cáo, danh mục dưới đây 
 | | Toony Kitchen & Ingredients | Sigun Studio | Mô hình thịt |
 | | Match 3D Object Pack: Fruits and Vegetables | ThreeBox | Mô hình táo |
 | | Interiors FREE | Mnostva Art | Mô hình chai đựng nước |
-| Hiệu ứng | VFX URP – Fire Package | Cartoon VFX by Wallcoeur | Hiệu ứng lửa và khói cho bếp |
+| Hiệu ứng | VFX URP - Fire Package | Cartoon VFX by Wallcoeur | Hiệu ứng lửa và khói cho bếp |
 | Giao diện | Free 2D Mega Pack | Brackeys | Biểu tượng máu, thức ăn, nước uống trên thanh chỉ số |
 | | Inventory Framework FREE | Game Dev Simplified | Khung nền và biểu tượng giao diện |
 | Bối cảnh | Wood Boat | E6 Model | Mô hình thuyền trang trí |
@@ -195,7 +195,7 @@ Nhằm đảm bảo tính chính xác của báo cáo, danh mục dưới đây 
 
 Mã nguồn của WildBound được viết trên Visual Studio, môi trường phát triển tích hợp sẵn với Unity thông qua gói mở rộng chính thức. Các tính năng được sử dụng thường xuyên bao gồm gợi ý mã nguồn theo ngữ cảnh, kiểm tra lỗi cú pháp tại thời điểm biên dịch và điều hướng nhanh giữa các định nghĩa lớp.
 
-Công cụ gỡ lỗi chính trong quá trình phát triển là cửa sổ Console của Unity kết hợp với các câu lệnh ghi nhật ký `Debug.Log` và `Debug.LogError`. Phương pháp được áp dụng là đặt các điểm ghi nhật ký tại những vị trí nghi vấn nhằm xác định chính xác luồng thực thi thực tế của chương trình, sau đó loại bỏ các câu lệnh này khi lỗi đã được khắc phục để giữ mã nguồn sạch sẽ. Cách tiếp cận này đặc biệt hiệu quả với những lỗi mà biểu hiện bên ngoài không phản ánh đúng nguyên nhân gốc — chẳng hạn trường hợp nút giao diện không phản hồi được trình bày tại mục 3.1.3, trong đó việc xác nhận một dòng nhật ký không hề được in ra đã chỉ ra rằng phương thức chứa nó chưa từng được thực thi.
+Công cụ gỡ lỗi chính trong quá trình phát triển là cửa sổ Console của Unity kết hợp với các câu lệnh ghi nhật ký `Debug.Log` và `Debug.LogError`. Phương pháp được áp dụng là đặt các điểm ghi nhật ký tại những vị trí nghi vấn nhằm xác định chính xác luồng thực thi thực tế của chương trình, sau đó loại bỏ các câu lệnh này khi lỗi đã được khắc phục để giữ mã nguồn sạch sẽ. Cách tiếp cận này đặc biệt hiệu quả với những lỗi mà biểu hiện bên ngoài không phản ánh đúng nguyên nhân gốc - chẳng hạn trường hợp nút giao diện không phản hồi được trình bày tại mục 3.1.3, trong đó việc xác nhận một dòng nhật ký không hề được in ra đã chỉ ra rằng phương thức chứa nó chưa từng được thực thi.
 
 Ngoài ra, phần mềm Blender được sử dụng ở giai đoạn đầu của dự án để hiệu chỉnh một số mô hình ba chiều cho phù hợp với nhu cầu sử dụng.
 
@@ -211,7 +211,7 @@ Cần nêu rõ phạm vi của việc hỗ trợ này. Toàn bộ các quyết �
 
 Nhìn chung, các công nghệ được lựa chọn cho WildBound tạo thành một tổ hợp nhất quán và phù hợp với đặc thù của một đồ án cá nhân có thời hạn xác định. Unity 6 cùng URP cung cấp nền tảng kết xuất và mô phỏng, C# đảm nhiệm phần logic, hệ thống uGUI và TextMeshPro xây dựng giao diện, Git và GitHub đảm bảo an toàn dữ liệu và ghi nhận tiến độ, trong khi các gói tài nguyên bên thứ ba giải quyết phần hình ảnh để nguồn lực được tập trung cho việc thiết kế hệ thống.
 
-Đáng chú ý, phần lớn những bài học kỹ thuật có giá trị nhất trong chương này — vấn đề tương thích render pipeline, cơ chế nhận sự kiện của hệ thống giao diện, và thứ tự thực thi trong vòng đời script — đều không đến từ tài liệu hướng dẫn mà đến từ việc trực tiếp gặp phải và xử lý sự cố trong quá trình phát triển.
+Đáng chú ý, phần lớn những bài học kỹ thuật có giá trị nhất trong chương này - vấn đề tương thích render pipeline, cơ chế nhận sự kiện của hệ thống giao diện, và thứ tự thực thi trong vòng đời script - đều không đến từ tài liệu hướng dẫn mà đến từ việc trực tiếp gặp phải và xử lý sự cố trong quá trình phát triển.
 
 ---
 
@@ -240,10 +240,10 @@ Video Game Insights (2025) *The big game engines report of 2025*, VG Insights we
 
 | Trường hợp | Cách viết |
 |---|---|
-| Một tác giả | `(Gregory 2018)` — **không có dấu phẩy** |
-| Hai tác giả | `(Chacon and Straub 2014)` — dùng `and`, không dùng `&` |
+| Một tác giả | `(Gregory 2018)` - **không có dấu phẩy** |
+| Hai tác giả | `(Chacon and Straub 2014)` - dùng `and`, không dùng `&` |
 | Ba tác giả trở lên | `(Nguyen et al. 2020)` |
 | Tổ chức là tác giả | `(Unity Technologies 2025a)` |
 | Cùng tác giả, cùng năm | Đánh phân biệt `2025a`, `2025b`, `2025c` |
-| Trích dẫn nguyên văn | `(Day 2018:3)` — dấu hai chấm trước số trang |
-| Nhiều nguồn cùng lúc | `(Gregory 2018; Nystrom 2014)` — xếp theo bảng chữ cái |
+| Trích dẫn nguyên văn | `(Day 2018:3)` - dấu hai chấm trước số trang |
+| Nhiều nguồn cùng lúc | `(Gregory 2018; Nystrom 2014)` - xếp theo bảng chữ cái |

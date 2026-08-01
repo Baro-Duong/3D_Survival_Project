@@ -1,14 +1,14 @@
-> **⚠️ GHI CHÚ — XÓA KHỐI NÀY TRƯỚC KHI NỘP**
+> **⚠️ GHI CHÚ - XÓA KHỐI NÀY TRƯỚC KHI NỘP**
 >
 > - Toàn bộ chương viết ở **ngôi thứ ba, giọng bị động**, thống nhất với bản tiếng Việt.
 > - Trích dẫn theo **RMIT Harvard** (không dấu phẩy giữa tên và năm).
 > - `📌 [IMAGE]` = vị trí chèn ảnh chụp màn hình.
-> - Bảng mục 3.6.2 đã điền đủ tên nhà phát hành. Ba tên gói bị cắt ngắn trên Asset Store cần xác nhận lại tên đầy đủ: **Toony Kitchen & Ingredients**, **Interiors FREE**, **Low Poly Trees – Free Nature Pack**.
-> - Sau khi paraphrase bằng QuillBot, **kiểm tra lại các thuật ngữ kỹ thuật và tên riêng** (`MonoBehaviour`, `ScriptableObject`, `Raycast Target`, `WildBound`, tên gói asset) — công cụ paraphrase thường thay thế sai những từ này.
+> - Bảng mục 3.6.2 đã điền đủ tên nhà phát hành. Ba tên gói bị cắt ngắn trên Asset Store cần xác nhận lại tên đầy đủ: **Toony Kitchen & Ingredients**, **Interiors FREE**, **Low Poly Trees - Free Nature Pack**.
+> - Sau khi paraphrase bằng QuillBot, **kiểm tra lại các thuật ngữ kỹ thuật và tên riêng** (`MonoBehaviour`, `ScriptableObject`, `Raycast Target`, `WildBound`, tên gói asset) - công cụ paraphrase thường thay thế sai những từ này.
 
 ---
 
-# CHAPTER 3 — TECHNOLOGY AND TOOLS
+# CHAPTER 3 - TECHNOLOGY AND TOOLS
 
 ## 3.0 Chapter Introduction
 
@@ -26,7 +26,7 @@ Unity is currently among the most widely adopted engines in the games industry. 
 
 Unity was selected as the development platform for WildBound for three principal reasons.
 
-First, Unity provides a complete development ecosystem — including a visual editor, a physics system, an animation system, terrain construction tools and a user interface framework — within a single unified environment. This is particularly significant for an individual project, in which the entire workload is undertaken by one person and there is no capacity to build foundational technical systems independently.
+First, Unity provides a complete development ecosystem - including a visual editor, a physics system, an animation system, terrain construction tools and a user interface framework - within a single unified environment. This is particularly significant for an individual project, in which the entire workload is undertaken by one person and there is no capacity to build foundational technical systems independently.
 
 Second, the large scale of the user community, combined with comprehensive official documentation, considerably reduces the time required to resolve technical problems. As the project was carried out independently, without direct consultation with colleagues when technical faults arose, the ability to research documentation autonomously became a determining factor in maintaining progress.
 
@@ -34,9 +34,9 @@ Third, the Unity Asset Store provides an extensive library of graphical resource
 
 The version used is **Unity 6 (6000.3.10f1)**. Selecting the most recent version available at the time the project commenced was intended to take advantage of the engine's latest performance improvements and features, thereby optimising the final product. The trade-off associated with this decision is that the majority of existing tutorials and online instructional material were produced for earlier versions, with the result that certain interface operations and component names did not correspond exactly. In such cases, the equivalent procedure for the version in use was established by consulting the official Unity documentation directly.
 
-### 3.1.2 The GameObject–Component Architecture
+### 3.1.2 The GameObject-Component Architecture
 
-Unity is built upon a component-based architecture. Within this model, every entity in the game world is a `GameObject` — in itself merely an empty container carrying no functionality. All behaviour and properties are added by attaching `Component` objects to that GameObject (Unity Technologies 2025a).
+Unity is built upon a component-based architecture. Within this model, every entity in the game world is a `GameObject` - in itself merely an empty container carrying no functionality. All behaviour and properties are added by attaching `Component` objects to that GameObject (Unity Technologies 2025a).
 
 This model differs fundamentally from the multi-level inheritance hierarchies characteristic of traditional object-oriented programming. Rather than constructing a rigid inheritance tree, independent components are composed together to produce the desired entity. The advantage of this approach lies in its flexibility: a behaviour written once as a component can be reused across entirely different categories of object without introducing complex inheritance relationships (Nystrom 2014).
 
@@ -54,13 +54,13 @@ Understanding this distinction precisely carries considerable practical signific
 
 A Prefab is a mechanism that allows a GameObject, together with its complete configuration, to be stored as an independent asset from which multiple copies can subsequently be instantiated at runtime (Unity Technologies 2025a). Prefabs underpin every dynamic object-spawning system in WildBound: the items dropped when a tree is chopped, the rabbits spawned periodically from burrows, and the state variants of the fire pit are all implemented using Prefabs.
 
-A noteworthy technical issue relating to the assignment of Prefab references was identified during development. When a reference is assigned by dragging from the Hierarchy window — that is, pointing to an instance currently existing within the scene — rather than from the Project window (pointing to the original Prefab asset), that reference continues to appear valid in the interface until the referenced instance is destroyed at runtime. Beyond that point, the entire chain of references inherited from it becomes invalid. The lesson drawn is that Prefab references must always be assigned from the Project window in order to guarantee stability.
+A noteworthy technical issue relating to the assignment of Prefab references was identified during development. When a reference is assigned by dragging from the Hierarchy window - that is, pointing to an instance currently existing within the scene - rather than from the Project window (pointing to the original Prefab asset), that reference continues to appear valid in the interface until the referenced instance is destroyed at runtime. Beyond that point, the entire chain of references inherited from it becomes invalid. The lesson drawn is that Prefab references must always be assigned from the Project window in order to guarantee stability.
 
 ### 3.1.5 ScriptableObject
 
 A ScriptableObject is a data class that permits information to be stored as an asset independent of any scene, without needing to be attached to a GameObject (Unity Technologies 2025a). This mechanism forms the basis for implementing the principle of data-driven design, in which configuration data is entirely decoupled from the code that processes logic.
 
-WildBound applies ScriptableObject for two purposes. First, the `GameConfig` asset centralises all game balance parameters — movement speed, stamina depletion rates, damage values, tool durability, resource regeneration intervals and creature statistics. As a result, adjusting the difficulty of the game can be performed entirely through the Unity interface without modifying or recompiling any source code. Second, each crafting recipe is stored as a separate `CraftingRecipe` asset, allowing new recipes to be introduced without altering the existing crafting system.
+WildBound applies ScriptableObject for two purposes. First, the `GameConfig` asset centralises all game balance parameters - movement speed, stamina depletion rates, damage values, tool durability, resource regeneration intervals and creature statistics. As a result, adjusting the difficulty of the game can be performed entirely through the Unity interface without modifying or recompiling any source code. Second, each crafting recipe is stored as a separate `CraftingRecipe` asset, allowing new recipes to be introduced without altering the existing crafting system.
 
 ### 3.1.6 Terrain Construction Tools
 
@@ -74,7 +74,7 @@ The terrain of the island in WildBound was constructed using Unity's built-in Te
 
 ### 3.2.1 The Concept of a Render Pipeline
 
-A render pipeline is the sequence of processing stages an engine performs in order to convert the three-dimensional data of a scene — comprising geometry, materials, lighting and camera position — into the two-dimensional image displayed on screen (Gregory 2018). Unity provides three distinct pipelines, each targeting a different category of user (Unity Technologies 2025b):
+A render pipeline is the sequence of processing stages an engine performs in order to convert the three-dimensional data of a scene - comprising geometry, materials, lighting and camera position - into the two-dimensional image displayed on screen (Gregory 2018). Unity provides three distinct pipelines, each targeting a different category of user (Unity Technologies 2025b):
 
 - **Built-in Render Pipeline**: the legacy pipeline, offering limited customisation.
 - **Universal Render Pipeline (URP)**: designed to balance visual quality against performance, operating reliably across a wide range of hardware platforms.
@@ -86,7 +86,7 @@ URP was selected for WildBound for three reasons. First, its hardware requiremen
 
 ### 3.2.3 Pipeline Compatibility Problems in Practice
 
-One of the most substantial technical problems encountered during the middle phase of the project was incompatibility between render pipelines. The problem arose because asset packages downloaded from the Asset Store had been built by their publishers for different pipelines: some for Built-in, some for URP and others for HDRP. As each pipeline employs its own set of shaders, and these sets are mutually incompatible, objects using shaders inappropriate to the active pipeline are rendered in a distinctive magenta colour — the indicator that Unity has been unable to resolve the corresponding shader.
+One of the most substantial technical problems encountered during the middle phase of the project was incompatibility between render pipelines. The problem arose because asset packages downloaded from the Asset Store had been built by their publishers for different pipelines: some for Built-in, some for URP and others for HDRP. As each pipeline employs its own set of shaders, and these sets are mutually incompatible, objects using shaders inappropriate to the active pipeline are rendered in a distinctive magenta colour - the indicator that Unity has been unable to resolve the corresponding shader.
 
 The problem was resolved by consolidating the entire project onto URP and converting the materials of incompatible assets to URP shaders. The technical lesson drawn is that the render pipeline must be determined at the project initialisation stage, and that every asset should be checked for the pipeline it supports before being imported into the project. This constitutes an architectural constraint of Unity that introductory tutorials frequently fail to address adequately.
 
@@ -143,7 +143,7 @@ The naming convention applied to commits was to describe precisely the work carr
 
 A practical difficulty arose during the first synchronisation. Because a Unity project contains a substantial volume of binary graphical assets, the total size of the initial commit exceeded **GitHub's 2GB limit per push operation**, causing the operation to be rejected. The situation was resolved by dividing the commit into two separate commits and synchronising them sequentially.
 
-This incident illustrates a characteristic peculiar to applying version control to game projects: unlike conventional software projects, in which source code accounts for the majority of the repository size, in a game project it is the graphical assets that dominate. This necessitates configuring the `.gitignore` file to exclude directories generated automatically by Unity — such as `Library/`, `Temp/` and `obj/` — which can be regenerated and therefore need not be stored.
+This incident illustrates a characteristic peculiar to applying version control to game projects: unlike conventional software projects, in which source code accounts for the majority of the repository size, in a game project it is the graphical assets that dominate. This necessitates configuring the `.gitignore` file to exclude directories generated automatically by Unity - such as `Library/`, `Temp/` and `obj/` - which can be regenerated and therefore need not be stored.
 
 A further observation of some value emerged during the audit of asset usage conducted in the final stage of the project (presented in Section 3.6): the largest asset package in the repository was found to be **entirely unused** in the product. This indicates that control over which assets are imported into a project should be exercised regularly from the outset, rather than allowing them to accumulate.
 
@@ -155,7 +155,7 @@ A further observation of some value emerged during the audit of asset usage cond
 
 WildBound uses free graphical asset packages from the Unity Asset Store for the visual content of the game. This decision arose from the allocation of available resources: the project was undertaken by one individual over approximately seven months, and its academic focus was defined as **the design and implementation of game systems** rather than three-dimensional modelling. Using pre-existing assets made it possible to concentrate the available time on the core of the project.
 
-The scope of this use should be stated explicitly: **the third-party packages supply only three-dimensional models, materials, textures and animations. The entire operational logic of the game — including the inventory, crafting, survival statistics, combat, creature artificial intelligence and the cooking interaction chain — was designed and programmed within this project.**
+The scope of this use should be stated explicitly: **the third-party packages supply only three-dimensional models, materials, textures and animations. The entire operational logic of the game - including the inventory, crafting, survival statistics, combat, creature artificial intelligence and the cooking interaction chain - was designed and programmed within this project.**
 
 With regard to licensing, the asset packages used are distributed under the Standard Unity Asset Store End User License Agreement. This licence permits assets to be used in both non-commercial and commercial products on a royalty-free basis, provided that the assets are embedded within the product and are not redistributed as standalone items (Unity Technologies 2025c).
 
@@ -170,8 +170,8 @@ In order to ensure the accuracy of this report, the inventory below was establis
 | Vegetation | Yughues Free Palm Trees | Nobiax / Yughues | Five palm tree model variants |
 | | Fantasy Landscape | PXLTIGER | Birch tree model |
 | | Idyllic Fantasy Nature | Edenity | Harvestable bush model, vegetation shader |
-| | Low Poly Trees – Free Nature Pack | Nebula | Decorative bush models |
-| Minerals | Free Pack – Rocks Stylized | PolyOne Studio | Minable boulder model |
+| | Low Poly Trees - Free Nature Pack | Nebula | Decorative bush models |
+| Minerals | Free Pack - Rocks Stylized | PolyOne Studio | Minable boulder model |
 | | Fantasy Landscape | PXLTIGER | Small rock model |
 | Water | Simple Water Shader URP | IgniteCoders | Water surface and reflection effects |
 | Creatures | White Rabbit | Niwashi Games | Rabbit model and three animations (idle, run, death) |
@@ -181,7 +181,7 @@ In order to ensure the accuracy of this report, the inventory below was establis
 | | Toony Kitchen & Ingredients | Sigun Studio | Meat model |
 | | Match 3D Object Pack: Fruits and Vegetables | ThreeBox | Apple model |
 | | Interiors FREE | Mnostva Art | Water bottle model |
-| Effects | VFX URP – Fire Package | Cartoon VFX by Wallcoeur | Fire and smoke effects for the fire pit |
+| Effects | VFX URP - Fire Package | Cartoon VFX by Wallcoeur | Fire and smoke effects for the fire pit |
 | Interface | Free 2D Mega Pack | Brackeys | Health, food and water icons on the status bars |
 | | Inventory Framework FREE | Game Dev Simplified | Interface frames and icons |
 | Scenery | Wood Boat | E6 Model | Decorative boat model |
@@ -194,7 +194,7 @@ In order to ensure the accuracy of this report, the inventory below was establis
 
 The source code of WildBound was written in Visual Studio, the development environment integrated with Unity through an official extension package. The features used regularly include context-sensitive code completion, syntax error checking at compile time, and rapid navigation between class definitions.
 
-The principal debugging tool employed throughout development was Unity's Console window in combination with the `Debug.Log` and `Debug.LogError` logging statements. The method applied was to place logging points at locations under suspicion in order to establish the program's actual execution flow precisely, and subsequently to remove these statements once the fault had been corrected, so as to keep the source code clean. This approach proved particularly effective for faults whose external symptoms did not reflect their underlying cause — for instance the unresponsive interface button discussed in Section 3.1.3, in which confirming that a particular log line was never printed established that the method containing it had never been executed at all.
+The principal debugging tool employed throughout development was Unity's Console window in combination with the `Debug.Log` and `Debug.LogError` logging statements. The method applied was to place logging points at locations under suspicion in order to establish the program's actual execution flow precisely, and subsequently to remove these statements once the fault had been corrected, so as to keep the source code clean. This approach proved particularly effective for faults whose external symptoms did not reflect their underlying cause - for instance the unresponsive interface button discussed in Section 3.1.3, in which confirming that a particular log line was never printed established that the method containing it had never been executed at all.
 
 In addition, Blender was used during the early stage of the project to modify a number of three-dimensional models to suit the requirements of the game.
 
@@ -210,11 +210,11 @@ The scope of this assistance should be stated clearly. All decisions concerning 
 
 Overall, the technologies selected for WildBound constitute a coherent combination well suited to the particular circumstances of an individual project operating under a fixed deadline. Unity 6 together with URP provides the rendering and simulation foundation; C# handles the logic; uGUI and TextMeshPro construct the interface; Git and GitHub secure the data and record progress; while third-party asset packages address the visual content so that resources could be concentrated on system design.
 
-It is notable that the majority of the most valuable technical lessons documented in this chapter — the render pipeline compatibility problem, the event-handling mechanism of the interface system, and the execution ordering of the script lifecycle — did not originate from instructional material, but rather from directly encountering and resolving faults during the development process.
+It is notable that the majority of the most valuable technical lessons documented in this chapter - the render pipeline compatibility problem, the event-handling mechanism of the interface system, and the execution ordering of the script lifecycle - did not originate from instructional material, but rather from directly encountering and resolving faults during the development process.
 
 ---
 
-# REFERENCES — CHAPTER 3
+# REFERENCES - CHAPTER 3
 
 Chacon S and Straub B (2014) *Pro Git*, 2nd edn, Apress, Git website, accessed 29 July 2026. https://git-scm.com/book/en/v2
 

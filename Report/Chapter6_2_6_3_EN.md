@@ -1,19 +1,19 @@
-> **⚠️ GHI CHÚ — XÓA KHỐI NÀY TRƯỚC KHI NỘP**
+> **⚠️ GHI CHÚ - XÓA KHỐI NÀY TRƯỚC KHI NỘP**
 >
-> - Ngôi thứ ba, giọng bị động — thống nhất với Chương 3.
+> - Ngôi thứ ba, giọng bị động - thống nhất với Chương 3.
 > - `📌 [IMAGE n]` = vị trí chèn ảnh chụp màn hình.
-> - **KHÔNG chạy QuillBot lên các khối code** — chỉ paraphrase phần văn xuôi. Sau khi paraphrase, kiểm tra lại tên riêng và thuật ngữ trong dấu backtick (`MonoBehaviour`, `ScriptableObject`, `Quaternion.Slerp`, `Time.deltaTime`, `GetComponentInParent`, `WildBound`) — công cụ paraphrase thường thay thế sai những từ này.
-> - Số dòng trong khối code phải khớp với số dòng được nhắc trong phần giải thích — nếu chỉnh sửa code, nhớ cập nhật lại số dòng trong văn bản.
+> - **KHÔNG chạy QuillBot lên các khối code** - chỉ paraphrase phần văn xuôi. Sau khi paraphrase, kiểm tra lại tên riêng và thuật ngữ trong dấu backtick (`MonoBehaviour`, `ScriptableObject`, `Quaternion.Slerp`, `Time.deltaTime`, `GetComponentInParent`, `WildBound`) - công cụ paraphrase thường thay thế sai những từ này.
+> - Số dòng trong khối code phải khớp với số dòng được nhắc trong phần giải thích - nếu chỉnh sửa code, nhớ cập nhật lại số dòng trong văn bản.
 
 ---
 
-# 6.2 Product Features
+## 6.2 Product Features
 
 This section presents the principal features of WildBound through screenshots captured from the running product. The eight features selected cover the complete core loop of the game, from the opening screen and its tutorial, through the processes of resource gathering and crafting, to combat situations and the conclusion of a play session.
 
 ---
 
-## 6.2.1 Main Menu
+### 6.2.1 Main Menu
 
 📌 **[IMAGE 1]** *The main menu showing the game title, the Play button and the blurred background scene.*
 
@@ -25,25 +25,25 @@ On a first launch the Play button is disabled, and becomes available only once t
 
 ---
 
-## 6.2.2 Tutorial Overlay
+### 6.2.2 Tutorial Overlay
 
 📌 **[IMAGE 2]** *The tutorial overlay displayed above the main menu, showing the page counter and the navigation controls.*
 
-WildBound contains no in-game instructional prompts, and several of its mechanics — particularly the conditions governing health regeneration — are difficult for a player to deduce through experimentation alone. A tutorial was therefore provided to convey the essential rules before play begins.
+WildBound contains no in-game instructional prompts, and several of its mechanics - particularly the conditions governing health regeneration - are difficult for a player to deduce through experimentation alone. A tutorial was therefore provided to convey the essential rules before play begins.
 
 The tutorial is presented as an overlay drawn on top of the main menu rather than as a separate scene. This choice keeps the panning background visible behind the panel, preserving visual continuity, and avoids the loading delay that switching scenes would introduce. The panel is navigated with Back and Next buttons accompanied by a page counter, following the same pagination pattern already established by the tool library within the game, so that the two interfaces behave consistently. A Close button dismisses the overlay and returns the player to the plain menu.
 
-The Play button on the main menu is initially disabled and is unlocked once the player reaches the final tutorial page. The intention is to guarantee that a first-time player encounters the core rules before entering a game in which misunderstanding them leads quickly to death. So that this requirement does not become an obstacle for returning players, the fact that the tutorial has been read is recorded persistently: on every subsequent launch the Play button is available immediately and the tutorial becomes optional. This preserves the instructional benefit for a new player while avoiding the imposition of repeated reading on someone already familiar with the game.
+The Play button on the main menu is initially disabled and is unlocked once the player reaches the final tutorial page. The intention is to guarantee that the core rules are encountered before entering a game in which misunderstanding them leads quickly to death. The locked state is re-applied every time the main menu is loaded, including when the player returns to it from the death screen, and no record of having read the tutorial is retained between sessions. This decision keeps the implementation free of persistent storage and guarantees that the instruction is never bypassed, at the cost of requiring a returning player to dismiss the tutorial again on each launch.
 
 The tutorial currently comprises two pages: an introduction establishing the premise and objective, and a page explaining the three survival meters together with the correct means of restoring them. The page structure is data-driven, in the sense that additional pages can be added purely by placing further page objects in the interface without any modification to the controlling code.
 
 ---
 
-## 6.2.3 In-game Interface
+### 6.2.3 In-game Interface
 
 📌 **[IMAGE 3]** *The in-game view showing all interface components together with the interaction prompt text.*
 
-The in-game interface is organised on the principle of positioning all information at the periphery of the screen, keeping the central region — where the player observes and operates — unobstructed.
+The in-game interface is organised on the principle of positioning all information at the periphery of the screen, keeping the central region - where the player observes and operates - unobstructed.
 
 The components comprise three survival status bars (health, thirst and hunger) accompanied by their specific numerical values; a hotbar of eight slots along the lower edge, in which the currently selected slot is marked with a yellow highlight; a survival timer in the corner of the screen; and an interaction prompt that appears centrally when the player directs their view towards an interactable object.
 
@@ -51,7 +51,7 @@ Displaying both the status bar and the numerical value simultaneously is a delib
 
 ---
 
-## 6.2.4 Inventory and Crafting Panel
+### 6.2.4 Inventory and Crafting Panel
 
 📌 **[IMAGE 4]** *The open inventory interface, showing stacked items with quantity indicators and an item being dragged.*
 
@@ -63,7 +63,7 @@ Items are moved between slots by means of a drag-and-drop operation. The craft b
 
 ---
 
-## 6.2.5 Tool Library
+### 6.2.5 Tool Library
 
 📌 **[IMAGE 5]** *The tool library panel displaying recipes with their ingredients and the Choose button.*
 
@@ -75,7 +75,7 @@ Each recipe is accompanied by a Choose button. When activated, the system automa
 
 ---
 
-## 6.2.6 The Cooking Interaction Chain
+### 6.2.6 The Cooking Interaction Chain
 
 📌 **[IMAGE 6]** *The player holding raw meat and pressing the F key at the fire pit, with the cooking progress displayed as a percentage.*
 
@@ -83,11 +83,11 @@ The cooking interaction chain is the most complex interaction system in WildBoun
 
 The system operates on the combination of the item the player is currently holding and the object towards which the player is directing their view. The same fire pit yields different interaction options depending on the item in hand: holding a pot of dirty water enables water to be boiled, holding an empty bottle at a fire pit that has finished boiling enables water to be collected, holding raw meat enables cooking, and holding a stick or a rock enables the fire pit's durability to be replenished.
 
-The meat-cooking operation specifically requires the F key to be held continuously for ten seconds. Throughout this period the progress is displayed as a percentage and is reset should the player release the key or look away. The mechanism of a held key with progress feedback was chosen in preference to a single button press in order to convey that cooking requires time, and simultaneously to oblige the player to remain stationary — a deliberately introduced interval of vulnerability within the design.
+The meat-cooking operation specifically requires the F key to be held continuously for ten seconds. Throughout this period the progress is displayed as a percentage and is reset should the player release the key or look away. The mechanism of a held key with progress feedback was chosen in preference to a single button press in order to convey that cooking requires time, and simultaneously to oblige the player to remain stationary - a deliberately introduced interval of vulnerability within the design.
 
 ---
 
-## 6.2.7 Combat and Damage Feedback
+### 6.2.7 Combat and Damage Feedback
 
 📌 **[IMAGE 7]** *A rabbit pursuing the player, together with the full-screen red flash effect at the moment damage is received. If a moment showing the alpha rabbit attacking can be captured, that image is preferable, as it depicts both creature variants.*
 
@@ -101,31 +101,31 @@ At most one alpha rabbit exists on the map at any given time. Once killed, the s
 
 The distinction between the two variants introduces a second tier of risk into the game. The ordinary rabbit represents a safe food source provided the player accepts a small loss of health, whereas the alpha rabbit constitutes a high-reward target that obliges the player to prepare in advance, both in terms of current health and of the tool being carried. Its markedly different colour and size are a deliberate decision, intended to allow the player to recognise the threat from a distance and to decide independently whether to engage or avoid it.
 
-When the player receives damage — whether from a rabbit bite or from the depletion of water and food — the entire screen flashes red briefly and then fades. This feedback mechanism was introduced following the observation that, when relying on the health bar alone, players readily fail to notice that they are losing health while concentrating on observing their surroundings.
+When the player receives damage - whether from a rabbit bite or from the depletion of water and food - the entire screen flashes red briefly and then fades. This feedback mechanism was introduced following the observation that, when relying on the health bar alone, players readily fail to notice that they are losing health while concentrating on observing their surroundings.
 
 ---
 
-## 6.2.8 Death Screen
+### 6.2.8 Death Screen
 
 📌 **[IMAGE 8]** *The death screen showing the red background, the Game Over text, the survival time and the two control buttons.*
 
 When the player's health reaches zero, the death screen is activated. A red background layer fades in over approximately two seconds rather than appearing instantaneously, in order to produce a softer transition.
 
-At the same time, all of the player's control systems — movement, camera rotation, attacking, hotbar selection and interaction — are disabled, and the mouse cursor is released so that the player may operate the on-screen buttons.
+At the same time, all of the player's control systems - movement, camera rotation, attacking, hotbar selection and interaction - are disabled, and the mouse cursor is released so that the player may operate the on-screen buttons.
 
 The survival time for that session is frozen and displayed directly beneath the closing text, while the timer on the main interface is hidden. This is the sole performance metric in the game: as WildBound has no victory condition, survival time serves as the measure of the player's effectiveness and as the motivation for attempting a further session. Two control buttons allow a new session to be started or the main menu to be returned to.
 
 ---
 
-# 6.3 Product Implementation
+## 6.3 Product Implementation
 
 This section analyses seven representative pieces of code from WildBound. The pieces were selected on the principle that each should illustrate a distinct technique, so as to reflect the range of technical problems addressed during development. All code has been condensed to retain only the essential portions; omitted sections are marked with `// ...`.
 
 ---
 
-## 6.3.1 The State-Preserving Object Replacement Pattern
+### 6.3.1 The State-Preserving Object Replacement Pattern
 
-**The problem to be solved.** The fire pit in WildBound has three states with differing appearances: an ordinary fire pit, a fire pit currently boiling, and a fire pit that has completed boiling. Similarly, the bush has two states: bearing berries and harvested. The requirement was that the three-dimensional model should change correspondingly when the state changes, while all progress data — remaining durability, the number of scoops taken, the regrowth timer — must be preserved.
+**The problem to be solved.** The fire pit in WildBound has three states with differing appearances: an ordinary fire pit, a fire pit currently boiling, and a fire pit that has completed boiling. Similarly, the bush has two states: bearing berries and harvested. The requirement was that the three-dimensional model should change correspondingly when the state changes, while all progress data - remaining durability, the number of scoops taken, the regrowth timer - must be preserved.
 
 ```csharp
  1  private void SpawnReplacement(GameObject prefab)
@@ -155,13 +155,13 @@ This section analyses seven representative pieces of code from WildBound. The pi
 
 The most noteworthy aspect is the structure of the block spanning lines 6 to 17. In the initial version, the `else` branch at line 14 did not exist, while the `Destroy` call at line 18 was nonetheless always executed. The consequence was that, where the target prefab lacked a `FirePitManager` component, the data transfer was silently skipped yet the original object was still destroyed, leaving behind a replacement object that could no longer be interacted with. This fault occurred twice in the project before the error message at line 16 was introduced. The lesson drawn is that every `GetComponent` call on a newly instantiated object requires a branch handling the case in which the result is null.
 
-It should be noted further that the code above does **not** copy prefab references to the new instance. All prefab references are held centrally on a single manager object within the scene. This arrangement eliminates entirely the risk of an instance inadvertently referencing the very object about to be destroyed — a fault that did occur and is discussed in Section 3.1.4.
+It should be noted further that the code above does **not** copy prefab references to the new instance. All prefab references are held centrally on a single manager object within the scene. This arrangement eliminates entirely the risk of an instance inadvertently referencing the very object about to be destroyed - a fault that did occur and is discussed in Section 3.1.4.
 
 The same code structure is applied again in the bush system, differing only in the data type and the set of variables transferred. That a single design pattern serves two systems of differing natures demonstrates the generality of the solution.
 
 ---
 
-## 6.3.2 The Crafting Recipe Matching Algorithm
+### 6.3.2 The Crafting Recipe Matching Algorithm
 
 **The problem to be solved.** The crafting system must determine which recipe corresponds to the two ingredients the player has placed in the input slots. A difficulty arises when several recipes use the same pair of ingredients but differ in the quantities required: the axe requires one stick and one rock, whereas the fire pit requires five sticks and four rocks. An algorithm selecting the first matching recipe invariably returns the axe, even when the player has supplied sufficient ingredients for the fire pit.
 
@@ -207,7 +207,7 @@ Lines 10 to 18 address a separate usability requirement: the player need not be 
 
 ---
 
-## 6.3.3 The Survival Simulation Loop
+### 6.3.3 The Survival Simulation Loop
 
 **The problem to be solved.** The survival statistics system must simulate the relationship between the three statistics of health, thirst and hunger in real time, while generating continuous resource pressure upon the player.
 
@@ -249,13 +249,13 @@ The `Mathf.Max` and `Mathf.Min` functions are used to constrain statistics withi
 
 **Design rationale.** The essential game-design element lies in the `isRegenerating` variable and the manner in which it is employed at lines 10 and 14. Automatic health regeneration occurs only when both water and food exceed fifty per cent, and, more significantly, the regeneration process increases the depletion rate of those very statistics.
 
-This design converts health regeneration into a trade-off rather than a cost-free mechanism. A severely injured player is obliged to choose between pausing to recover — which entails consuming their reserves of water and food more rapidly — and continuing to operate at low health. Were regeneration to occur unconditionally, the entire resource pressure of the game would be nullified, since the player would need only to wait for all damage to be erased.
+This design converts health regeneration into a trade-off rather than a cost-free mechanism. A severely injured player is obliged to choose between pausing to recover - which entails consuming their reserves of water and food more rapidly - and continuing to operate at low health. Were regeneration to occur unconditionally, the entire resource pressure of the game would be nullified, since the player would need only to wait for all damage to be erased.
 
 Lines 17 and 18 implement the penalty for depleted statistics, at differing severities: running out of water inflicts three times the damage of running out of food. This disparity reflects the differing urgency of the two needs and simultaneously guides the player's order of priority when choosing which resource to seek.
 
 ---
 
-## 6.3.4 Singleton Architecture and Data-driven Configuration
+### 6.3.4 Singleton Architecture and Data-driven Configuration
 
 **The problem to be solved.** Many systems within the game require access to one another: the interaction system must add items to the inventory, and the combat system must deduct the player's health. Were each class obliged to hold direct references to every other class, the number of references requiring manual assignment in the editor would increase very rapidly.
 
@@ -306,7 +306,7 @@ It must nevertheless be acknowledged that this represents a genuine limitation s
 
 ---
 
-## 6.3.5 Context-dependent Interaction Chains
+### 6.3.5 Context-dependent Interaction Chains
 
 **The problem to be solved.** A single object within the game world must produce different behaviours according to the item the player is holding. The fire pit supports as many as six distinct interactions, all of which must be handled without rendering the source code unmanageable.
 
@@ -370,7 +370,7 @@ The problem was addressed by establishing the principle that **each interface ob
 
 ---
 
-## 6.3.6 Logic Reuse Across Multiple Tools
+### 6.3.6 Logic Reuse Across Multiple Tools
 
 **The problem to be solved.** The axe and the pickaxe inflict identical damage upon creatures and share the same durability-consumption mechanism, but differ in the objects upon which they may act: the axe fells trees, while the pickaxe mines rock. The requirement was to handle what they have in common without duplicating source code.
 
@@ -423,7 +423,7 @@ The order of the checks from line 15 to line 31 is likewise a deliberate decisio
 
 ---
 
-## 6.3.7 Cinematic Transition Control Through a State Machine
+### 6.3.7 Cinematic Transition Control Through a State Machine
 
 **The problem to be solved.** The main menu required an automatic camera that remains stationary at one position and pans horizontally to display the scene, then moves to a different vantage point and repeats indefinitely. The transition between positions had to be concealed so that the viewer does not perceive an abrupt jump.
 
@@ -467,9 +467,9 @@ Line 9 applies `Mathf.SmoothStep` to the interpolation factor. This function tra
 
 Line 19 is the crux of the entire mechanism: the camera is repositioned precisely at the moment the screen has faded to complete darkness. The jump is thereby concealed entirely from the viewer.
 
-**Design rationale.** The alternative would have been to move the camera continuously between vantage points. This approach was rejected because a straight path between any two points may pass through terrain or objects, producing visual defects whose correction would require an additional pathfinding system for the camera — an amount of work disproportionate to the value obtained on a menu screen.
+**Design rationale.** The alternative would have been to move the camera continuously between vantage points. This approach was rejected because a straight path between any two points may pass through terrain or objects, producing visual defects whose correction would require an additional pathfinding system for the camera - an amount of work disproportionate to the value obtained on a menu screen.
 
-With regard to implementation, the timer-based approach within `Update()` was chosen in preference to Unity's Coroutines. Both are technically viable, but the former maintains consistency with the remainder of the project, in which every time-based process — the water boiling duration, the bush regrowth interval, the creature spawning cycle — is implemented in the same manner. This consistency reduces the cognitive cost of subsequently rereading the source code.
+With regard to implementation, the timer-based approach within `Update()` was chosen in preference to Unity's Coroutines. Both are technically viable, but the former maintains consistency with the remainder of the project, in which every time-based process - the water boiling duration, the bush regrowth interval, the creature spawning cycle - is implemented in the same manner. This consistency reduces the cognitive cost of subsequently rereading the source code.
 
 ---
 

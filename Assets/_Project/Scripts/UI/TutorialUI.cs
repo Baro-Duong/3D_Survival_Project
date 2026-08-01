@@ -6,8 +6,10 @@ using TMPro;
 // Attached to the Tutorial parent GameObject in MenuScene, which must stay active at all times.
 // Paginates the tutorial pages shown as an overlay on top of the main menu.
 //
-// The Play button starts locked and unlocks once the player has read through to the final page. That
-// fact is remembered in PlayerPrefs, so a returning player is never made to read the tutorial twice.
+// The Play button starts locked every time this scene loads and unlocks once the player has read
+// through to the final page. This is deliberately session-only (no PlayerPrefs) — the tutorial must
+// be read again on every launch, since MenuScene (and this object with it) is recreated from scratch
+// each time the player returns to it.
 public class TutorialUI : MonoBehaviour
 {
     public static TutorialUI Instance { get; set; }
@@ -28,8 +30,6 @@ public class TutorialUI : MonoBehaviour
     [Header("Play Gate")]
     public Button playButton;             // stays locked until the tutorial has been read once
     public bool lockPlayUntilRead = true; // untick to disable the gate entirely
-
-    private const string ReadKey = "WildBound_TutorialRead";
 
     private int currentPage = 0;
 
@@ -63,7 +63,7 @@ public class TutorialUI : MonoBehaviour
         else
             Debug.LogError("TutorialUI: tutorialBtn is not assigned!");
 
-        ApplyPlayLock();
+        if (playButton != null) playButton.interactable = !lockPlayUntilRead;
         RefreshDisplay();
     }
 
@@ -117,42 +117,9 @@ public class TutorialUI : MonoBehaviour
         backButton.interactable = currentPage > 0;
         nextButton.interactable = currentPage < pages.Count - 1;
 
-        // Only counts as "read" while the overlay is actually on screen. Without this check the call in
+        // Only unlocks while the overlay is actually on screen. Without this check the call in
         // Start() would unlock Play immediately whenever the tutorial has just a single page.
-        if (currentPage >= pages.Count - 1 && tutorialPanel != null && tutorialPanel.activeSelf)
-            MarkAsRead();
-    }
-
-    // Records that the tutorial has been read and unlocks the Play button
-    private void MarkAsRead()
-    {
-        PlayerPrefs.SetInt(ReadKey, 1);
-        PlayerPrefs.Save();
-
-        if (playButton != null) playButton.interactable = true;
-    }
-
-    // Locks Play on a first-ever launch; leaves it open for anyone who has already read the tutorial
-    private void ApplyPlayLock()
-    {
-        if (playButton == null) return;
-
-        if (!lockPlayUntilRead)
-        {
+        if (currentPage >= pages.Count - 1 && tutorialPanel != null && tutorialPanel.activeSelf && playButton != null)
             playButton.interactable = true;
-            return;
-        }
-
-        playButton.interactable = PlayerPrefs.GetInt(ReadKey, 0) == 1;
-    }
-
-    // Testing helper: right-click the component header in the Inspector to forget that the tutorial was
-    // read, so the locked-Play first-launch behaviour can be tried again
-    [ContextMenu("Clear Tutorial Read Flag")]
-    private void ClearReadFlag()
-    {
-        PlayerPrefs.DeleteKey(ReadKey);
-        PlayerPrefs.Save();
-        Debug.Log("TutorialUI: read flag cleared — Play will be locked on the next launch.");
     }
 }
