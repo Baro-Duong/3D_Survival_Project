@@ -48,6 +48,7 @@ public class GameConfig : ScriptableObject
     [Header("Damage Flash")]
     public float damageFlashAlpha = 0.25f;      // peak red overlay opacity when hit
     public float damageFlashFadeDuration = 0.4f; // seconds to fade back to transparent
+    public float damageFlashIntensityPerHP = 0.1f; // extra multiplier per HP lost in a single hit (5 HP -> 1.5x)
 
     // ==================== HOTBAR / DROP ====================
     [Header("Item Drop")]

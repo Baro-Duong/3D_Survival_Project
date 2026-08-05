@@ -101,7 +101,7 @@ public class PlayerStats : MonoBehaviour
     public void TakeDamage(float amount)
     {
         currentHP = Mathf.Max(0, currentHP - amount);
-        if (DamageFlash.Instance != null) DamageFlash.Instance.Flash();
+        if (DamageFlash.Instance != null) DamageFlash.Instance.Flash(amount);
     }
     public void Heal(float amount) => currentHP = Mathf.Min(config.maxHP, currentHP + amount);
     public void DrinkWater(float amount) => currentThirst = Mathf.Min(config.maxThirst, currentThirst + amount);

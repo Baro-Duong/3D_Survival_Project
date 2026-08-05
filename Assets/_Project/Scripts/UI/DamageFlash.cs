@@ -2,7 +2,12 @@ using UnityEngine;
 using UnityEngine.UI;
 
 // Full-screen red overlay that briefly pulses whenever the player takes damage (rabbit bite, or HP
-// loss from empty thirst/hunger). Triggered by PlayerStats.TakeDamage() calling Flash().
+// loss from empty thirst/hunger). Triggered by PlayerStats.TakeDamage() calling Flash(amount).
+// Damage is accumulated in hpAccumulator; a pulse only fires once a whole HP has been crossed, so
+// the flash rate tracks the real HP-loss rate directly (drain at 3 HP/s crosses a whole HP every
+// 1/3s -> 3 pulses/s) instead of running on an arbitrary fixed timer. A single large instantaneous
+// hit (e.g. a 5 HP rabbit bite) crosses 5 whole HP in one frame, collapsing into one bigger pulse
+// via damageFlashIntensityPerHP rather than 5 back-to-back pulses in the same frame.
 public class DamageFlash : MonoBehaviour
 {
     public static DamageFlash Instance { get; set; }
@@ -11,6 +16,7 @@ public class DamageFlash : MonoBehaviour
     public GameConfig config;
 
     private float currentAlpha = 0f;
+    private float hpAccumulator = 0f;
 
     // Singleton setup
     private void Awake()
@@ -21,15 +27,23 @@ public class DamageFlash : MonoBehaviour
             Instance = this;
     }
 
-    // Jumps the overlay to full flash alpha; Update() fades it back out over damageFlashFadeDuration
-    public void Flash()
+    // Queues damage; Update() turns it into a pulse once a whole HP has accumulated
+    public void Flash(float damageAmount)
     {
-        currentAlpha = config.damageFlashAlpha;
+        hpAccumulator += damageAmount;
     }
 
-    // Fades the red overlay back to transparent
     private void Update()
     {
+        if (hpAccumulator >= 1f)
+        {
+            float wholeHpLost = Mathf.Floor(hpAccumulator);
+            hpAccumulator -= wholeHpLost;
+
+            float intensityMultiplier = 1f + wholeHpLost * config.damageFlashIntensityPerHP;
+            currentAlpha = Mathf.Clamp01(config.damageFlashAlpha * intensityMultiplier);
+        }
+
         if (currentAlpha <= 0f) return;
 
         currentAlpha = Mathf.Max(0f, currentAlpha - config.damageFlashAlpha / config.damageFlashFadeDuration * Time.deltaTime);
